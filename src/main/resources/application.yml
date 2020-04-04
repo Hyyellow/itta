@@ -38,6 +38,7 @@ spring:
           # 登录用户名/密码
           login-username: root
           login-password: a570911275
+
 logging:
   path: /Users/jackie/workspace/rome/
   file: springbootdemo.log

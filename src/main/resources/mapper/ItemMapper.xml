@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.program.itta.mapper.ItemMapper">
+  <resultMap id="BaseResultMap" type="com.program.itta.entity.Item">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="task_prefix" jdbcType="VARCHAR" property="taskPrefix" />
+    <result column="color" jdbcType="VARCHAR" property="color" />
+    <result column="action_scope" jdbcType="VARCHAR" property="actionScope" />
+    <result column="group" jdbcType="VARCHAR" property="group" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="mark_id" jdbcType="VARCHAR" property="markId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from item
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.program.itta.entity.Item">
+    insert into item (id, name, serial_number, 
+      task_prefix, color, action_scope, 
+      group, description, mark_id, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
+      #{taskPrefix,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{actionScope,jdbcType=VARCHAR}, 
+      #{group,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{markId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.program.itta.entity.Item">
+    update item
+    set name = #{name,jdbcType=VARCHAR},
+      serial_number = #{serialNumber,jdbcType=VARCHAR},
+      task_prefix = #{taskPrefix,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR},
+      action_scope = #{actionScope,jdbcType=VARCHAR},
+      group = #{group,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      mark_id = #{markId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, serial_number, task_prefix, color, action_scope, group, description, 
+    mark_id, create_time, update_time
+    from item
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, serial_number, task_prefix, color, action_scope, group, description, 
+    mark_id, create_time, update_time
+    from item
+  </select>
+</mapper>
