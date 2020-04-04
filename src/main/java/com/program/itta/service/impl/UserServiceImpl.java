@@ -22,13 +22,29 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 添加用户
+     *
      * @param user
      * @return
      */
     @Override
     public Boolean addUser(User user) {
         int insert = userMapper.insert(user);
-        if (insert != 0){
+        if (insert != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public Boolean updateUser(User user) {
+        int update = userMapper.updateByPrimaryKey(user);
+        if (update != 0) {
             return true;
         }
         return false;
@@ -36,13 +52,14 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 删除用户
+     *
      * @param user
      * @return
      */
     @Override
     public Boolean deleteUser(User user) {
         int delete = userMapper.deleteByPrimaryKey(user.getId());
-        if (delete != 0){
+        if (delete != 0) {
             return true;
         }
         return false;
@@ -50,6 +67,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 判断用户是否重复
+     *
      * @param user
      * @return
      */
@@ -57,10 +75,24 @@ public class UserServiceImpl implements UserService {
     public Boolean judgeUser(User user) {
         List<User> userList = userMapper.selectAll();
         for (User user1 : userList) {
-            if (user1.getOpenid().equalsIgnoreCase(user.getOpenid())){
+            if (user1.getOpenid().equalsIgnoreCase(user.getOpenid())) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 查找用户
+     * @param userId
+     * @return
+     */
+    @Override
+    public User selectUser(Integer userId) {
+        User user1 = userMapper.selectByPrimaryKey(userId);
+        if (user1 != null) {
+            return user1;
+        }
+        return null;
     }
 }
