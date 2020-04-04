@@ -1,16 +1,12 @@
 package com.program.itta.controller;
 
-import com.program.itta.common.exception.TokenVerificationException;
-import com.program.itta.common.exception.user.UserNullException;
+import com.program.itta.common.exception.user.UserExistsException;
 import com.program.itta.common.result.HttpResult;
-import com.program.itta.common.result.ResultCodeEnum;
 import com.program.itta.dto.UserDTO;
 import com.program.itta.entity.User;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @program: itta
@@ -26,8 +22,12 @@ public class UserController {
 
     @PostMapping("/addUser")
     public HttpResult addUser(@RequestBody UserDTO userDTO) {
-        // TODO 起始判断
         User user = userDTO.convertToUser();
+        // 判断openID是否存在
+        Boolean judgeUser = userService.judgeUser(user);
+        if (judgeUser){
+            throw new UserExistsException("该用户已存在");
+        }
         userService.addUser(user);
         return HttpResult.success(userDTO);
     }

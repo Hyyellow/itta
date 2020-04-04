@@ -1,12 +1,13 @@
 package com.program.itta.service.impl;
 
-import com.program.itta.common.exception.TokenVerificationException;
-import com.program.itta.dto.UserDTO;
+
 import com.program.itta.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @program: itta
@@ -43,6 +44,22 @@ public class UserServiceImpl implements UserService {
         int delete = userMapper.deleteByPrimaryKey(user.getId());
         if (delete != 0){
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断用户是否重复
+     * @param user
+     * @return
+     */
+    @Override
+    public Boolean judgeUser(User user) {
+        List<User> userList = userMapper.selectAll();
+        for (User user1 : userList) {
+            if (user1.getOpenid().equalsIgnoreCase(user.getOpenid())){
+                return true;
+            }
         }
         return false;
     }

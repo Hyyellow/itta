@@ -8,6 +8,8 @@ public interface UserService {
     Boolean addUser(User user);
     // 删除用户(尚完善)
     Boolean deleteUser(User user);
+    // 判断用户是否存在
+    Boolean judgeUser(User user);
     // 查找模块——后期可考虑ES
 
 }

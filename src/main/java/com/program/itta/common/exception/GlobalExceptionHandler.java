@@ -1,11 +1,18 @@
 package com.program.itta.common.exception;
 
-import com.alibaba.druid.support.json.JSONUtils;
+import com.program.itta.common.exception.user.UserExistsException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.common.result.ResultCodeEnum;
+import com.program.itta.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static com.program.itta.common.result.ResultCodeEnum.User_Exists_Exception;
 
 /**
  * @program: itta
@@ -14,53 +21,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @create: 2020-04-04 15:30
  **/
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     /**
      * 异常捕获
+     *
      * @param e 捕获的异常
      * @return 封装的返回对象
      **/
-    @ExceptionHandler(Exception.class)
-    public HttpResult handlerException(Exception e) {
-        ResultCodeEnum resultCodeEnum;
-        // 自定义异常
-        if (e instanceof TokenVerificationException) {
-            resultCodeEnum = ResultCodeEnum.TOKEN_VERIFICATION_ERROR;
-            resultCodeEnum.setMessage(getConstraintViolationErrMsg(e));
-            log.error("tokenVerificationException：{}", resultCodeEnum.getMessage());
-        }else {
-            // 其他异常，当我们定义了多个异常时，这里可以增加判断和记录
-            resultCodeEnum = ResultCodeEnum.SERVER_ERROR;
-            resultCodeEnum.setMessage(e.getMessage());
-            log.error("common exception:{}", e.toString());
-        }
-        return HttpResult.failure(resultCodeEnum);
-    }
-
-    /**
-     * 获取错误信息
-     * @param ex
-     * @return
-     */
-    private String getConstraintViolationErrMsg(Exception ex) {
-        // validTest1.id: id必须为正数
-        // validTest1.id: id必须为正数, validTest1.name: 长度必须在有效范围内
-        String message = ex.getMessage();
-        try {
-            int startIdx = message.indexOf(": ");
-            if (startIdx < 0) {
-                startIdx = 0;
-            }
-            int endIdx = message.indexOf(", ");
-            if (endIdx < 0) {
-                endIdx = message.length();
-            }
-            message = message.substring(startIdx, endIdx);
-            return message;
-        } catch (Throwable throwable) {
-            log.info("ex caught", throwable);
-            return message;
-        }
+    @ExceptionHandler(value = UserExistsException.class)
+    public HttpResult userExistsExceptionnHandler(UserExistsException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(User_Exists_Exception);
     }
 }

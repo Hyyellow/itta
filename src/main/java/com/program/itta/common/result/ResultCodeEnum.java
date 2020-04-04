@@ -19,7 +19,7 @@ public enum  ResultCodeEnum {
     /*** 这里可以根据不同模块用不同的区级分开错误码，例如:  ***/
     TOKEN_VERIFICATION_ERROR (403,"自定义异常"),
     // 1000～1999 区间表示用户模块错误
-    UserNullException(10001,"用户为空"),
+    User_Exists_Exception(10001,"用户已存在"),
     // 2000～2999 区间表示订单模块错误
     // 3000～3999 区间表示商品模块错误
     // 。。。

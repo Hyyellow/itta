@@ -6,8 +6,7 @@ package com.program.itta.common.exception.user;
  * @author: Mr.Huang
  * @create: 2020-04-04 11:00
  **/
-public class UserNullException extends RuntimeException{
-
+public class UserExistsException extends RuntimeException{
     /**
      * 错误码
      */
@@ -32,7 +31,8 @@ public class UserNullException extends RuntimeException{
      *
      * @param msg
      */
-    public UserNullException(String msg) {
+    public UserExistsException(String msg) {
         super(msg);
+        this.msg = msg;
     }
 }
