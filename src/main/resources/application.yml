@@ -39,6 +39,10 @@ spring:
           login-username: root
           login-password: a570911275
 
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.program.itta.entity
+
 logging:
   path: /Users/jackie/workspace/rome/
   file: springbootdemo.log

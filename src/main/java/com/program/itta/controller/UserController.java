@@ -1,11 +1,16 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.exception.TokenVerificationException;
+import com.program.itta.common.exception.user.UserNullException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.common.result.ResultCodeEnum;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.program.itta.dto.UserDTO;
+import com.program.itta.entity.User;
+import com.program.itta.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @program: itta
@@ -14,24 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @create: 2020-04-04 10:40
  **/
 @RestController
-@RequestMapping("/httpRest")
+@RequestMapping("/user")
 public class UserController {
-    //@ApiOperation(value = "通用返回成功（没有返回结果）", httpMethod = "GET")
-    @GetMapping("/success")
-    public HttpResult success(){
-        return HttpResult.success();
-    }
+    @Autowired
+    private UserService userService;
 
-    //@ApiOperation(value = "返回成功（有返回结果）", httpMethod = "GET")
-    @GetMapping("/successWithData")
-    public HttpResult successWithData(){
-        throw new TokenVerificationException("自定义异常");
+    @PostMapping("/addUser")
+    public HttpResult addUser(@RequestBody UserDTO userDTO) {
+        // TODO 起始判断
+        User user = userDTO.convertToUser();
+        userService.addUser(user);
+        return HttpResult.success(userDTO);
     }
-
-    //@ApiOperation(value = "通用返回失败", httpMethod = "GET")
-    @GetMapping("/failure")
-    public HttpResult failure(){
-        return HttpResult.failure(ResultCodeEnum.NOT_FOUND);
-    }
-
 }

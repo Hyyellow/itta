@@ -1,4 +1,7 @@
 package com.program.itta.common.convert;
+import javafx.css.StyleConverter;
+
+import	java.util.function.Function;
 
 /**
  * @program: itta
@@ -6,10 +9,11 @@ package com.program.itta.common.convert;
  * @author: Mr.Huang
  * @create: 2020-04-04 10:26
  **/
-public interface DTOConvert<A,B> {
+public abstract class DTOConvert<A,B> implements Function<A, B>{
     // DTO转换为Entity
-    B doForward(A a);
+    protected abstract B doForward(A a);
 
     // Entity转换为DTO
-    A doBackward(B b);
+    protected abstract A doBackward(B b);
+
 }
