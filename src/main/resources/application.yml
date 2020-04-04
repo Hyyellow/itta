@@ -39,5 +39,8 @@ spring:
           login-username: root
           login-password: a570911275
 logging:
-  file:
-    name: target/ittaLog.log
+  path: /Users/jackie/workspace/rome/
+  file: springbootdemo.log
+  pattern:
+    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+    file: "%d{yyyy/MM/dd-HH:mm} [%thread] %-5level %logger- %msg%n"
