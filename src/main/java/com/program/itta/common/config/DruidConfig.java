@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * @program: itta
- * @description: Druid连接池配置文件
+ * @description: Druid连接池配置类
  * @author: Mr.Huang
  * @create: 2020-04-04 09:52
  **/

@@ -5,6 +5,12 @@ import com.program.itta.entity.User;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
+
 /**
  * @program: itta
  * @description: 用户DTO
@@ -12,7 +18,11 @@ import org.springframework.beans.BeanUtils;
  * @create: 2020-04-04 16:00
  **/
 @Data
+@Entity
+@Table
 public class UserDTO {
+    @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;
@@ -21,9 +31,13 @@ public class UserDTO {
 
     private String phone;
 
-    private String openid;
+    private String wxOpenid;
+
+    private String sessionKey;
 
     private String markId;
+
+    private Date lastTime;
 
     public User convertToUser(){
         UserDTOConvert userDTOConvert = new UserDTOConvert();

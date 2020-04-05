@@ -6,7 +6,9 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="wx_openid" jdbcType="VARCHAR" property="wxOpenid" />
+    <result column="session_key" jdbcType="VARCHAR" property="sessionKey" />
+    <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
     <result column="mark_id" jdbcType="VARCHAR" property="markId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -17,30 +19,36 @@
   </delete>
   <insert id="insert" parameterType="com.program.itta.entity.User">
     insert into user (id, name, email, 
-      phone, openid, mark_id, 
-      create_time, update_time)
+      phone, wx_openid, session_key, 
+      last_time, mark_id, create_time, 
+      update_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{markId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{phone,jdbcType=VARCHAR}, #{wxOpenid,jdbcType=VARCHAR}, #{sessionKey,jdbcType=VARCHAR}, 
+      #{lastTime,jdbcType=TIMESTAMP}, #{markId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.program.itta.entity.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      openid = #{openid,jdbcType=VARCHAR},
+      wx_openid = #{wxOpenid,jdbcType=VARCHAR},
+      session_key = #{sessionKey,jdbcType=VARCHAR},
+      last_time = #{lastTime,jdbcType=TIMESTAMP},
       mark_id = #{markId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, email, phone, openid, mark_id, create_time, update_time
+    select id, name, email, phone, wx_openid, session_key, last_time, mark_id, create_time, 
+    update_time
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, email, phone, openid, mark_id, create_time, update_time
+    select id, name, email, phone, wx_openid, session_key, last_time, mark_id, create_time, 
+    update_time
     from user
   </select>
 </mapper>

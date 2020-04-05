@@ -11,7 +11,11 @@ public class User {
 
     private String phone;
 
-    private String openid;
+    private String wxOpenid;
+
+    private String sessionKey;
+
+    private Date lastTime;
 
     private String markId;
 
@@ -51,12 +55,28 @@ public class User {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public String getOpenid() {
-        return openid;
+    public String getWxOpenid() {
+        return wxOpenid;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
+    public void setWxOpenid(String wxOpenid) {
+        this.wxOpenid = wxOpenid == null ? null : wxOpenid.trim();
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey == null ? null : sessionKey.trim();
+    }
+
+    public Date getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(Date lastTime) {
+        this.lastTime = lastTime;
     }
 
     public String getMarkId() {
