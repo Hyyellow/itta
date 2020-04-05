@@ -58,6 +58,7 @@ public class ShiroConfig {
         //登陆相关api不需要被过滤器拦截
         filterRuleMap.put("/api/wx/user/login/**", "anon");
         filterRuleMap.put("/api/response/**", "anon");
+        filterRuleMap.put("/user/**", "anon");
         // 所有请求通过JWT Filter
         filterRuleMap.put("/**", "jwt");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);

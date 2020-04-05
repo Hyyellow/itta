@@ -1,4 +1,5 @@
 package com.program.itta.service.impl;
+import	java.util.UUID;
 
 
 import com.program.itta.entity.User;
@@ -28,6 +29,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Boolean addUser(User user) {
+        user.setMarkId(randomUUID());
         int insert = userMapper.insert(user);
         if (insert != 0) {
             return true;
@@ -94,5 +96,9 @@ public class UserServiceImpl implements UserService {
             return user1;
         }
         return null;
+    }
+
+    private String randomUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

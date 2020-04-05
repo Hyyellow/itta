@@ -25,13 +25,13 @@ public class UserController {
     @PostMapping("/addUser")
     public HttpResult addUser(@RequestBody UserDTO userDTO) {
         User user = userDTO.convertToUser();
-        // 判断openID是否存在
+        /*// 判断openID是否存在
         Boolean judgeUser = userService.judgeUser(user);
         if (judgeUser){
             throw new UserExistsException("该用户已存在");
-        }
+        }*/
         userService.addUser(user);
-        return HttpResult.success(userDTO);
+        return HttpResult.success();
     }
 
     @PutMapping("/updateUser")
@@ -43,7 +43,7 @@ public class UserController {
             throw new UserNotExistsException("该用户不存在");
         }
         userService.updateUser(user);
-        return HttpResult.success(userDTO);
+        return HttpResult.success();
     }
 
     @DeleteMapping("/deleteUser")
@@ -56,7 +56,7 @@ public class UserController {
         }
         // TODO 该用户的关联表数据仍需进行处理
         userService.updateUser(user);
-        return HttpResult.success(userDTO);
+        return HttpResult.success();
     }
 
     @GetMapping("/seletUser")
