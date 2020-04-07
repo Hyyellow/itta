@@ -25,11 +25,6 @@ public class UserController {
     @PostMapping("/addUser")
     public HttpResult addUser(@RequestBody UserDTO userDTO) {
         User user = userDTO.convertToUser();
-        /*// 判断openID是否存在
-        Boolean judgeUser = userService.judgeUser(user);
-        if (judgeUser){
-            throw new UserExistsException("该用户已存在");
-        }*/
         userService.addUser(user);
         return HttpResult.success();
     }

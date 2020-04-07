@@ -19,7 +19,7 @@ import java.util.Date;
  **/
 @Data
 @Entity
-@Table
+@Table(name = "user")
 public class UserDTO {
     @Id
     @GeneratedValue
@@ -35,9 +35,9 @@ public class UserDTO {
 
     private String sessionKey;
 
-    private String markId;
-
     private Date lastTime;
+
+    private String markId;
 
     public User convertToUser(){
         UserDTOConvert userDTOConvert = new UserDTOConvert();

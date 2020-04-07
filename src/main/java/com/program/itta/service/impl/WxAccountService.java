@@ -3,23 +3,24 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.util.HttpUtil;
 import com.program.itta.common.util.JSONUtil;
+import com.program.itta.common.util.SslUtil;
 import com.program.itta.dto.Code2SessionResponse;
 import com.program.itta.dto.Token;
 import com.program.itta.dto.UserDTO;
-import com.program.itta.dto.WxAccount;
 import com.program.itta.mapper.WxAccountRepository;
 import com.program.itta.service.WxAppletService;
-import org.apache.shiro.authc.AuthenticationException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
 
@@ -44,16 +45,47 @@ public class WxAccountService implements WxAppletService {
     /**
      * 微信的 code2session 接口 获取微信用户信息
      * 官方说明 : https://developers.weixin.qq.com/miniprogram/dev/api/open-api/login/code2Session.html
+     * @return
      */
     private String code2Session(String jsCode) {
+        CloseableHttpResponse response = null;
+        String resultString = "";
         String code2SessionUrl = "https://api.weixin.qq.com/sns/jscode2session";
+        //String code2SessionUrl = "https://www.baidu.com";
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("appid", appid);
         params.add("secret", appSecret);
         params.add("js_code", jsCode);
         params.add("grant_type", "authorization_code");
         URI code2Session = HttpUtil.getURIwithParams(code2SessionUrl, params);
-        return restTemplate.exchange(code2Session, HttpMethod.GET, new HttpEntity<String>(new HttpHeaders()), String.class).getBody();
+        // 创建http GET请求
+        HttpGet httpGet = new HttpGet(code2Session);
+
+        // 执行请求
+        CloseableHttpClient sslClientDefault = SslUtil.createSSLClientDefault();
+        try {
+            response = SslUtil.createSSLClientDefault().execute(httpGet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (response.getStatusLine().getStatusCode() == 200) {
+            try {
+                resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultString;
+        /*JSONObject jsonObject = (JSONObject) JSONObject.parse(resultString);
+        String session_key = jsonObject.get("session_key")+"";
+        String openid = jsonObject.get("openid")+"";
+
+        System.out.println("session_key=="+session_key);
+        System.out.println("openid=="+openid);
+        //return response;
+        return restTemplate.exchange(code2Session, HttpMethod.GET,
+                new HttpEntity<String>(new HttpHeaders()),
+                String.class).getBody();*/
     }
     /**
      * 微信小程序用户登陆，完整流程可参考下面官方地址，本例中是按此流程开发
@@ -67,9 +99,9 @@ public class WxAccountService implements WxAppletService {
         String resultJson = code2Session(code);
         //2 . 解析数据
         Code2SessionResponse response = JSONUtil.jsonString2Object(resultJson, Code2SessionResponse.class);
-        if (!response.getErrcode().equals("0")) {
+      /*  if (!response.getErrcode().equals("0")) {
             throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
-        } else {
+        } else {*/
             //3 . 先从本地数据库中查找用户是否存在
             UserDTO wxAccount = wxAccountRepository.findByWxOpenid(response.getOpenid());
             if (wxAccount == null) {
@@ -83,6 +115,6 @@ public class WxAccountService implements WxAppletService {
             //5 . JWT 返回自定义登陆态 Token
             String token = jwtConfig.createTokenByWxAccount(wxAccount);
             return new Token(token);
-        }
+       /* }*/
     }
 }

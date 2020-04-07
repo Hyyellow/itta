@@ -63,5 +63,5 @@ logging:
 #  微信小程序配置 appid /appsecret
 wx:
   applet:
-    appid: wxe271114e98027e43
-    appsecret: 63b8bfba71a007c046b0e388f060a3a0
+    appid: wxe9256325396b77dc
+    appsecret: a524735368d6bd325efbd09b4591ede6
