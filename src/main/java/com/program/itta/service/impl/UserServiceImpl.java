@@ -1,12 +1,13 @@
 package com.program.itta.service.impl;
 
 
-import com.program.itta.entity.User;
+import com.program.itta.domain.entity.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,22 +22,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     /**
-     * 添加用户
-     *
-     * @param user
-     * @return
-     */
-    @Override
-    public Boolean addUser(User user) {
-        user.setMarkId(MarkUtil.randomUUID());
-        int insert = userMapper.insert(user);
-        if (insert != 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 更新用户信息
      *
      * @param user
@@ -44,6 +29,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Boolean updateUser(User user) {
+        user.setUpdateTime(new Date());
         int update = userMapper.updateByPrimaryKey(user);
         if (update != 0) {
             return true;
@@ -67,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 判断用户是否重复
+     * 判断用户是否存在
      *
      * @param user
      * @return

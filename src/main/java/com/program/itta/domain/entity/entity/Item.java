@@ -1,4 +1,4 @@
-package com.program.itta.entity;
+package com.program.itta.domain.entity.entity;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ public class Item {
 
     private String actionScope;
 
-    private String group;
+    private String groupName;
 
     private String description;
 
@@ -73,12 +73,12 @@ public class Item {
         this.actionScope = actionScope == null ? null : actionScope.trim();
     }
 
-    public String getGroup() {
-        return group;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroup(String group) {
-        this.group = group == null ? null : group.trim();
+    public void setGroupName(String groupName) {
+        this.groupName = groupName == null ? null : groupName.trim();
     }
 
     public String getDescription() {

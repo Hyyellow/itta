@@ -1,11 +1,8 @@
 package com.program.itta.service;
 
-import com.program.itta.dto.UserDTO;
-import com.program.itta.entity.User;
+import com.program.itta.domain.entity.entity.User;
 
 public interface UserService {
-    // 添加用户
-    Boolean addUser(User user);
     // 更新用户
     Boolean updateUser(User user);
     // 删除用户(尚完善)

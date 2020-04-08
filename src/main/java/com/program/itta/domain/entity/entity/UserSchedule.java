@@ -1,15 +1,13 @@
-package com.program.itta.entity;
+package com.program.itta.domain.entity.entity;
 
 import java.util.Date;
 
-public class UserItem {
+public class UserSchedule {
     private Integer id;
 
     private Integer userId;
 
-    private Integer itemId;
-
-    private Boolean isLeader;
+    private Integer schedule;
 
     private Date createTime;
 
@@ -31,20 +29,12 @@ public class UserItem {
         this.userId = userId;
     }
 
-    public Integer getItemId() {
-        return itemId;
+    public Integer getSchedule() {
+        return schedule;
     }
 
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
-    }
-
-    public Boolean getIsLeader() {
-        return isLeader;
-    }
-
-    public void setIsLeader(Boolean isLeader) {
-        this.isLeader = isLeader;
+    public void setSchedule(Integer schedule) {
+        this.schedule = schedule;
     }
 
     public Date getCreateTime() {

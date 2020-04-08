@@ -1,14 +1,14 @@
 package com.program.itta.controller;
-import	java.awt.font.NumericShaper.Range;
 
-import com.program.itta.common.exception.user.UserExistsException;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.common.result.HttpResult;
-import com.program.itta.dto.UserDTO;
-import com.program.itta.entity.User;
+import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.domain.entity.entity.User;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @program: itta
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-    
+
     @PutMapping("/updateUser")
-    public HttpResult updateUser(@RequestBody UserDTO userDTO){
+    public HttpResult updateUser(@RequestBody @Valid UserDTO userDTO){
         User user = userDTO.convertToUser();
         // 判断openID是否存在
         Boolean judgeUser = userService.judgeUser(user);
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public HttpResult deleteUser(@RequestBody UserDTO userDTO){
+    public HttpResult deleteUser(@RequestBody @Valid UserDTO userDTO){
         User user = userDTO.convertToUser();
         // 判断openID是否存在
         Boolean judgeUser = userService.judgeUser(user);

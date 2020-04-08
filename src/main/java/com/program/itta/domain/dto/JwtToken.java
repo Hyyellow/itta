@@ -1,4 +1,4 @@
-package com.program.itta.dto;
+package com.program.itta.domain.dto;
 
 import org.apache.shiro.authc.AuthenticationToken;
 

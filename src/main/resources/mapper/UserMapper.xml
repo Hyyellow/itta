@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.entity.User">
+  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.entity.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="email" jdbcType="VARCHAR" property="email" />
@@ -17,7 +17,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.entity.User">
+  <insert id="insert" parameterType="com.program.itta.domain.entity.entity.User">
     insert into user (id, name, email, 
       phone, wx_openid, session_key, 
       last_time, mark_id, create_time, 
@@ -27,7 +27,7 @@
       #{lastTime,jdbcType=TIMESTAMP}, #{markId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.entity.User">
+  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.entity.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},

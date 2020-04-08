@@ -1,7 +1,7 @@
-package com.program.itta.dto;
+package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.DTOConvert;
-import com.program.itta.entity.User;
+import com.program.itta.domain.entity.entity.User;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -31,8 +32,10 @@ public class UserDTO {
 
     private String phone;
 
+    @NotBlank(message = "openId不可为空")
     private String wxOpenid;
 
+    @NotBlank(message = "sessionKey不可为空")
     private String sessionKey;
 
     private Date lastTime;

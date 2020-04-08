@@ -1,6 +1,6 @@
 package com.program.itta.common.config;
 
-import com.program.itta.dto.JwtToken;
+import com.program.itta.domain.dto.JwtToken;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

@@ -1,13 +1,13 @@
-package com.program.itta.entity;
+package com.program.itta.domain.entity.entity;
 
 import java.util.Date;
 
-public class UserTask {
+public class UserItem {
     private Integer id;
 
     private Integer userId;
 
-    private Integer taskId;
+    private Integer itemId;
 
     private Boolean isLeader;
 
@@ -31,12 +31,12 @@ public class UserTask {
         this.userId = userId;
     }
 
-    public Integer getTaskId() {
-        return taskId;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 
     public Boolean getIsLeader() {

@@ -1,10 +1,11 @@
-package com.program.itta.dto;
+package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.DTOConvert;
-import com.program.itta.entity.Item;
-import com.program.itta.entity.User;
+import com.program.itta.domain.entity.entity.Item;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @program: itta
@@ -16,23 +17,27 @@ import org.springframework.beans.BeanUtils;
 public class ItemDTO {
     private Integer id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String serialNumber;
 
+    @NotBlank
     private String taskPrefix;
 
     private String color;
-
+    @NotBlank
     private String actionScope;
 
-    private String group;
+    private String groupName;
 
     private String description;
 
+    @NotBlank
     private String markId;
 
-    public Item convertToUser(){
+    public Item convertToItem(){
         ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
         Item convert = userDTOConvert.doForward(this);
         return convert;

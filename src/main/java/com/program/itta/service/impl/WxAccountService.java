@@ -4,9 +4,9 @@ import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.util.HttpUtil;
 import com.program.itta.common.util.JSONUtil;
 import com.program.itta.common.util.SslUtil;
-import com.program.itta.dto.Code2SessionResponse;
-import com.program.itta.dto.Token;
-import com.program.itta.dto.UserDTO;
+import com.program.itta.domain.dto.Code2SessionResponse;
+import com.program.itta.domain.dto.Token;
+import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.mapper.WxAccountRepository;
 import com.program.itta.service.WxAppletService;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -66,7 +66,7 @@ public class WxAccountService implements WxAppletService {
         // 执行请求
         CloseableHttpClient sslClientDefault = SslUtil.createSSLClientDefault();
         try {
-            response = SslUtil.createSSLClientDefault().execute(httpGet);
+            response = sslClientDefault.execute(httpGet);
         } catch (IOException e) {
             e.printStackTrace();
         }

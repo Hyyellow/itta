@@ -2,7 +2,6 @@ package com.program.itta.common.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.program.itta.dto.Code2SessionResponse;
 
 import java.util.List;
 

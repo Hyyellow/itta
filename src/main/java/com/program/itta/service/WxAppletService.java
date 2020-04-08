@@ -1,6 +1,6 @@
 package com.program.itta.service;
 
-import com.program.itta.dto.Token;
+import com.program.itta.domain.dto.Token;
 
 public interface WxAppletService {
     /**

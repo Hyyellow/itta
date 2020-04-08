@@ -1,7 +1,6 @@
 package com.program.itta.mapper;
 
-import com.program.itta.dto.UserDTO;
-import com.program.itta.dto.WxAccount;
+import com.program.itta.domain.dto.UserDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WxAccountRepository extends JpaRepository<UserDTO, Integer> {

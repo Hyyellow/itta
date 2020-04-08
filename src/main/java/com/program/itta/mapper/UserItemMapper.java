@@ -1,6 +1,6 @@
 package com.program.itta.mapper;
 
-import com.program.itta.entity.UserItem;
+import com.program.itta.domain.entity.entity.UserItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
