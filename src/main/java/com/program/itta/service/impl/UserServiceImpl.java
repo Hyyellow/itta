@@ -1,7 +1,7 @@
 package com.program.itta.service.impl;
 
 
-import com.program.itta.domain.entity.entity.User;
+import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

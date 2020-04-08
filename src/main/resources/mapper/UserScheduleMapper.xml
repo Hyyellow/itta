@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.UserScheduleMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.entity.UserSchedule">
+  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.UserSchedule">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="schedule" jdbcType="INTEGER" property="schedule" />
@@ -12,13 +12,13 @@
     delete from user_schedule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.domain.entity.entity.UserSchedule">
+  <insert id="insert" parameterType="com.program.itta.domain.entity.UserSchedule">
     insert into user_schedule (id, user_id, schedule, 
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{schedule,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.entity.UserSchedule">
+  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.UserSchedule">
     update user_schedule
     set user_id = #{userId,jdbcType=INTEGER},
       schedule = #{schedule,jdbcType=INTEGER},

@@ -1,6 +1,6 @@
 package com.program.itta.service;
 
-import com.program.itta.domain.entity.entity.User;
+import com.program.itta.domain.entity.User;
 
 public interface UserService {
     // 更新用户

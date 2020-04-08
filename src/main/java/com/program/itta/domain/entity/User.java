@@ -1,4 +1,4 @@
-package com.program.itta.domain.entity.entity;
+package com.program.itta.domain.entity;
 
 import java.util.Date;
 

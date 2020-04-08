@@ -1,25 +1,17 @@
-package com.program.itta.domain.entity.entity;
+package com.program.itta.domain.entity;
 
 import java.util.Date;
 
-public class TaskInfo {
+public class Schedule {
     private Integer id;
 
-    private Integer taskId;
-
-    private Integer status;
+    private String place;
 
     private Date startTime;
 
     private Date endTime;
 
     private Date completionTime;
-
-    private Integer priority;
-
-    private Integer label;
-
-    private String description;
 
     private Date createTime;
 
@@ -33,20 +25,12 @@ public class TaskInfo {
         this.id = id;
     }
 
-    public Integer getTaskId() {
-        return taskId;
+    public String getPlace() {
+        return place;
     }
 
-    public void setTaskId(Integer taskId) {
-        this.taskId = taskId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setPlace(String place) {
+        this.place = place == null ? null : place.trim();
     }
 
     public Date getStartTime() {
@@ -71,30 +55,6 @@ public class TaskInfo {
 
     public void setCompletionTime(Date completionTime) {
         this.completionTime = completionTime;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public Integer getLabel() {
-        return label;
-    }
-
-    public void setLabel(Integer label) {
-        this.label = label;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
     }
 
     public Date getCreateTime() {

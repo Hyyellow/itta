@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.ScheduleMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.entity.Schedule">
+  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Schedule">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="place" jdbcType="VARCHAR" property="place" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
@@ -14,7 +14,7 @@
     delete from schedule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.domain.entity.entity.Schedule">
+  <insert id="insert" parameterType="com.program.itta.domain.entity.Schedule">
     insert into schedule (id, place, start_time, 
       end_time, "completion time", create_time, 
       update_time)
@@ -22,7 +22,7 @@
       #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.entity.Schedule">
+  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Schedule">
     update schedule
     set place = #{place,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},

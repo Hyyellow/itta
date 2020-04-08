@@ -1,6 +1,6 @@
 package com.program.itta.mapper;
 
-import com.program.itta.domain.entity.entity.TaskInfo;
+import com.program.itta.domain.entity.TaskInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

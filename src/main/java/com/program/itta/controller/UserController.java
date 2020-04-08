@@ -3,7 +3,7 @@ package com.program.itta.controller;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.UserDTO;
-import com.program.itta.domain.entity.entity.User;
+import com.program.itta.domain.entity.User;
 import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

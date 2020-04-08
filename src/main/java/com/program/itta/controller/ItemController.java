@@ -2,7 +2,7 @@ package com.program.itta.controller;
 
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
-import com.program.itta.domain.entity.entity.Item;
+import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,6 @@ public class ItemController {
       */
     @Autowired
     private ItemService itemService;
-
 
     @PostMapping("/addItem")
     public HttpResult addItem(@RequestBody @Valid ItemDTO itemDTO) {

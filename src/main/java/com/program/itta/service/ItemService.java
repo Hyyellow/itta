@@ -1,6 +1,6 @@
 package com.program.itta.service;
 
-import com.program.itta.domain.entity.entity.Item;
+import com.program.itta.domain.entity.Item;
 
 public interface ItemService {
 /*    // 添加用户

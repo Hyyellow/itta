@@ -1,6 +1,6 @@
 package com.program.itta.service.impl;
 
-import com.program.itta.domain.entity.entity.Item;
+import com.program.itta.domain.entity.Item;
 import com.program.itta.mapper.ItemMapper;
 import com.program.itta.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;

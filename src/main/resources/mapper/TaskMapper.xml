@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.TaskMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.entity.Task">
+  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Task">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="item_id" jdbcType="INTEGER" property="itemId" />
     <result column="leader_id" jdbcType="INTEGER" property="leaderId" />
@@ -13,7 +13,7 @@
     delete from task
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.domain.entity.entity.Task">
+  <insert id="insert" parameterType="com.program.itta.domain.entity.Task">
     insert into task (id, item_id, leader_id, 
       "security level", create_time, update_time
       )
@@ -21,7 +21,7 @@
       #{securityLevel,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.entity.Task">
+  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Task">
     update task
     set item_id = #{itemId,jdbcType=INTEGER},
       leader_id = #{leaderId,jdbcType=INTEGER},

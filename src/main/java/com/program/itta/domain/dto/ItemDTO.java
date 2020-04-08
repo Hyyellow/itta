@@ -1,7 +1,7 @@
 package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.DTOConvert;
-import com.program.itta.domain.entity.entity.Item;
+import com.program.itta.domain.entity.Item;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
