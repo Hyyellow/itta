@@ -13,6 +13,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -23,6 +24,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @program: itta
@@ -99,14 +101,16 @@ public class WxAccountService implements WxAppletService {
         String resultJson = code2Session(code);
         //2 . 解析数据
         Code2SessionResponse response = JSONUtil.jsonString2Object(resultJson, Code2SessionResponse.class);
-      /*  if (!response.getErrcode().equals("0")) {
+        if (!response.getErrcode().equals("0")) {
             throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
-        } else {*/
+        } else {
             //3 . 先从本地数据库中查找用户是否存在
             UserDTO wxAccount = wxAccountRepository.findByWxOpenid(response.getOpenid());
+            String markId = UUID.randomUUID().toString();
             if (wxAccount == null) {
                 wxAccount = new UserDTO();
                 wxAccount.setWxOpenid(response.getOpenid());    //不存在就新建用户
+                wxAccount.setMarkId(markId);
             }
             //4 . 更新sessionKey和 登陆时间
             wxAccount.setSessionKey(response.getSession_key());
@@ -115,6 +119,6 @@ public class WxAccountService implements WxAppletService {
             //5 . JWT 返回自定义登陆态 Token
             String token = jwtConfig.createTokenByWxAccount(wxAccount);
             return new Token(token);
-       /* }*/
+        }
     }
 }

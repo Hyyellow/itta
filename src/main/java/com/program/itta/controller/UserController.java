@@ -21,14 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @PostMapping("/addUser")
-    public HttpResult addUser(@RequestBody UserDTO userDTO) {
-        User user = userDTO.convertToUser();
-        userService.addUser(user);
-        return HttpResult.success();
-    }
-
+    
     @PutMapping("/updateUser")
     public HttpResult updateUser(@RequestBody UserDTO userDTO){
         User user = userDTO.convertToUser();

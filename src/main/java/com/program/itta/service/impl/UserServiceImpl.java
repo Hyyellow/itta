@@ -1,8 +1,6 @@
 package com.program.itta.service.impl;
-import	java.util.UUID;
 
 
-import com.program.itta.common.util.MarkUtil;
 import com.program.itta.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
