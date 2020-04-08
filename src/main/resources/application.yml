@@ -13,6 +13,7 @@ spring:
     database: 0
     host: localhost
     port: 6379
+    password: a570911275
   # datasource配置
   datasource:
     # 扩展插件
