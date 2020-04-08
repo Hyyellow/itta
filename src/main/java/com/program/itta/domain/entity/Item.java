@@ -21,6 +21,8 @@ public class Item {
 
     private String markId;
 
+    private Integer userId;
+
     private Date createTime;
 
     private Date updateTime;
@@ -95,6 +97,14 @@ public class Item {
 
     public void setMarkId(String markId) {
         this.markId = markId == null ? null : markId.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {

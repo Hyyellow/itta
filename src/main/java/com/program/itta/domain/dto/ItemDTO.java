@@ -37,6 +37,8 @@ public class ItemDTO {
     @NotBlank
     private String markId;
 
+    private Integer userId;
+
     public Item convertToItem(){
         ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
         Item convert = userDTOConvert.doForward(this);

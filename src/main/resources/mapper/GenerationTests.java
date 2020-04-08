@@ -1,4 +1,4 @@
-package com.program.itta;
+package mapper;
 
 import org.junit.Test;
 import org.mybatis.generator.config.Configuration;

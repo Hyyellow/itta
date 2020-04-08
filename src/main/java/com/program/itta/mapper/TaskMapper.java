@@ -1,13 +1,8 @@
 package com.program.itta.mapper;
 
-import com.program.itta.domain.entity.Task;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
-
+import com.program.itta.entity.Task;
 import java.util.List;
 
-@Repository
-@Mapper
 public interface TaskMapper {
     int deleteByPrimaryKey(Integer id);
 
