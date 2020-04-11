@@ -1,5 +1,7 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.service.WxAppletService;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ import java.util.Map;
 public class WxAppletController {
     @Resource
     private WxAppletService wxAppletService;
+
+    @Resource
+    private JwtConfig jwtConfig;
     /**
      * 微信小程序端用户登陆api
      * 返回给小程序端 自定义登陆态 token
@@ -42,8 +47,9 @@ public class WxAppletController {
     @RequiresAuthentication
     @PostMapping("/sayHello")
     public ResponseEntity sayHello() {
+        Integer userId = jwtConfig.getUserId();
         Map<String, String> result = new HashMap<>();
         result.put("words", "hello World");
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 }

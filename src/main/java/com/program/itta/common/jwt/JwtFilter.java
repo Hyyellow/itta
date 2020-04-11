@@ -1,10 +1,16 @@
 package com.program.itta.common.jwt;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.dto.JwtToken;
+import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.mapper.WxAccountRepository;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +43,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)) {
             JwtToken token = new JwtToken(getAuthzHeader(request));
             getSubject(request, response).login(token);
+            String jwtToken = (String) token.getCredentials();
         }
         return true;
     }

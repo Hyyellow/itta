@@ -5,10 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.mapper.WxAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -30,8 +32,14 @@ public class JwtConfig {
      * JWT 过期时间值 这里写死为和小程序时间一致 7200 秒，也就是两个小时
      */
     private static long expire_time = 7200;
+
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Resource
+    private WxAccountRepository wxAccountRepository;
+
+    private static final ThreadLocal<String> t1 = new ThreadLocal<>();
     /**
      * 根据微信用户登陆信息创建 token
      * 注 : 这里的token会被缓存到redis中,用作为二次验证
@@ -47,6 +55,7 @@ public class JwtConfig {
         String token = JWT.create()
                 .withClaim("wxOpenId", wxAccount.getWxOpenid())
                 .withClaim("sessionKey", wxAccount.getSessionKey())
+                .withClaim("userId", wxAccount.getId())
                 .withClaim("jwt-id", jwtId)
                 .withExpiresAt(new Date(System.currentTimeMillis() + expire_time*1000))  //JWT 配置过期时间的正确姿势
                 .sign(algorithm);
@@ -74,6 +83,7 @@ public class JwtConfig {
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim("wxOpenId", getWxOpenIdByToken(redisToken))
                     .withClaim("sessionKey", getSessionKeyByToken(redisToken))
+                    .withClaim("userId", getUserIdByToken(redisToken))
                     .withClaim("jwt-id", getJwtIdByToken(redisToken))
                     .acceptExpiresAt(System.currentTimeMillis() + expire_time*1000 )  //JWT 正确的配置续期姿势
                     .build();
@@ -81,6 +91,8 @@ public class JwtConfig {
             verifier.verify(redisToken);
             //4 . Redis缓存JWT续期
             redisTemplate.opsForValue().set("JWT-SESSION-" + getJwtIdByToken(token), redisToken, expire_time, TimeUnit.SECONDS);
+            //5. 获取openId
+            t1.set(getWxOpenIdByToken(redisToken));
             return true;
         } catch (Exception e) { //捕捉到任何异常都视为校验失败
             return false;
@@ -101,7 +113,20 @@ public class JwtConfig {
     /**
      * 根据Token 获取jwt-id
      */
-    private String getJwtIdByToken(String token) throws JWTDecodeException {
+    public String getJwtIdByToken(String token) throws JWTDecodeException {
         return JWT.decode(token).getClaim("jwt-id").asString();
+    }
+    /**
+     * 根据Token 获取userId
+     */
+    public String getUserIdByToken(String token) throws JWTDecodeException {
+        return JWT.decode(token).getClaim("userId").asString();
+    }
+
+    public Integer getUserId() {
+        String openid = t1.get();
+        UserDTO wxAccount = wxAccountRepository.findByWxOpenid(openid);
+        t1.remove();
+        return wxAccount.getId();
     }
 }
