@@ -5,26 +5,23 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
-public class Schedule {
+public class UserItem {
     private Integer id;
 
     private Integer userId;
 
-    private String place;
+    private Integer itemId;
 
-    private Date startTime;
-
-    private Date endTime;
-
-    private Date completionTime;
+    private Boolean isLeader;
 
     private Date createTime;
 
     private Date updateTime;
 
     @Tolerate
-    public Schedule() {
+    public UserItem() {
     }
 }

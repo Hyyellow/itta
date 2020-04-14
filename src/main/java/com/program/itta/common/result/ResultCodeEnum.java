@@ -20,7 +20,10 @@ public enum  ResultCodeEnum {
     // 1000～1999 区间表示用户模块错误
     User_Exists_Exception(10001,"用户已存在"),
     User_Not_Exists_Exception(10002,"用户不存在"),
-    // 2000～2999 区间表示订单模块错误
+    // 2000～2999 区间表示项目模块错误
+    Item_Name_Exists_Exception(20001,"项目名称已存在"),
+    Item_Add_Fail_Exception(20001,"项目添加失败"),
+    Item_Del_Fail_Exception(20001,"项目删除失败"),
     // 3000～3999 区间表示商品模块错误
     // 。。。
 

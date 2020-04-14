@@ -18,4 +18,6 @@ public interface ItemMapper {
     List<Item> selectAll();
 
     int updateByPrimaryKey(Item record);
+
+    List<Item> selectAllItemByUserId(Integer userId);
 }

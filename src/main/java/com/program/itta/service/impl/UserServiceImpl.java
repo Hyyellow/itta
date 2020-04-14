@@ -4,6 +4,8 @@ package com.program.itta.service.impl;
 import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ import java.util.List;
  **/
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private UserMapper userMapper;
 
@@ -32,6 +37,7 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(new Date());
         int update = userMapper.updateByPrimaryKey(user);
         if (update != 0) {
+            logger.info("用户：" + user.getId() + "更新用户信息为：" + user);
             return true;
         }
         return false;
@@ -47,6 +53,7 @@ public class UserServiceImpl implements UserService {
     public Boolean deleteUser(User user) {
         int delete = userMapper.deleteByPrimaryKey(user.getId());
         if (delete != 0) {
+            logger.info("用户：" + user.getId() + "删除用户信息为：" + user);
             return true;
         }
         return false;
@@ -62,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public Boolean judgeUser(User user) {
         List<User> userList = userMapper.selectAll();
         for (User user1 : userList) {
-            if (user1.getWxOpenid().equalsIgnoreCase(user.getWxOpenid())) {
+            if (user1.getWxOpenid().equals(user.getWxOpenid())) {
                 return true;
             }
         }
@@ -71,6 +78,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 查找用户
+     *
      * @param userId
      * @return
      */

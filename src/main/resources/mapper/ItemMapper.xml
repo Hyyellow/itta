@@ -57,4 +57,10 @@
     mark_id, user_id, create_time, update_time
     from item
   </select>
+  <select id="selectAllItemByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, serial_number, task_prefix, color, action_scope, group_name, description,
+    mark_id, user_id, create_time, update_time
+    from item
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

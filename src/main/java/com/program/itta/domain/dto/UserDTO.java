@@ -2,7 +2,9 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.DTOConvert;
 import com.program.itta.domain.entity.User;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Entity;
@@ -19,6 +21,7 @@ import java.util.Date;
  * @create: 2020-04-04 16:00
  **/
 @Data
+@Builder
 @Entity
 @Table(name = "user")
 public class UserDTO {
@@ -42,13 +45,17 @@ public class UserDTO {
 
     private String markId;
 
-    public User convertToUser(){
+    @Tolerate
+    public UserDTO() {
+    }
+
+    public User convertToUser() {
         UserDTOConvert userDTOConvert = new UserDTOConvert();
         User convert = userDTOConvert.doForward(this);
         return convert;
     }
 
-    public UserDTO convertFor(User user){
+    public UserDTO convertFor(User user) {
         UserDTOConvert userDTOConvert = new UserDTOConvert();
         UserDTO convert = userDTOConvert.doBackward(user);
         return convert;
@@ -58,14 +65,14 @@ public class UserDTO {
         @Override
         protected User doForward(UserDTO userDTO) {
             User user = new User();
-            BeanUtils.copyProperties(userDTO,user);
+            BeanUtils.copyProperties(userDTO, user);
             return user;
         }
 
         @Override
         protected UserDTO doBackward(User user) {
             UserDTO userDTO = new UserDTO();
-            BeanUtils.copyProperties(user,userDTO);
+            BeanUtils.copyProperties(user, userDTO);
             return userDTO;
         }
 

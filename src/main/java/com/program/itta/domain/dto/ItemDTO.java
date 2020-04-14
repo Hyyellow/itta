@@ -2,7 +2,9 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.DTOConvert;
 import com.program.itta.domain.entity.Item;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
@@ -14,6 +16,7 @@ import javax.validation.constraints.NotBlank;
  * @create: 2020-04-05 22:26
  **/
 @Data
+@Builder
 public class ItemDTO {
     private Integer id;
 
@@ -39,13 +42,17 @@ public class ItemDTO {
 
     private Integer userId;
 
-    public Item convertToItem(){
+    @Tolerate
+    public ItemDTO() {
+    }
+
+    public Item convertToItem() {
         ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
         Item convert = userDTOConvert.doForward(this);
         return convert;
     }
 
-    public ItemDTO convertFor(Item item){
+    public ItemDTO convertFor(Item item) {
         ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
         ItemDTO convert = userDTOConvert.doBackward(item);
         return convert;
@@ -55,14 +62,14 @@ public class ItemDTO {
         @Override
         protected Item doForward(ItemDTO itemDTO) {
             Item item = new Item();
-            BeanUtils.copyProperties(itemDTO,item);
+            BeanUtils.copyProperties(itemDTO, item);
             return item;
         }
 
         @Override
         protected ItemDTO doBackward(Item item) {
             ItemDTO itemDTO = new ItemDTO();
-            BeanUtils.copyProperties(item,itemDTO);
+            BeanUtils.copyProperties(item, itemDTO);
             return itemDTO;
         }
 
