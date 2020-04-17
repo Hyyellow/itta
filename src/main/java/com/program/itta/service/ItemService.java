@@ -14,9 +14,6 @@ public interface ItemService {
     // 更新项目
     Boolean updateItem(Item item);
 
-    // 判断项目是否存在
-    Boolean judgeItem(Item item);
-
     // 查找该用户的所有项目
     List<Item> selectAllItem(List<Integer> itemIdList);
 }

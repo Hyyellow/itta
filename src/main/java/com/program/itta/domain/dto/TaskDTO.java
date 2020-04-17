@@ -47,7 +47,7 @@ public class TaskDTO {
     public TaskDTO() {
     }
 
-    public Task convertToTag() {
+    public Task convertToTask() {
         TaskDTOConvert taskDTOConvert = new TaskDTO.TaskDTOConvert();
         Task convert = taskDTOConvert.doForward(this);
         return convert;

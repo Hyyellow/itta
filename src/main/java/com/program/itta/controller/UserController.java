@@ -1,6 +1,8 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserNotExistsException;
+import com.program.itta.common.exception.user.UserUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.User;
@@ -25,25 +27,21 @@ public class UserController {
     @PutMapping("/updateUser")
     public HttpResult updateUser(@RequestBody @Valid UserDTO userDTO){
         User user = userDTO.convertToUser();
-        // 判断openID是否存在
-        Boolean judgeUser = userService.judgeUser(user);
-        if (!judgeUser){
-            throw new UserNotExistsException("该用户不存在");
+        Boolean updateUser = userService.updateUser(user);
+        if(!updateUser){
+            throw new UserUpdateFailException("用户信息更新失败");
         }
-        userService.updateUser(user);
         return HttpResult.success();
     }
 
     @DeleteMapping("/deleteUser")
     public HttpResult deleteUser(@RequestBody @Valid UserDTO userDTO){
         User user = userDTO.convertToUser();
-        // 判断openID是否存在
-        Boolean judgeUser = userService.judgeUser(user);
-        if (!judgeUser){
-            throw new UserNotExistsException("该用户不存在");
+        // TODO 该用户的关联表数据仍需进行处理——项目， 任务， 日程
+        Boolean deleteUser = userService.deleteUser(user);
+        if (!deleteUser){
+            throw new UserDelFailException("用户信息删除失败");
         }
-        // TODO 该用户的关联表数据仍需进行处理
-        userService.updateUser(user);
         return HttpResult.success();
     }
 

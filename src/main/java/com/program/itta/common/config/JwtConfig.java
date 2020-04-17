@@ -61,7 +61,7 @@ public class JwtConfig {
                 .sign(algorithm);
         //2 . Redis缓存JWT, 注 : 请和JWT过期时间一致
        redisTemplate.opsForValue().set("JWT-SESSION-" + jwtId, token, expire_time, TimeUnit.SECONDS);
-        return token;
+       return token;
     }
     /**
      * 校验token是否正确

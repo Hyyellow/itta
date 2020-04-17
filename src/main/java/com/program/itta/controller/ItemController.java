@@ -3,6 +3,7 @@ package com.program.itta.controller;
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemDelFailException;
 import com.program.itta.common.exception.item.ItemNameExistsException;
+import com.program.itta.common.exception.item.ItemUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.entity.Item;
@@ -42,10 +43,6 @@ public class ItemController {
     @PostMapping("/addItem")
     public HttpResult addItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
-        Boolean judgeItem = itemService.judgeItem(item);
-        if (judgeItem) {
-            throw new ItemNameExistsException("项目名称已存在");
-        }
         Boolean addItem = itemService.addItem(item);
         Boolean addUserItem = userItemServive.addUserItem(item.getName());
         if (!(addItem && addUserItem)) {
@@ -68,17 +65,20 @@ public class ItemController {
     @PutMapping("/updateItem")
     public HttpResult updateItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
-        itemService.updateItem(item);
+        Boolean updateItem = itemService.updateItem(item);
+        if (!updateItem){
+            throw new ItemUpdateFailException("项目更新失败");
+        }
         return HttpResult.success();
     }
 
     @GetMapping("/selectItem")
-    public HttpResult selectItem(){
+    public HttpResult selectItem() {
         List<Integer> itemIdList = userItemServive.selectAllItem();
-        if (itemIdList != null){
+        if (itemIdList != null) {
             List<Item> itemList = itemService.selectAllItem(itemIdList);
             return HttpResult.success(itemList);
-        }else{
+        } else {
             return HttpResult.success("该用户尚无项目存在");
         }
     }

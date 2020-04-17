@@ -1,10 +1,11 @@
 package com.program.itta.common.exception;
 
-import com.program.itta.common.exception.item.ItemAddFailException;
-import com.program.itta.common.exception.item.ItemDelFailException;
-import com.program.itta.common.exception.item.ItemNameExistsException;
+import com.program.itta.common.exception.item.*;
+import com.program.itta.common.exception.task.TaskAddFailException;
+import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
 import com.program.itta.common.exception.user.UserNotExistsException;
+import com.program.itta.common.exception.user.UserUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,18 @@ public class GlobalExceptionHandler {
         return HttpResult.failure(User_Not_Exists_Exception);
     }
 
+    @ExceptionHandler(value = UserUpdateFailException.class)
+    public HttpResult userUpdateFailExceptionHandler(UserUpdateFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(User_Update_Fail_Exception);
+    }
+
+    @ExceptionHandler(value = UserDelFailException.class)
+    public HttpResult userDelFailExceptionHandler(UserDelFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(User_Del_Fail_Exception);
+    }
+
     // 项目模块
     @ExceptionHandler(value = ItemNameExistsException.class)
     public HttpResult itemNameExistsExceptionHandler(ItemNameExistsException e) {
@@ -54,5 +67,24 @@ public class GlobalExceptionHandler {
     public HttpResult itemDelFailExceptionHandler(ItemDelFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Item_Del_Fail_Exception);
+    }
+
+    @ExceptionHandler(value = ItemUpdateFailException.class)
+    public HttpResult itemUpdateFailExceptionHandler(ItemUpdateFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Item_Update_Fail_Exception);
+    }
+
+    @ExceptionHandler(value = ItemNotExistsException.class)
+    public HttpResult itemNotExistsExceptionHandler(ItemNotExistsException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Item_Not_Exists_Exception);
+    }
+
+    // 任务模块
+    @ExceptionHandler(value = TaskAddFailException.class)
+    public HttpResult taskAddFailExceptionHandler(TaskAddFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Task_Add_Fail_Exception);
     }
 }

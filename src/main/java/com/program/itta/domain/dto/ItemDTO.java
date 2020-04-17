@@ -20,18 +20,14 @@ import javax.validation.constraints.NotBlank;
 public class ItemDTO {
     private Integer id;
 
-    @NotBlank
     private String name;
 
-    @NotBlank
     private String serialNumber;
 
-    @NotBlank
     private String taskPrefix;
 
     private String color;
 
-    @NotBlank
     private String actionScope;
 
     private String groupName;
@@ -40,7 +36,6 @@ public class ItemDTO {
 
     private Integer leaderId;
 
-    @NotBlank
     private String markId;
 
     @Tolerate

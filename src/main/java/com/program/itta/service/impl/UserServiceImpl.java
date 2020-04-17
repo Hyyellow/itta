@@ -1,6 +1,7 @@
 package com.program.itta.service.impl;
 
 
+import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
@@ -34,6 +35,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Boolean updateUser(User user) {
+        Boolean judgeUser = judgeUser(user);
+        if (!judgeUser){
+            throw new UserNotExistsException("该用户不存在");
+        }
         user.setUpdateTime(new Date());
         int update = userMapper.updateByPrimaryKey(user);
         if (update != 0) {
@@ -51,6 +56,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Boolean deleteUser(User user) {
+        Boolean judgeUser = judgeUser(user);
+        if (!judgeUser){
+            throw new UserNotExistsException("该用户不存在");
+        }
         int delete = userMapper.deleteByPrimaryKey(user.getId());
         if (delete != 0) {
             logger.info("用户：" + user.getId() + "删除用户信息为：" + user);
