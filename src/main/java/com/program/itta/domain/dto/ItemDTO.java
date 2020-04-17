@@ -38,7 +38,7 @@ public class ItemDTO {
 
     private String description;
 
-    private Integer userId;
+    private Integer leaderId;
 
     @NotBlank
     private String markId;

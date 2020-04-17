@@ -10,7 +10,7 @@
     <result column="action_scope" jdbcType="VARCHAR" property="actionScope" />
     <result column="group_name" jdbcType="VARCHAR" property="groupName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="leader_id" jdbcType="INTEGER" property="leaderId" />
     <result column="mark_id" jdbcType="VARCHAR" property="markId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -22,12 +22,12 @@
   <insert id="insert" parameterType="com.program.itta.domain.entity.Item">
     insert into item (id, name, serial_number, 
       task_prefix, color, action_scope, 
-      group_name, description, user_id, 
+      group_name, description, leader_id,
       mark_id, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
       #{taskPrefix,jdbcType=VARCHAR}, #{color,jdbcType=VARCHAR}, #{actionScope,jdbcType=VARCHAR}, 
-      #{groupName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{groupName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{leaderId,jdbcType=INTEGER},
       #{markId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -40,7 +40,7 @@
       action_scope = #{actionScope,jdbcType=VARCHAR},
       group_name = #{groupName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
+      leader_id = #{leaderId,jdbcType=INTEGER},
       mark_id = #{markId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
@@ -48,19 +48,19 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, serial_number, task_prefix, color, action_scope, group_name, description, 
-    user_id, mark_id, create_time, update_time
+    leader_id, mark_id, create_time, update_time
     from item
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, name, serial_number, task_prefix, color, action_scope, group_name, description, 
-    user_id, mark_id, create_time, update_time
+    leader_id, mark_id, create_time, update_time
     from item
   </select>
   <select id="selectAllItemByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, serial_number, task_prefix, color, action_scope, group_name, description,
-    user_id, mark_id, create_time, update_time
+    leader_id, mark_id, create_time, update_time
     from item
-    where user_id = #{userId,jdbcType=INTEGER}
+    where leader_id = #{leaderId,jdbcType=INTEGER}
   </select>
 </mapper>

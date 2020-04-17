@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Boolean judgeItem(Item item) {
-        List<Item> items = itemMapper.selectAllItemByUserId(item.getUserId());
+        List<Item> items = itemMapper.selectAllItemByUserId(item.getLeaderId());
         for (Item item1 : items) {
             if (item1.getName().equals(item.getName())){
                 return true;

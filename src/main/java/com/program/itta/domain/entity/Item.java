@@ -25,7 +25,7 @@ public class Item {
 
     private String description;
 
-    private Integer userId;
+    private Integer leaderId;
 
     private String markId;
 
