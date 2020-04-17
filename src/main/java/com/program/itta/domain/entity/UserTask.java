@@ -8,24 +8,20 @@ import java.util.Date;
 
 @Data
 @Builder
-public class Schedule {
+public class UserTask {
     private Integer id;
 
     private Integer userId;
 
-    private String place;
+    private Integer taskId;
 
-    private Date startTime;
-
-    private Date endTime;
-
-    private Date completionTime;
+    private Boolean leader;
 
     private Date createTime;
 
     private Date updateTime;
 
     @Tolerate
-    public Schedule() {
+    public UserTask() {
     }
 }

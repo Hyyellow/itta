@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
 public class Task {
     private Integer id;
 
-    private Integer userId;
+    private String name;
 
     private Integer itemId;
 

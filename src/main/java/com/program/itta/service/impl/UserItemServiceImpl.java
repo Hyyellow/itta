@@ -38,8 +38,8 @@ public class UserItemServiceImpl implements UserItemServive {
     @Override
     public Boolean addUserItem(String itemName) {
         Integer userId = jwtConfig.getUserId();
-        List<Item> items = itemMapper.selectAllItemByUserId(userId);
-        Integer itemId = selectItemIdByName(itemName,items).getId();
+        List<Item> itemList = itemMapper.selectAllItemByUserId(userId);
+        Integer itemId = selectItemIdByName(itemName,itemList).getId();
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
@@ -61,7 +61,7 @@ public class UserItemServiceImpl implements UserItemServive {
             if (userItem.getItemId().equals(itemId)) {
                 logger.info("用户：" + userItem.getUserId() + "删除项目：" + userItem.getItemId());
                 // 负责人删除
-                if (userItem.getIsLeader()) {
+                if (userItem.getLeader()) {
                     deleteUserItemList(itemId);
                     delete = itemMapper.deleteByPrimaryKey(itemId);
                 } else {

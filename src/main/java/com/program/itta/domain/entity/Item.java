@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
 public class Item {
@@ -24,9 +25,9 @@ public class Item {
 
     private String description;
 
-    private String markId;
-
     private Integer userId;
+
+    private String markId;
 
     private Date createTime;
 

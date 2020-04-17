@@ -23,12 +23,11 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/item")
-@Slf4j
 public class ItemController {
     /* TODO
       1.项目的添加(完成)
       2.项目的删除(完成)
-      3.项目的查找（待ES改善）
+      3.项目的查找(完成)（待ES改善）
       4.项目的更新(完成)
       5.项目与用户中间表相关：
         （1）.添加(完成)

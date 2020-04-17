@@ -49,7 +49,10 @@
         </javaClientGenerator>
 
         <!-- table：指定要逆向分析哪些表，根据表创建javaBean -->
-        <table tableName="user_item" domainObjectName="UserItem"/>
+<!--        <table tableName="user_item" domainObjectName="UserItem"/>-->
+        <table tableName="item" domainObjectName="Item"/>
+       <!-- <table tableName="task" domainObjectName="Task"/>
+        <table tableName="user_task" domainObjectName="UserTask"/>-->
         <!--<table tableName="user" domainObjectName="User"/>-->
        <!-- <table tableName="item" domainObjectName="Item"/>
         <table tableName="task" domainObjectName="Task"/>

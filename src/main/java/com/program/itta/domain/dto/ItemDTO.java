@@ -30,6 +30,7 @@ public class ItemDTO {
     private String taskPrefix;
 
     private String color;
+
     @NotBlank
     private String actionScope;
 
@@ -37,10 +38,10 @@ public class ItemDTO {
 
     private String description;
 
+    private Integer userId;
+
     @NotBlank
     private String markId;
-
-    private Integer userId;
 
     @Tolerate
     public ItemDTO() {

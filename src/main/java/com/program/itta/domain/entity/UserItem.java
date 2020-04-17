@@ -15,7 +15,7 @@ public class UserItem {
 
     private Integer itemId;
 
-    private Boolean isLeader;
+    private Boolean leader;
 
     private Date createTime;
 
