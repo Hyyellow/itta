@@ -43,6 +43,7 @@ public class UserItemServiceImpl implements UserItemServive {
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
+                .leader(true)
                 .build();
         int insert = userItemMapper.insert(userItem);
         if (insert != 0) {

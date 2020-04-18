@@ -1,5 +1,6 @@
 package com.program.itta.service.impl;
 
+import com.program.itta.common.exception.task.TaskNameExistsException;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.mapper.TaskMapper;
 import com.program.itta.service.TaskService;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @program: itta
@@ -24,8 +27,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Boolean addTask(Task task) {
+        Boolean judgeTaskName = judgeTaskName(task);
+        if(judgeTaskName){
+            throw new TaskNameExistsException("该任务名称已存在于此项目中");
+        }
         int insert = taskMapper.insert(task);
-        // TODO Task名称是否重复
         if (insert!=0){
             return true;
         }
@@ -54,5 +60,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task selectTask() {
         return null;
+    }
+
+    private Boolean judgeTaskName(Task task){
+        List<Task> taskList = taskMapper.selectAllByItemId(task.getItemId());
+        for (Task task1 : taskList) {
+            if (task.getName().equals(task1.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 }

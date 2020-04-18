@@ -29,7 +29,8 @@ public enum  ResultCodeEnum {
     Item_Update_Fail_Exception(20003,"项目更新失败"),
     Item_Not_Exists_Exception(20003,"项目不存在，项目id查找为空"),
     // 3000～3999 区间表示任务模块错误
-    Task_Add_Fail_Exception(30001,"项目添加失败"),
+    Task_Add_Fail_Exception(30001,"任务添加失败"),
+    Task_Name_Exists_Exception(30001,"任务名称已存在于该项目中"),
     // 。。。
 
     ;

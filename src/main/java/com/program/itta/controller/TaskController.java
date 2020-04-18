@@ -11,6 +11,7 @@ import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.TaskService;
+import com.program.itta.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,13 +40,16 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private UserTaskService userTaskService;
+
     @PostMapping("/addTask")
     public HttpResult addTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
-        // TODO 判断任务是否重复
         Boolean addTask = taskService.addTask(task);
-        // TODO 中间表的添加
-        if (!addTask) {
+        Boolean addUserTask = userTaskService.addUserTask(task);
+        // TODO 参与人的判断（更新）
+        if (!(addTask && addUserTask)) {
             throw new TaskAddFailException("任务添加失败");
         }
         return HttpResult.success();

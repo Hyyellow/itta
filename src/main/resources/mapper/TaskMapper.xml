@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="item_id" jdbcType="INTEGER" property="itemId" />
     <result column="leader_id" jdbcType="INTEGER" property="leaderId" />
-    <result column="security level" jdbcType="INTEGER" property="securityLevel" />
+    <result column="security_level" jdbcType="INTEGER" property="securityLevel" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
@@ -23,7 +23,7 @@
   </delete>
   <insert id="insert" parameterType="com.program.itta.domain.entity.Task">
     insert into task (id, name, item_id, 
-      leader_id, "security level", status, 
+      leader_id, security_level, status, 
       start_time, end_time, "completion time", 
       priority, label, description, 
       create_time, update_time)
@@ -38,7 +38,7 @@
     set name = #{name,jdbcType=VARCHAR},
       item_id = #{itemId,jdbcType=INTEGER},
       leader_id = #{leaderId,jdbcType=INTEGER},
-      "security level" = #{securityLevel,jdbcType=INTEGER},
+      security_level = #{securityLevel,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
@@ -51,14 +51,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, "security level", status, start_time, end_time, 
+    select id, name, item_id, leader_id, security_level, status, start_time, end_time, 
     "completion time", priority, label, description, create_time, update_time
     from task
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, "security level", status, start_time, end_time, 
+    select id, name, item_id, leader_id, security_level, status, start_time, end_time, 
     "completion time", priority, label, description, create_time, update_time
     from task
+  </select>
+  <select id="selectAllByItemId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, item_id, leader_id, security_level, status, start_time, end_time,
+    "completion time", priority, label, description, create_time, update_time
+    from task
+    where item_id = #{itemId,jdbcType=INTEGER}
   </select>
 </mapper>
