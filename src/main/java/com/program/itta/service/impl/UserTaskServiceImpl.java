@@ -30,9 +30,24 @@ public class UserTaskServiceImpl implements UserTaskService {
                 .leader(true)
                 .build();
         int insert = userTaskMapper.insert(userTask);
-        if (insert!=0){
+        if (insert != 0) {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Boolean addUserTask(Integer taskId, List<Integer> userIdList) {
+        for (int i = 0; i < userIdList.size(); i++) {
+            UserTask userTask = UserTask.builder()
+                    .userId(userIdList.get(i))
+                    .taskId(taskId)
+                    .build();
+            int insert = userTaskMapper.insert(userTask);
+            if (insert == 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

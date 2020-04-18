@@ -24,13 +24,14 @@ public enum  ResultCodeEnum {
     User_Del_Fail_Exception(10004,"用户删除失败"),
     // 2000～2999 区间表示项目模块错误
     Item_Name_Exists_Exception(20001,"项目名称已存在"),
-    Item_Add_Fail_Exception(20001,"项目添加失败"),
-    Item_Del_Fail_Exception(20002,"项目删除失败"),
-    Item_Update_Fail_Exception(20003,"项目更新失败"),
-    Item_Not_Exists_Exception(20003,"项目不存在，项目id查找为空"),
+    Item_Add_Fail_Exception(20002,"项目添加失败"),
+    Item_Del_Fail_Exception(20003,"项目删除失败"),
+    Item_Update_Fail_Exception(20004,"项目更新失败"),
+    Item_Not_Exists_Exception(20005,"项目不存在，项目id查找为空"),
     // 3000～3999 区间表示任务模块错误
     Task_Add_Fail_Exception(30001,"任务添加失败"),
-    Task_Name_Exists_Exception(30001,"任务名称已存在于该项目中"),
+    Task_Name_Exists_Exception(30002,"任务名称已存在于该项目中"),
+    Task_Update_Fail_Exception(30003,"任务名称已存在于该项目中"),
     // 。。。
 
     ;

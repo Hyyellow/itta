@@ -1,10 +1,12 @@
 package com.program.itta.controller;
 
 import java.awt.Desktop.Action;
+import java.util.List;
 
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.task.TaskAddFailException;
+import com.program.itta.common.exception.task.TaskUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.dto.TaskDTO;
@@ -13,10 +15,7 @@ import com.program.itta.domain.entity.Task;
 import com.program.itta.service.TaskService;
 import com.program.itta.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -31,9 +30,9 @@ import javax.validation.Valid;
 public class TaskController {
     /**
      * TODO
-     * 1.任务的添加
+     * 1.任务的添加 完成
      * 2.任务的删除
-     * 3.任务的更新
+     * 3.任务的更新 完成
      * 4.查看该用户的所有任务
      * 5.查看该项目下的所有任务
      */
@@ -48,12 +47,21 @@ public class TaskController {
         Task task = taskDTO.convertToTask();
         Boolean addTask = taskService.addTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task);
-        // TODO 参与人的判断（更新）
         if (!(addTask && addUserTask)) {
             throw new TaskAddFailException("任务添加失败");
         }
         return HttpResult.success();
     }
 
-
+    @PutMapping("/updateTask")
+    public HttpResult updateTask(@RequestBody @Valid TaskDTO taskDTO){
+        Task task = taskDTO.convertToTask();
+        List<Integer> userIdList = taskDTO.getUserIdList();
+        Boolean updateTask = taskService.updateTask(task);
+        Boolean addUserTask = userTaskService.addUserTask(task.getId(), userIdList);
+        if (!(updateTask && addUserTask)) {
+            throw new TaskUpdateFailException("任务更新失败");
+        }
+        return HttpResult.success();
+    }
 }

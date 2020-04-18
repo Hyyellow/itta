@@ -3,6 +3,7 @@ package com.program.itta.common.exception;
 import com.program.itta.common.exception.item.*;
 import com.program.itta.common.exception.task.TaskAddFailException;
 import com.program.itta.common.exception.task.TaskNameExistsException;
+import com.program.itta.common.exception.task.TaskUpdateFailException;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
 import com.program.itta.common.exception.user.UserNotExistsException;
@@ -93,5 +94,11 @@ public class GlobalExceptionHandler {
     public HttpResult taskNameExistsExceptionHandler(TaskNameExistsException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Task_Name_Exists_Exception);
+    }
+
+    @ExceptionHandler(value = TaskUpdateFailException.class)
+    public HttpResult taskUpdateFailExceptionHandler(TaskUpdateFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Task_Update_Fail_Exception);
     }
 }

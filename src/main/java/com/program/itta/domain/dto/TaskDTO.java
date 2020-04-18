@@ -9,6 +9,7 @@ import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @program: itta
@@ -42,6 +43,8 @@ public class TaskDTO {
     private Integer label;
 
     private String description;
+
+    private List<Integer> userIdList;
 
     @Tolerate
     public TaskDTO() {
