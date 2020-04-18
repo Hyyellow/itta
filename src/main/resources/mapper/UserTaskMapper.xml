@@ -39,4 +39,9 @@
     select id, user_id, task_id, is_leader, create_time, update_time
     from user_task
   </select>
+  <select id="selectByTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, task_id, is_leader, create_time, update_time
+    from user_task
+    where task_id = #{taskId,jdbcType=INTEGER}
+  </select>
 </mapper>

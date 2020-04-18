@@ -31,7 +31,8 @@ public enum  ResultCodeEnum {
     // 3000～3999 区间表示任务模块错误
     Task_Add_Fail_Exception(30001,"任务添加失败"),
     Task_Name_Exists_Exception(30002,"任务名称已存在于该项目中"),
-    Task_Update_Fail_Exception(30003,"任务名称已存在于该项目中"),
+    Task_Update_Fail_Exception(30003,"任务更新失败"),
+    Task_Del_Fail_Exception(30004,"任务删除失败"),
     // 。。。
 
     ;

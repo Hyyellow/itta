@@ -1,5 +1,6 @@
 package com.program.itta.service.impl;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.User;
 import com.program.itta.domain.entity.UserTask;
@@ -9,6 +10,7 @@ import com.program.itta.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,8 +21,12 @@ import java.util.List;
  **/
 @Service
 public class UserTaskServiceImpl implements UserTaskService {
+
     @Autowired
     private UserTaskMapper userTaskMapper;
+
+    @Resource
+    private JwtConfig jwtConfig;
 
     @Override
     public Boolean addUserTask(Task task) {
@@ -44,10 +50,42 @@ public class UserTaskServiceImpl implements UserTaskService {
                     .taskId(taskId)
                     .build();
             int insert = userTaskMapper.insert(userTask);
-            if (insert == 0){
+            if (insert == 0) {
                 return false;
             }
         }
         return true;
+    }
+
+    @Override
+    public Boolean deleteUserTask(Task task) {
+        int delete = 0;
+        Integer userId = jwtConfig.getUserId();
+        List<UserTask> userTaskList = userTaskMapper.selectByTaskId(task.getId());
+        for (UserTask userTask : userTaskList) {
+            if (userTask.getUserId().equals(userId)) {
+                // 负责人删除
+                if (userTask.getLeader()) {
+                    delete = deleteUserTaskList(userTaskList);
+                } else {
+                    // 正常删除
+                    delete = userTaskMapper.deleteByPrimaryKey(userTask.getId());
+                }
+            }
+        }
+        if (delete != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private int deleteUserTaskList(List<UserTask> userTaskList) {
+        for (UserTask userTask : userTaskList) {
+            int delete = userTaskMapper.deleteByPrimaryKey(userTask.getId());
+            if (delete == 0){
+                return 0;
+            }
+        }
+        return 1;
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.task.TaskAddFailException;
+import com.program.itta.common.exception.task.TaskDelFailException;
 import com.program.itta.common.exception.task.TaskUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
@@ -31,7 +32,7 @@ public class TaskController {
     /**
      * TODO
      * 1.任务的添加 完成
-     * 2.任务的删除
+     * 2.任务的删除 完成
      * 3.任务的更新 完成
      * 4.查看该用户的所有任务
      * 5.查看该项目下的所有任务
@@ -53,8 +54,19 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @DeleteMapping("/deleteTask")
+    public HttpResult deleteTask(@RequestBody @Valid TaskDTO taskDTO) {
+        Task task = taskDTO.convertToTask();
+        Boolean deleteTask = taskService.deleteTask(task);
+        Boolean deleteUserTask = userTaskService.deleteUserTask(task);
+        if (!(deleteTask && deleteUserTask)) {
+            throw new TaskDelFailException("任务删除失败");
+        }
+        return HttpResult.success();
+    }
+
     @PutMapping("/updateTask")
-    public HttpResult updateTask(@RequestBody @Valid TaskDTO taskDTO){
+    public HttpResult updateTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);

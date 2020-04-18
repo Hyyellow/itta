@@ -39,7 +39,7 @@ public class UserItemServiceImpl implements UserItemServive {
     public Boolean addUserItem(String itemName) {
         Integer userId = jwtConfig.getUserId();
         List<Item> itemList = itemMapper.selectAllItemByUserId(userId);
-        Integer itemId = selectItemIdByName(itemName,itemList).getId();
+        Integer itemId = selectItemIdByName(itemName, itemList).getId();
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
@@ -57,14 +57,13 @@ public class UserItemServiceImpl implements UserItemServive {
     public Boolean deleteUserItem(Integer itemId) {
         int delete = 0;
         Integer userId = jwtConfig.getUserId();
-        List<UserItem> userItemList = userItemMapper.selectAllItem(userId);
+        List<UserItem> userItemList = userItemMapper.selectAllItemByItemId(itemId);
         for (UserItem userItem : userItemList) {
-            if (userItem.getItemId().equals(itemId)) {
+            if (userItem.getUserId().equals(userId)) {
                 logger.info("用户：" + userItem.getUserId() + "删除项目：" + userItem.getItemId());
                 // 负责人删除
                 if (userItem.getLeader()) {
-                    deleteUserItemList(itemId);
-                    delete = itemMapper.deleteByPrimaryKey(itemId);
+                    delete = deleteUserItemList(userItemList);
                 } else {
                     // 正常删除
                     delete = userItemMapper.deleteByPrimaryKey(userItem.getId());
@@ -91,11 +90,14 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     // 删除用户项目队列
-    private void deleteUserItemList(Integer itemId) {
-        List<UserItem> userItemList = userItemMapper.selectAllItemByItemId(itemId);
+    private int deleteUserItemList(List<UserItem> userItemList) {
         for (UserItem userItem : userItemList) {
-            userItemMapper.deleteByPrimaryKey(userItem.getId());
+            int delete = userItemMapper.deleteByPrimaryKey(userItem.getId());
+            if (delete == 0) {
+                return 0;
+            }
         }
+        return 1;
     }
 
     // 根据项目名称查找项目

@@ -11,4 +11,7 @@ public interface UserTaskService {
 
     // 批量添加用户任务中间关系
     Boolean addUserTask(Integer taskId, List<Integer> userIdList);
+
+    // 删除用户任务中间关系
+    Boolean deleteUserTask(Task task);
 }
