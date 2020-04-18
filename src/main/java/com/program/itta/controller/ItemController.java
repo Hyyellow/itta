@@ -33,6 +33,7 @@ public class ItemController {
       5.项目与用户中间表相关：
         （1）.添加(完成)
         （2）.删除(完成)
+        6.添加用户进入项目
       */
     @Autowired
     private ItemService itemService;

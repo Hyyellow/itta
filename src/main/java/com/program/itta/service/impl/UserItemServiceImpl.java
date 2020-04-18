@@ -35,6 +35,11 @@ public class UserItemServiceImpl implements UserItemServive {
     @Resource
     private JwtConfig jwtConfig;
 
+    /**
+     * 用户添加项目
+     * @param itemName
+     * @return
+     */
     @Override
     public Boolean addUserItem(String itemName) {
         Integer userId = jwtConfig.getUserId();

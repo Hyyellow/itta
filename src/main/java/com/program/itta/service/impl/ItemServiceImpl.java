@@ -91,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
         item.setUpdateTime(new Date());
         int update = itemMapper.updateByPrimaryKey(item);
         if (update != 0) {
-            logger.info("项目:" + item.getId() + "更新项目信息：" + item);
+            logger.info("项目：" + item.getId() + "更新项目信息为：" + item);
             return true;
         }
         return false;

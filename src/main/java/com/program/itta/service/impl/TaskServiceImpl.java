@@ -35,6 +35,7 @@ public class TaskServiceImpl implements TaskService {
         }
         int insert = taskMapper.insert(task);
         if (insert != 0) {
+            logger.info("用户："+task.getLeaderId()+"添加任务"+task.getName());
             return true;
         }
         return false;
@@ -48,6 +49,7 @@ public class TaskServiceImpl implements TaskService {
         }
         int delete = taskMapper.deleteByPrimaryKey(task.getId());
         if (delete != 0) {
+            logger.info("删除任务："+task.getName()+"任务id为："+task.getId());
             return true;
         }
         return false;
@@ -62,6 +64,7 @@ public class TaskServiceImpl implements TaskService {
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
         if (update != 0) {
+            logger.info("任务：" + task.getId() + "更新任务信息为：" + task);
             return true;
         }
         return false;

@@ -7,6 +7,8 @@ import com.program.itta.domain.entity.UserTask;
 import com.program.itta.mapper.UserTaskMapper;
 import com.program.itta.service.UserItemServive;
 import com.program.itta.service.UserTaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import java.util.List;
  **/
 @Service
 public class UserTaskServiceImpl implements UserTaskService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserTaskServiceImpl.class);
 
     @Autowired
     private UserTaskMapper userTaskMapper;
@@ -37,6 +41,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                 .build();
         int insert = userTaskMapper.insert(userTask);
         if (insert != 0) {
+            logger.info("用户：" + userTask.getUserId() + "添加任务：" + userTask.getTaskId());
             return true;
         }
         return false;
@@ -49,6 +54,7 @@ public class UserTaskServiceImpl implements UserTaskService {
                     .userId(userIdList.get(i))
                     .taskId(taskId)
                     .build();
+            logger.info("用户：" + userTask.getUserId() + "加入任务：" + userTask.getTaskId());
             int insert = userTaskMapper.insert(userTask);
             if (insert == 0) {
                 return false;
@@ -64,6 +70,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         List<UserTask> userTaskList = userTaskMapper.selectByTaskId(task.getId());
         for (UserTask userTask : userTaskList) {
             if (userTask.getUserId().equals(userId)) {
+                logger.info("用户：" + userTask.getUserId() + "删除任务：" + userTask.getTaskId());
                 // 负责人删除
                 if (userTask.getLeader()) {
                     delete = deleteUserTaskList(userTaskList);
