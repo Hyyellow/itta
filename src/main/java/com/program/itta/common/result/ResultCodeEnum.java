@@ -33,6 +33,7 @@ public enum  ResultCodeEnum {
     Task_Name_Exists_Exception(30002,"任务名称已存在于该项目中"),
     Task_Update_Fail_Exception(30003,"任务更新失败"),
     Task_Del_Fail_Exception(30004,"任务删除失败"),
+    Task_Not_Exists_Exception(30005,"任务不存在，任务id查找为空"),
     // 。。。
 
     ;
