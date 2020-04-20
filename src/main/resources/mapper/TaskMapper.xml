@@ -71,6 +71,12 @@
     from task
     where item_id = #{itemId,jdbcType=INTEGER}
   </select>
+    <select id="selectByFounderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, item_id, founder_id, leader_id, security_level, status, start_time,
+    end_time, "completion time", priority, label, description, create_time, update_time
+    from task
+    where founder_id = #{founderId,jdbcType=INTEGER}
+  </select>
     <select id="selectByLeaderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, item_id, founder_id, leader_id, security_level, status, start_time,
     end_time, "completion time", priority, label, description, create_time, update_time

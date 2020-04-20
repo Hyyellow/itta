@@ -26,8 +26,6 @@ public class TaskDTO {
 
     private Integer itemId;
 
-    private Integer founderId;
-    
     private Integer leaderId;
 
     private Integer securityLevel;

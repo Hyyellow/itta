@@ -1,5 +1,6 @@
 package com.program.itta.service.impl;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.task.TaskNameExistsException;
 import com.program.itta.common.exception.task.TaskNotExistsException;
 import com.program.itta.domain.entity.Task;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +29,12 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
 
+    @Resource
+    private JwtConfig jwtConfig;
+
     @Override
     public Boolean addTask(Task task) {
+        task.setFounderId(jwtConfig.getUserId());
         Boolean judgeTaskName = judgeTaskName(task);
         if (judgeTaskName) {
             throw new TaskNameExistsException("该任务名称已存在于此项目中");
@@ -71,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectTask(Integer itemId) {
+    public List<Task> selectTaskByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         if (taskList != null && !taskList.isEmpty()) {
             return taskList;
@@ -79,11 +85,60 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
 
+    @Override
+    public List<Task> selectTaskByLeaderId() {
+        Integer leaderId = jwtConfig.getUserId();
+        List<Task> taskList = taskMapper.selectByLeaderId(leaderId);
+        if (taskList != null && !taskList.isEmpty()) {
+            return taskList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Task> selectTaskByFounderId() {
+        Integer founderId = jwtConfig.getUserId();
+        List<Task> taskList = taskMapper.selectByFounderId(founderId);
+        if (taskList != null && !taskList.isEmpty()) {
+            return taskList;
+        }
+        return null;
+    }
+
+    @Override
+    public Task selectTaskToEdit(Task task) {
+        if (task.getItemId() != null) {
+            List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
+            for (Task task1 : taskList) {
+                if (task.getName().equals(task1.getName())) {
+                    return task1;
+                }
+            }
+        } else {
+            List<Task> taskList = taskMapper.selectByFounderId(task.getFounderId());
+            for (Task task1 : taskList) {
+                if (task.getName().equals(task1.getName())) {
+                    return task1;
+                }
+            }
+        }
+        return null;
+    }
+
     private Boolean judgeTaskName(Task task) {
-        List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
-        for (Task task1 : taskList) {
-            if (task.getName().equals(task1.getName())) {
-                return true;
+        if (task.getItemId() != null) {
+            List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
+            for (Task task1 : taskList) {
+                if (task.getName().equals(task1.getName())) {
+                    return true;
+                }
+            }
+        } else {
+            List<Task> taskList = taskMapper.selectByFounderId(task.getFounderId());
+            for (Task task1 : taskList) {
+                if (task.getName().equals(task1.getName())) {
+                    return true;
+                }
             }
         }
         return false;
