@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.TaskMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Task">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="item_id" jdbcType="INTEGER" property="itemId" />
-    <result column="leader_id" jdbcType="INTEGER" property="leaderId" />
-    <result column="security_level" jdbcType="INTEGER" property="securityLevel" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="completion time" jdbcType="TIMESTAMP" property="completionTime" />
-    <result column="priority" jdbcType="INTEGER" property="priority" />
-    <result column="label" jdbcType="INTEGER" property="label" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Task">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="item_id" jdbcType="INTEGER" property="itemId"/>
+        <result column="founder_id" jdbcType="INTEGER" property="founderId"/>
+        <result column="leader_id" jdbcType="INTEGER" property="leaderId"/>
+        <result column="security_level" jdbcType="INTEGER" property="securityLevel"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="completion time" jdbcType="TIMESTAMP" property="completionTime"/>
+        <result column="priority" jdbcType="INTEGER" property="priority"/>
+        <result column="label" jdbcType="INTEGER" property="label"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from task
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.domain.entity.Task">
+    <insert id="insert" parameterType="com.program.itta.domain.entity.Task">
     insert into task (id, name, item_id, 
-      leader_id, security_level, status, 
-      start_time, end_time, "completion time", 
-      priority, label, description, 
-      create_time, update_time)
+      founder_id, leader_id, security_level, 
+      status, start_time, end_time, 
+      "completion time", priority, label, 
+      description, create_time, update_time
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{itemId,jdbcType=INTEGER}, 
-      #{leaderId,jdbcType=INTEGER}, #{securityLevel,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, 
-      #{priority,jdbcType=INTEGER}, #{label,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      #{founderId,jdbcType=INTEGER}, #{leaderId,jdbcType=INTEGER}, #{securityLevel,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{completionTime,jdbcType=TIMESTAMP}, #{priority,jdbcType=INTEGER}, #{label,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Task">
+    <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Task">
     update task
     set name = #{name,jdbcType=VARCHAR},
       item_id = #{itemId,jdbcType=INTEGER},
+      founder_id = #{founderId,jdbcType=INTEGER},
       leader_id = #{leaderId,jdbcType=INTEGER},
       security_level = #{securityLevel,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
@@ -50,26 +54,26 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, security_level, status, start_time, end_time, 
-    "completion time", priority, label, description, create_time, update_time
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, item_id, founder_id, leader_id, security_level, status, start_time, 
+    end_time, "completion time", priority, label, description, create_time, update_time
     from task
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, security_level, status, start_time, end_time, 
-    "completion time", priority, label, description, create_time, update_time
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, item_id, founder_id, leader_id, security_level, status, start_time, 
+    end_time, "completion time", priority, label, description, create_time, update_time
     from task
   </select>
-  <select id="selectByItemId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, security_level, status, start_time, end_time,
-    "completion time", priority, label, description, create_time, update_time
+    <select id="selectByItemId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, item_id, founder_id, leader_id, security_level, status, start_time,
+    end_time, "completion time", priority, label, description, create_time, update_time
     from task
     where item_id = #{itemId,jdbcType=INTEGER}
   </select>
-  <select id="selectByLeaderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, name, item_id, leader_id, security_level, status, start_time, end_time,
-    "completion time", priority, label, description, create_time, update_time
+    <select id="selectByLeaderId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, name, item_id, founder_id, leader_id, security_level, status, start_time,
+    end_time, "completion time", priority, label, description, create_time, update_time
     from task
     where leader_id = #{leaderId,jdbcType=INTEGER}
   </select>
