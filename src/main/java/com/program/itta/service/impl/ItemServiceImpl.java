@@ -1,9 +1,11 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.config.ShiroRealmConfig;
 import com.program.itta.common.exception.GlobalExceptionHandler;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.item.ItemNotExistsException;
+import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.mapper.ItemMapper;
 import com.program.itta.service.ItemService;
@@ -33,6 +35,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Resource
     private JwtConfig jwtConfig;
+
+    @Resource
+    private JwtFilter jwtFilter;
+
+    @Resource
+    private ShiroRealmConfig shiroRealmConfig;
 
     /**
      * 添加项目

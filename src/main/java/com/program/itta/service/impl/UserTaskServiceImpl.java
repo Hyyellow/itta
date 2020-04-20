@@ -1,6 +1,8 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.config.ShiroRealmConfig;
+import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.User;
 import com.program.itta.domain.entity.UserTask;
@@ -31,6 +33,12 @@ public class UserTaskServiceImpl implements UserTaskService {
 
     @Resource
     private JwtConfig jwtConfig;
+
+    @Resource
+    private JwtFilter jwtFilter;
+
+    @Resource
+    private ShiroRealmConfig shiroRealmConfig;
 
     @Override
     public Boolean addUserTask(Task task) {
@@ -89,7 +97,7 @@ public class UserTaskServiceImpl implements UserTaskService {
     private int deleteUserTaskList(List<UserTask> userTaskList) {
         for (UserTask userTask : userTaskList) {
             int delete = userTaskMapper.deleteByPrimaryKey(userTask.getId());
-            if (delete == 0){
+            if (delete == 0) {
                 return 0;
             }
         }

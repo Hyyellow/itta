@@ -47,9 +47,9 @@ public class WxAppletController {
     @RequiresAuthentication
     @PostMapping("/sayHello")
     public ResponseEntity sayHello() {
-        Integer userId = jwtConfig.getUserId();
+      /*  Integer userId = jwtConfig.getUserId();
         Map<String, String> result = new HashMap<>();
-        result.put("words", "hello World");
-        return new ResponseEntity<>(userId, HttpStatus.OK);
+        result.put("words", "hello World");*/
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

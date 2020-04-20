@@ -1,6 +1,8 @@
 package com.program.itta.common.config;
 
 import com.program.itta.domain.dto.JwtToken;
+import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.mapper.WxAccountRepository;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -25,7 +27,6 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2020-04-05 11:43
  **/
-@Component
 public class ShiroRealmConfig {
     @Resource
     private JwtConfig jwtConfig;

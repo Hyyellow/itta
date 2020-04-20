@@ -35,7 +35,7 @@ public class TaskServiceImpl implements TaskService {
         }
         int insert = taskMapper.insert(task);
         if (insert != 0) {
-            logger.info("用户："+task.getLeaderId()+"添加任务"+task.getName());
+            logger.info("用户：" + task.getLeaderId() + "添加任务" + task.getName());
             return true;
         }
         return false;
@@ -44,12 +44,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Boolean deleteTask(Task task) {
         Boolean judgeTaskExists = judgeTaskExists(task);
-        if (!judgeTaskExists){
+        if (!judgeTaskExists) {
             throw new TaskNotExistsException("该任务不存在，任务id查找为空");
         }
         int delete = taskMapper.deleteByPrimaryKey(task.getId());
         if (delete != 0) {
-            logger.info("删除任务："+task.getName()+"任务id为："+task.getId());
+            logger.info("删除任务：" + task.getName() + "任务id为：" + task.getId());
             return true;
         }
         return false;
@@ -58,7 +58,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Boolean updateTask(Task task) {
         Boolean judgeTaskExists = judgeTaskExists(task);
-        if (!judgeTaskExists){
+        if (!judgeTaskExists) {
             throw new TaskNotExistsException("该任务不存在，任务id查找为空");
         }
         task.setUpdateTime(new Date());
@@ -71,12 +71,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task selectTask() {
+    public List<Task> selectTask(Integer itemId) {
+        List<Task> taskList = taskMapper.selectByItemId(itemId);
+        if (taskList != null && !taskList.isEmpty()) {
+            return taskList;
+        }
         return null;
     }
 
     private Boolean judgeTaskName(Task task) {
-        List<Task> taskList = taskMapper.selectAllByItemId(task.getItemId());
+        List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
         for (Task task1 : taskList) {
             if (task.getName().equals(task1.getName())) {
                 return true;

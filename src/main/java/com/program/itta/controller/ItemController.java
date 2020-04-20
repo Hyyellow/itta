@@ -1,5 +1,7 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.config.ShiroRealmConfig;
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemDelFailException;
 import com.program.itta.common.exception.item.ItemNameExistsException;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -41,6 +44,9 @@ public class ItemController {
     @Autowired
     private UserItemServive userItemServive;
 
+    @Resource
+    private JwtConfig jwtConfig;
+
     @PostMapping("/addItem")
     public HttpResult addItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
@@ -49,6 +55,7 @@ public class ItemController {
         if (!(addItem && addUserItem)) {
             throw new ItemAddFailException("项目添加失败");
         }
+        jwtConfig.removeThread();
         return HttpResult.success();
     }
 
@@ -60,6 +67,7 @@ public class ItemController {
         if (!(deleteItem && deleteUserItem)) {
             throw new ItemDelFailException("项目删除失败");
         }
+        jwtConfig.removeThread();
         return HttpResult.success();
     }
 
@@ -76,6 +84,7 @@ public class ItemController {
     @GetMapping("/selectItem")
     public HttpResult selectItem() {
         List<Integer> itemIdList = userItemServive.selectAllItem();
+        jwtConfig.removeThread();
         if (itemIdList != null) {
             List<Item> itemList = itemService.selectAllItem(itemIdList);
             return HttpResult.success(itemList);

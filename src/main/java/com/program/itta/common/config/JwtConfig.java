@@ -129,4 +129,8 @@ public class JwtConfig {
         t1.remove();
         return wxAccount.getId();
     }
+
+    public void removeThread(){
+        t1.remove();
+    }
 }

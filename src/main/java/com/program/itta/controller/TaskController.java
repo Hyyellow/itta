@@ -3,6 +3,7 @@ package com.program.itta.controller;
 import java.awt.Desktop.Action;
 import java.util.List;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.task.TaskAddFailException;
@@ -18,6 +19,7 @@ import com.program.itta.service.UserTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -43,6 +45,9 @@ public class TaskController {
     @Autowired
     private UserTaskService userTaskService;
 
+    @Resource
+    private JwtConfig jwtConfig;
+
     @PostMapping("/addTask")
     public HttpResult addTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
@@ -62,6 +67,7 @@ public class TaskController {
         if (!(deleteTask && deleteUserTask)) {
             throw new TaskDelFailException("任务删除失败");
         }
+        jwtConfig.removeThread();
         return HttpResult.success();
     }
 
@@ -75,5 +81,15 @@ public class TaskController {
             throw new TaskUpdateFailException("任务更新失败");
         }
         return HttpResult.success();
+    }
+
+    @GetMapping("/selectTaskByItemId")
+    public HttpResult selectTaskByItemId(@RequestParam(value = "itemId") Integer itemId) {
+        List<Task> taskList = taskService.selectTask(itemId);
+        if(taskList.size()!=0){
+            return HttpResult.success(taskList);
+        }else {
+            return HttpResult.success("该项目尚无添加任务");
+        }
     }
 }

@@ -8,6 +8,7 @@ import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
@@ -43,8 +44,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)) {
             JwtToken token = new JwtToken(getAuthzHeader(request));
             getSubject(request, response).login(token);
-            String jwtToken = (String) token.getCredentials();
-        }
+    }
         return true;
     }
     /**

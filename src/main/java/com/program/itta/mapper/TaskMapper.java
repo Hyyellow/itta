@@ -19,5 +19,7 @@ public interface TaskMapper {
 
     int updateByPrimaryKey(Task record);
 
-    List<Task> selectAllByItemId(Integer itemId);
+    List<Task> selectByItemId(Integer itemId);
+
+    List<Task> selectByLeaderId(Integer itemId);
 }

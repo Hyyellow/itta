@@ -1,6 +1,8 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.config.ShiroRealmConfig;
+import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.UserItem;
 import com.program.itta.mapper.ItemMapper;
@@ -37,6 +39,7 @@ public class UserItemServiceImpl implements UserItemServive {
 
     /**
      * 用户添加项目
+     *
      * @param itemName
      * @return
      */
