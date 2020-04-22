@@ -34,7 +34,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         String auth = getAuthzHeader(request);
-        return auth != null && !auth.equals("");
+        return auth != null && !"".equals(auth);
     }
     /**
      * 此方法调用登陆，验证逻辑

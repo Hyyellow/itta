@@ -2,7 +2,6 @@ package com.program.itta.controller;
 
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.common.util.COSClientUtil;
-import com.qcloud.cos.exception.CosClientException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,14 +19,13 @@ import static com.program.itta.common.result.ResultCodeEnum.SERVER_ERROR;
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
-
     @PostMapping("/upload")
     public HttpResult uploadGoodsPic(@RequestParam(value = "file") MultipartFile file) {
         COSClientUtil cosClientUtil = new COSClientUtil();
         String url = cosClientUtil.uploadGoodsPic(file);
-        if (url!=null){
+        if (url != null) {
             return HttpResult.success(url);
-        }else {
+        } else {
             return HttpResult.failure(SERVER_ERROR);
         }
     }

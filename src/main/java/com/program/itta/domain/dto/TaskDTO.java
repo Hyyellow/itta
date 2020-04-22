@@ -1,7 +1,6 @@
 package com.program.itta.domain.dto;
 
-import com.program.itta.common.convert.DTOConvert;
-import com.program.itta.domain.entity.Tag;
+import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Task;
 import lombok.Builder;
 import lombok.Data;
@@ -51,18 +50,18 @@ public class TaskDTO {
     }
 
     public Task convertToTask() {
-        TaskDTOConvert taskDTOConvert = new TaskDTO.TaskDTOConvert();
+        TaskBaseDTOConvert taskDTOConvert = new TaskBaseDTOConvert();
         Task convert = taskDTOConvert.doForward(this);
         return convert;
     }
 
     public TaskDTO convertFor(Task task) {
-        TaskDTOConvert taskDTOConvert = new TaskDTO.TaskDTOConvert();
+        TaskBaseDTOConvert taskDTOConvert = new TaskBaseDTOConvert();
         TaskDTO convert = taskDTOConvert.doBackward(task);
         return convert;
     }
 
-    private static class TaskDTOConvert extends DTOConvert<TaskDTO, Task> {
+    private static class TaskBaseDTOConvert extends BaseDTOConvert<TaskDTO, Task> {
 
         @Override
         protected Task doForward(TaskDTO taskDTO) {

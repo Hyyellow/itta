@@ -1,6 +1,6 @@
 package com.program.itta.domain.dto;
 
-import com.program.itta.common.convert.DTOConvert;
+import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Tag;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -25,18 +25,18 @@ public class TagDTO {
     private  Integer userId;
 
     public Tag convertToTag() {
-        TagDTO.TagDTOConvert userDTOConvert = new TagDTOConvert();
+        TagBaseDTOConvert userDTOConvert = new TagBaseDTOConvert();
         Tag convert = userDTOConvert.doForward(this);
         return convert;
     }
 
     public TagDTO convertFor(Tag tag) {
-        TagDTO.TagDTOConvert userDTOConvert = new TagDTOConvert();
+        TagBaseDTOConvert userDTOConvert = new TagBaseDTOConvert();
         TagDTO convert = userDTOConvert.doBackward(tag);
         return convert;
     }
 
-    private static class TagDTOConvert extends DTOConvert<TagDTO, Tag> {
+    private static class TagBaseDTOConvert extends BaseDTOConvert<TagDTO, Tag> {
 
         @Override
         protected Tag doForward(TagDTO tagDTO) {

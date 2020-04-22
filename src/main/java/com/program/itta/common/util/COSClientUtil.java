@@ -23,25 +23,25 @@ import java.util.Random;
  * @create: 2020-04-22 11:46
  **/
 public class COSClientUtil {
-    private static final String bucketName = "hyyyms-1301925880";
+    private static final String BUCKET_NAME = "hyyyms-1301925880";
 
-    private static final String secretId = "AKIDYGuOavrlFZeSTIgDAtPyFLAi25rOBp28";
+    private static final String SECRET_ID = "AKIDYGuOavrlFZeSTIgDAtPyFLAi25rOBp28";
 
-    private static final String secretKey = "tWtYw3wgqjLgzJM9euvNYZ0A7nRn56pH";
+    private static final String SECRET_KEY = "tWtYw3wgqjLgzJM9euvNYZ0A7nRn56pH";
 
-    private static final String objectPath = "https://hyyyms-1301925880.cos.ap-guangzhou.myqcloud.com";
+    private static final String OBJECT_PATH = "https://hyyyms-1301925880.cos.ap-guangzhou.myqcloud.com/";
 
-    // 1 初始化用户身份信息(secretId, secretKey)
-    private static final COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
+    // 1 初始化用户身份信息(SECRET_ID, SECRET_KEY)
+    private static final COSCredentials CRED = new BasicCOSCredentials(SECRET_ID, SECRET_KEY);
     // 2 设置bucket的区域, COS地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
-    private static final ClientConfig clientConfig = new ClientConfig(new Region("ap-guangzhou"));
+    private static final ClientConfig CLIENT_CONFIG = new ClientConfig(new Region("ap-guangzhou"));
     // 3 生成cos客户端
-    private static final COSClient cosClient = new COSClient(cred, clientConfig);
+    private static final COSClient COS_CLIENT = new COSClient(CRED, CLIENT_CONFIG);
 
     private static COSClient cOSClient;
 
     public COSClientUtil() {
-        cOSClient = new COSClient(cred, clientConfig);
+        cOSClient = new COSClient(CRED, CLIENT_CONFIG);
     }
 
     /**
@@ -73,7 +73,7 @@ public class COSClientUtil {
         if ("jpg".equals(picType) || "JPG".equals(picType) || "jpeg".equals(picType) || "JPEG".equals(picType) || "png".equals(picType) || "PNG".equals(picType) || "mp4".equals(picType) || "MP4".equals(picType)) {
             try {
                 String picPath = uploadFile(pic, "goods/");
-                String url = getObjectPath() + "/" + picPath;
+                String url = getObjectPath() + picPath;
                 return url;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -122,7 +122,7 @@ public class COSClientUtil {
         // 设置URL过期时间为10年 3600l* 1000*24*365*10
         Date expiration = new Date(System.currentTimeMillis() + 3600L * 1000 * 24 * 365 * 10);
         // 生成URL
-        URL url = cosClient.generatePresignedUrl(bucketName, key, expiration);
+        URL url = COS_CLIENT.generatePresignedUrl(BUCKET_NAME, key, expiration);
         if (url != null) {
             return url.toString();
         }
@@ -147,7 +147,7 @@ public class COSClientUtil {
             objectMetadata.setContentType(getcontentType(fileName.substring(fileName.lastIndexOf(".") + 1)));
             objectMetadata.setContentDisposition("inline;filename=" + fileName);
             // 上传文件
-            PutObjectResult putResult = cOSClient.putObject(bucketName, fileName, instream, objectMetadata);
+            PutObjectResult putResult = cOSClient.putObject(BUCKET_NAME, fileName, instream, objectMetadata);
             ret = putResult.getETag();
         } catch (IOException e) {
             e.printStackTrace();
@@ -170,42 +170,42 @@ public class COSClientUtil {
      * @return String
      */
     public static String getcontentType(String filenameExtension) {
-        if (filenameExtension.equalsIgnoreCase("bmp")) {
+        if ("bmp".equalsIgnoreCase(filenameExtension)) {
             return "image/bmp";
         }
-        if (filenameExtension.equalsIgnoreCase("gif")) {
+        if ("gif".equalsIgnoreCase(filenameExtension)) {
             return "image/gif";
         }
-        if (filenameExtension.equalsIgnoreCase("jpeg") || filenameExtension.equalsIgnoreCase("jpg")
-                || filenameExtension.equalsIgnoreCase("png")) {
+        if ("jpeg".equalsIgnoreCase(filenameExtension) || "jpg".equalsIgnoreCase(filenameExtension)
+                || "png".equalsIgnoreCase(filenameExtension)) {
             return "image/jpeg";
         }
-        if (filenameExtension.equalsIgnoreCase("html")) {
+        if ("html".equalsIgnoreCase(filenameExtension)) {
             return "text/html";
         }
-        if (filenameExtension.equalsIgnoreCase("txt")) {
+        if ("txt".equalsIgnoreCase(filenameExtension)) {
             return "text/plain";
         }
-        if (filenameExtension.equalsIgnoreCase("vsd")) {
+        if ("vsd".equalsIgnoreCase(filenameExtension)) {
             return "application/vnd.visio";
         }
-        if (filenameExtension.equalsIgnoreCase("pptx") || filenameExtension.equalsIgnoreCase("ppt")) {
+        if ("pptx".equalsIgnoreCase(filenameExtension) || "ppt".equalsIgnoreCase(filenameExtension)) {
             return "application/vnd.ms-powerpoint";
         }
-        if (filenameExtension.equalsIgnoreCase("docx") || filenameExtension.equalsIgnoreCase("doc")) {
+        if ("docx".equalsIgnoreCase(filenameExtension) || "doc".equalsIgnoreCase(filenameExtension)) {
             return "application/msword";
         }
-        if (filenameExtension.equalsIgnoreCase("xml")) {
+        if ("xml".equalsIgnoreCase(filenameExtension)) {
             return "text/xml";
         }
-        if (filenameExtension.equalsIgnoreCase("mp4")) {
+        if ("mp4".equalsIgnoreCase(filenameExtension)) {
             return "video/mp4";
         }
         return "image/jpeg";
     }
 
     public static String getObjectPath() {
-        return objectPath;
+        return OBJECT_PATH;
     }
 
 }

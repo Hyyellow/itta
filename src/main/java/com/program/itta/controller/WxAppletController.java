@@ -33,7 +33,7 @@ public class WxAppletController {
      */
     @PostMapping("/api/wx/user/login")
     public ResponseEntity wxAppletLoginApi(@RequestBody Map<String, String> request) {
-        if (!request.containsKey("code") || request.get("code") == null || request.get("code").equals("")) {
+        if (!request.containsKey("code") || request.get("code") == null || "".equals(request.get("code"))) {
             Map<String, String> result = new HashMap<>();
             result.put("msg", "缺少参数code或code不合法");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);

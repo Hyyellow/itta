@@ -33,7 +33,7 @@ import java.util.UUID;
  * @create: 2020-04-05 12:09
  **/
 @Service
-public class WxAccountService implements WxAppletService {
+public class WxAppletServiceImpl implements WxAppletService {
     @Resource
     private RestTemplate restTemplate;
     @Value("${wx.applet.appid}")
@@ -101,7 +101,7 @@ public class WxAccountService implements WxAppletService {
         String resultJson = code2Session(code);
         //2 . 解析数据
         Code2SessionResponse response = JSONUtil.jsonString2Object(resultJson, Code2SessionResponse.class);
-        if (!response.getErrcode().equals("0")) {
+        if (!"0".equals(response.getErrcode())) {
             throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
         } else {
             //3 . 先从本地数据库中查找用户是否存在

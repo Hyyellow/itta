@@ -9,7 +9,7 @@ import	java.util.function.Function;
  * @author: Mr.Huang
  * @create: 2020-04-04 10:26
  **/
-public abstract class DTOConvert<A,B> implements Function<A, B>{
+public abstract class BaseDTOConvert<A,B> implements Function<A, B>{
     // DTO转换为Entity
     protected abstract B doForward(A a);
 

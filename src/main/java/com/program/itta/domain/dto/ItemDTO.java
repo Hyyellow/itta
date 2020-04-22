@@ -1,13 +1,11 @@
 package com.program.itta.domain.dto;
 
-import com.program.itta.common.convert.DTOConvert;
+import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Item;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
-
-import javax.validation.constraints.NotBlank;
 
 /**
  * @program: itta
@@ -43,18 +41,18 @@ public class ItemDTO {
     }
 
     public Item convertToItem() {
-        ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
+        ItemBaseDTOConvert userDTOConvert = new ItemBaseDTOConvert();
         Item convert = userDTOConvert.doForward(this);
         return convert;
     }
 
     public ItemDTO convertFor(Item item) {
-        ItemDTO.ItemDTOConvert userDTOConvert = new ItemDTO.ItemDTOConvert();
+        ItemBaseDTOConvert userDTOConvert = new ItemBaseDTOConvert();
         ItemDTO convert = userDTOConvert.doBackward(item);
         return convert;
     }
 
-    private static class ItemDTOConvert extends DTOConvert<ItemDTO, Item> {
+    private static class ItemBaseDTOConvert extends BaseDTOConvert<ItemDTO, Item> {
         @Override
         protected Item doForward(ItemDTO itemDTO) {
             Item item = new Item();

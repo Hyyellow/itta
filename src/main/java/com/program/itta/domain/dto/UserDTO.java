@@ -1,6 +1,6 @@
 package com.program.itta.domain.dto;
 
-import com.program.itta.common.convert.DTOConvert;
+import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.User;
 import lombok.Builder;
 import lombok.Data;
@@ -50,18 +50,18 @@ public class UserDTO {
     }
 
     public User convertToUser() {
-        UserDTOConvert userDTOConvert = new UserDTOConvert();
+        UserBaseDTOConvert userDTOConvert = new UserBaseDTOConvert();
         User convert = userDTOConvert.doForward(this);
         return convert;
     }
 
     public UserDTO convertFor(User user) {
-        UserDTOConvert userDTOConvert = new UserDTOConvert();
+        UserBaseDTOConvert userDTOConvert = new UserBaseDTOConvert();
         UserDTO convert = userDTOConvert.doBackward(user);
         return convert;
     }
 
-    private static class UserDTOConvert extends DTOConvert<UserDTO, User> {
+    private static class UserBaseDTOConvert extends BaseDTOConvert<UserDTO, User> {
         @Override
         protected User doForward(UserDTO userDTO) {
             User user = new User();

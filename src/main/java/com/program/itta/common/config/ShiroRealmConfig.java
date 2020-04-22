@@ -66,10 +66,10 @@ public class ShiroRealmConfig {
                 String jwtToken = (String) token.getCredentials();
                 String wxOpenId = jwtConfig.getWxOpenIdByToken(jwtToken);
                 String sessionKey = jwtConfig.getSessionKeyByToken(jwtToken);
-                if (wxOpenId == null || wxOpenId.equals("")) {
+                if (wxOpenId == null || "".equals(wxOpenId)) {
                     throw new AuthenticationException("user account not exits , please check your token");
                 }
-                if (sessionKey == null || sessionKey.equals("")) {
+                if (sessionKey == null || "".equals(sessionKey)) {
                     throw new AuthenticationException("sessionKey is invalid , please check your token");
                 }
                 if (!jwtConfig.verifyToken(jwtToken)) {

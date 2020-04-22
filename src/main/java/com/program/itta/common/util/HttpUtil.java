@@ -34,7 +34,9 @@ public enum  HttpUtil {
         String[] localhostIp = {"127.0.0.1", "0:0:0:0:0:0:0:1"};
         String ip = request.getRemoteAddr();
         for (String header : ipHeaders) {
-            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) break;
+            if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
+                break;
+            }
             ip = request.getHeader(header);
         }
         for (String local : localhostIp) {

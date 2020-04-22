@@ -39,7 +39,7 @@ public class JwtConfig {
     @Resource
     private WxAccountRepository wxAccountRepository;
 
-    private static final ThreadLocal<String> t1 = new ThreadLocal<>();
+    private static final ThreadLocal<String> T1 = new ThreadLocal<>();
     /**
      * 根据微信用户登陆信息创建 token
      * 注 : 这里的token会被缓存到redis中,用作为二次验证
@@ -92,7 +92,7 @@ public class JwtConfig {
             //4 . Redis缓存JWT续期
             redisTemplate.opsForValue().set("JWT-SESSION-" + getJwtIdByToken(token), redisToken, expire_time, TimeUnit.SECONDS);
             //5. 获取openId
-            t1.set(getWxOpenIdByToken(redisToken));
+            T1.set(getWxOpenIdByToken(redisToken));
             return true;
         } catch (Exception e) { //捕捉到任何异常都视为校验失败
             return false;
@@ -124,13 +124,13 @@ public class JwtConfig {
     }
 
     public Integer getUserId() {
-        String openid = t1.get();
+        String openid = T1.get();
         UserDTO wxAccount = wxAccountRepository.findByWxOpenid(openid);
-        t1.remove();
+        T1.remove();
         return wxAccount.getId();
     }
 
     public void removeThread(){
-        t1.remove();
+        T1.remove();
     }
 }
