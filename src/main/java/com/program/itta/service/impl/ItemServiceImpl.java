@@ -35,13 +35,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Resource
     private JwtConfig jwtConfig;
-
-    @Resource
-    private JwtFilter jwtFilter;
-
-    @Resource
-    private ShiroRealmConfig shiroRealmConfig;
-
     /**
      * 添加项目
      *

@@ -34,12 +34,6 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Resource
     private JwtConfig jwtConfig;
 
-    @Resource
-    private JwtFilter jwtFilter;
-
-    @Resource
-    private ShiroRealmConfig shiroRealmConfig;
-
     @Override
     public Boolean addUserTask(Task task) {
         UserTask userTask = UserTask.builder()

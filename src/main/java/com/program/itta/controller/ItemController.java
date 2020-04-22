@@ -1,17 +1,14 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.config.JwtConfig;
-import com.program.itta.common.config.ShiroRealmConfig;
 import com.program.itta.common.exception.item.ItemAddFailException;
 import com.program.itta.common.exception.item.ItemDelFailException;
-import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.item.ItemUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
 import com.program.itta.service.UserItemServive;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

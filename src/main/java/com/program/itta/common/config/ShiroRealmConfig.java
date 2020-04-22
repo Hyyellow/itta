@@ -27,6 +27,7 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2020-04-05 11:43
  **/
+@Component
 public class ShiroRealmConfig {
     @Resource
     private JwtConfig jwtConfig;
