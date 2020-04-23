@@ -11,9 +11,11 @@ public interface UserService {
     Boolean judgeUser(User user);
     // 查找模块——后期可考虑ES
     User selectUser(Integer userId);
-
-    User findByWxOpenid(String openId);
+    // 更新用户头像
+    Boolean updateUserHead(String url);
 
     Boolean insert(User user);
+
+
 
 }

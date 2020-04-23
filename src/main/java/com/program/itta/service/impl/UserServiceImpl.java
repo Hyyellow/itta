@@ -1,6 +1,7 @@
 package com.program.itta.service.impl;
 
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Resource
+    private JwtConfig jwtConfig;
     /**
      * 更新用户信息
      *
@@ -101,9 +105,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByWxOpenid(String openId) {
-        return null;
+    public Boolean updateUserHead(String url) {
+        Integer userId = jwtConfig.getUserId();
+        User user = User.builder()
+                .id(userId)
+                .picture(url)
+                .build();
+        int update = userMapper.updateByPrimaryKey(user);
+        if (update != 0) {
+            logger.info("用户：" + user.getId() + "更新用户头像为：" + url);
+            return true;
+        }
+        return false;
     }
+
 
     @Override
     public Boolean insert(User user) {

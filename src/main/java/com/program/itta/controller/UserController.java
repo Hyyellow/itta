@@ -73,12 +73,14 @@ public class UserController {
     }
 
     @PostMapping("/upload")
-    public HttpResult uploadGoodsPic(@RequestParam(value = "file") MultipartFile file) {
-        CloseableHttpResponse response = null;
-        String uuidFlag = UUID.randomUUID().toString();
-        String url = cosClientUtil.uploadGoodsPic(file, "goods/", uuidFlag);
+    public HttpResult upload(@RequestParam(value = "file") MultipartFile file) {
+        String url = cosClientUtil.upload(file, "userHead/");
         if (url != null) {
-            return HttpResult.success(url);
+            Boolean updateUserHead = userService.updateUserHead(url);
+            if (!updateUserHead) {
+                throw new UserUpdateFailException("用户头像更新失败");
+            }
+            return HttpResult.success();
         }
         return HttpResult.failure(SERVER_ERROR);
     }

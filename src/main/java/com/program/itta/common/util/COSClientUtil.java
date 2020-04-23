@@ -76,11 +76,11 @@ public class COSClientUtil {
         }
     }
 
-    public String uploadGoodsPic(MultipartFile pic, String prefix, String uuidFlag) {
+    public String upload(MultipartFile pic, String prefix) {
         String picType = pic.getOriginalFilename().substring(pic.getOriginalFilename().lastIndexOf(".") + 1);
         if ("jpg".equals(picType) || "JPG".equals(picType) || "jpeg".equals(picType) || "JPEG".equals(picType) || "png".equals(picType) || "PNG".equals(picType) || "mp4".equals(picType) || "MP4".equals(picType)) {
             try {
-                String picPath = uploadFile(pic, prefix, uuidFlag);
+                String picPath = uploadFile(pic, prefix);
                 String url = getObjectPath() + picPath;
                 return url;
             } catch (Exception e) {
@@ -93,7 +93,7 @@ public class COSClientUtil {
     }
 
 
-    public String uploadFile(MultipartFile file, String prefix, String uuidFlag) throws Exception {
+    public String uploadFile(MultipartFile file, String prefix) throws Exception {
         if (file.getSize() > 50 * 1024 * 1024) {
             throw new Exception("上传图片大小不能超过50M！");
         }
@@ -101,9 +101,7 @@ public class COSClientUtil {
         String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
         Random random = new Random();
         String name = prefix + random.nextInt(10000) + System.currentTimeMillis() + substring;
-        String url = getObjectPath() + name;
         try {
-            redisTemplate.opsForValue().set(uuidFlag, url, expire_time, TimeUnit.SECONDS);
             InputStream inputStream = file.getInputStream();
             this.uploadFile2Cos(inputStream, name);
             return name;

@@ -1,7 +1,12 @@
 package com.program.itta.domain.entity;
 
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Tolerate;
 
+import java.util.Date;
+@Data
+@Builder
 public class User {
     private Integer id;
 
@@ -21,75 +26,7 @@ public class User {
 
     private Date updateTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture == null ? null : picture.trim();
-    }
-
-    public String getWxOpenid() {
-        return wxOpenid;
-    }
-
-    public void setWxOpenid(String wxOpenid) {
-        this.wxOpenid = wxOpenid == null ? null : wxOpenid.trim();
-    }
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey == null ? null : sessionKey.trim();
-    }
-
-    public Date getLastTime() {
-        return lastTime;
-    }
-
-    public void setLastTime(Date lastTime) {
-        this.lastTime = lastTime;
-    }
-
-    public String getMarkId() {
-        return markId;
-    }
-
-    public void setMarkId(String markId) {
-        this.markId = markId == null ? null : markId.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    @Tolerate
+    public User() {
     }
 }
