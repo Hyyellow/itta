@@ -1,7 +1,5 @@
 package com.program.itta.common.util;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.auth.BasicCOSCredentials;
@@ -9,20 +7,30 @@ import com.qcloud.cos.auth.COSCredentials;
 import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.net.URL;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: itta
- * @description: 腾讯云文件上传工具
+ * @description: COS工具类
  * @author: Mr.Huang
- * @create: 2020-04-22 11:46
+ * @create: 2020-04-23 15:08
  **/
+@Component
 public class COSClientUtil {
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    private static long expire_time = 7200;
+
     private static final String BUCKET_NAME = "hyyyms-1301925880";
 
     private static final String SECRET_ID = "AKIDYGuOavrlFZeSTIgDAtPyFLAi25rOBp28";
@@ -68,11 +76,11 @@ public class COSClientUtil {
         }
     }
 
-    public String uploadGoodsPic(MultipartFile pic) {
+    public String uploadGoodsPic(MultipartFile pic, String prefix, String uuidFlag) {
         String picType = pic.getOriginalFilename().substring(pic.getOriginalFilename().lastIndexOf(".") + 1);
         if ("jpg".equals(picType) || "JPG".equals(picType) || "jpeg".equals(picType) || "JPEG".equals(picType) || "png".equals(picType) || "PNG".equals(picType) || "mp4".equals(picType) || "MP4".equals(picType)) {
             try {
-                String picPath = uploadFile(pic, "goods/");
+                String picPath = uploadFile(pic, prefix, uuidFlag);
                 String url = getObjectPath() + picPath;
                 return url;
             } catch (Exception e) {
@@ -85,7 +93,7 @@ public class COSClientUtil {
     }
 
 
-    public String uploadFile(MultipartFile file, String prefix) throws Exception {
+    public String uploadFile(MultipartFile file, String prefix, String uuidFlag) throws Exception {
         if (file.getSize() > 50 * 1024 * 1024) {
             throw new Exception("上传图片大小不能超过50M！");
         }
@@ -93,7 +101,9 @@ public class COSClientUtil {
         String substring = originalFilename.substring(originalFilename.lastIndexOf(".")).toLowerCase();
         Random random = new Random();
         String name = prefix + random.nextInt(10000) + System.currentTimeMillis() + substring;
+        String url = getObjectPath() + name;
         try {
+            redisTemplate.opsForValue().set(uuidFlag, url, expire_time, TimeUnit.SECONDS);
             InputStream inputStream = file.getInputStream();
             this.uploadFile2Cos(inputStream, name);
             return name;

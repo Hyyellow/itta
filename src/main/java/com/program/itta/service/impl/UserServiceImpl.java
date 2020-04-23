@@ -99,4 +99,18 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public User findByWxOpenid(String openId) {
+        return null;
+    }
+
+    @Override
+    public Boolean insert(User user) {
+        int user1 = userMapper.insert(user);
+        if (user1 != 0) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -12,4 +12,8 @@ public interface UserService {
     // 查找模块——后期可考虑ES
     User selectUser(Integer userId);
 
+    User findByWxOpenid(String openId);
+
+    Boolean insert(User user);
+
 }
