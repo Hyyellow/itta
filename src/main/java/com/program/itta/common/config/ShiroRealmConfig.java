@@ -31,6 +31,7 @@ import java.util.List;
 public class ShiroRealmConfig {
     @Resource
     private JwtConfig jwtConfig;
+
     /**
      * 配置所有自定义的realm,方便起见,应对可能有多个realm的情况
      */

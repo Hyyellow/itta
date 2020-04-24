@@ -3,6 +3,8 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.item.ItemNotExistsException;
+import com.program.itta.common.exception.permissions.NotItemLeaderException;
+import com.program.itta.common.util.fineGrainedPermissions.ItemPermissionsUtil;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.mapper.ItemMapper;
 import com.program.itta.service.ItemService;
@@ -29,9 +31,12 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ItemMapper itemMapper;
 
+    @Resource
+    private ItemPermissionsUtil itemPermissionsUtil;
 
     @Resource
     private JwtConfig jwtConfig;
+
     /**
      * 添加项目
      *
@@ -62,9 +67,14 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean deleteItem(Item item) {
+        Integer userId = jwtConfig.getUserId();
         Boolean judgeItemExists = judgeItemExists(item);
         if (!judgeItemExists) {
             throw new ItemNotExistsException("该项目不存在，项目id查找为空");
+        }
+        Boolean leaderPermissions = itemPermissionsUtil.DeletePermissions(userId, item);
+        if (!leaderPermissions) {
+            throw new NotItemLeaderException("无该项目负责人的权限");
         }
         int delete = itemMapper.deleteByPrimaryKey(item.getId());
         if (delete != 0) {
@@ -103,6 +113,15 @@ public class ItemServiceImpl implements ItemService {
             itemList.add(item);
         }
         return itemList;
+    }
+
+    @Override
+    public Item selectById(Integer id) {
+        Item item = itemMapper.selectByPrimaryKey(id);
+        if (item != null) {
+            return item;
+        }
+        return null;
     }
 
     private Boolean judgeItemName(Item item) {

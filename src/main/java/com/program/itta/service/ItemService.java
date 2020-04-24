@@ -16,4 +16,7 @@ public interface ItemService {
 
     // 查找该用户的所有项目
     List<Item> selectAllItem(List<Integer> itemIdList);
+
+    // 根据项目id查找项目
+    Item selectById(Integer id);
 }

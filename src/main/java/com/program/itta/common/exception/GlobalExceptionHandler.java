@@ -1,6 +1,8 @@
 package com.program.itta.common.exception;
 
 import com.program.itta.common.exception.item.*;
+import com.program.itta.common.exception.permissions.NotItemLeaderException;
+import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
@@ -110,5 +112,19 @@ public class GlobalExceptionHandler {
     public HttpResult taskNotExistsExceptionHandler(TaskNotExistsException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Task_Not_Exists_Exception);
+    }
+
+
+    // 权限控制模块
+    @ExceptionHandler(value = NotItemLeaderException.class)
+    public HttpResult notItemLeaderExceptionHandler(NotItemLeaderException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Not_Item_Leader_Exception);
+    }
+
+    @ExceptionHandler(value = NotTaskFoundException.class)
+    public HttpResult notTaskFoundExceptionHandler(NotTaskFoundException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Not_Task_Found_Exception);
     }
 }
