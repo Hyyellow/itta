@@ -4,10 +4,29 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  # 上传文件大小设置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
   # jpa配置
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: none
+  # es配置
+  data:
+    elasticsearch:
+      cluster-nodes: 127.0.0.1:9300
+      cluster-name: elasticsearch
+  # mVc
+  mvc:
+    static-path-pattern: /**
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      additional-paths: static/**
   #  redis配置
   redis:
     database: 0
