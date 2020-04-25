@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Schedule">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="place" jdbcType="VARCHAR" property="place"/>
         <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
@@ -16,16 +17,19 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.program.itta.domain.entity.Schedule">
-    insert into schedule (id, user_id, place, 
-      start_time, end_time, "completion time", 
-      create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{place,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into schedule (id, user_id, name, 
+      place, start_time, end_time, 
+      "completion time", create_time, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{place,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{completionTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Schedule">
     update schedule
     set user_id = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       place = #{place,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
@@ -35,19 +39,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, place, start_time, end_time, "completion time", create_time, 
+    select id, user_id, name, place, start_time, end_time, "completion time", create_time, 
     update_time
     from schedule
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, place, start_time, end_time, "completion time", create_time,
+    select id, user_id, name, place, start_time, end_time, "completion time", create_time,
     update_time
     from schedule
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
     <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, place, start_time, end_time, "completion time", create_time, 
+    select id, user_id, name, place, start_time, end_time, "completion time", create_time, 
     update_time
     from schedule
   </select>

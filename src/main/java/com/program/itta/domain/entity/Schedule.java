@@ -13,6 +13,8 @@ public class Schedule {
 
     private Integer userId;
 
+    private String name;
+
     private String place;
 
     private Date startTime;

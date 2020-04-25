@@ -3,6 +3,8 @@ package com.program.itta.common.exception;
 import com.program.itta.common.exception.item.*;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
+import com.program.itta.common.exception.schedule.ScheduleNameExistsException;
+import com.program.itta.common.exception.schedule.ScheduleNotExistsException;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
@@ -114,6 +116,18 @@ public class GlobalExceptionHandler {
         return HttpResult.failure(Task_Not_Exists_Exception);
     }
 
+    // 日程模块
+    @ExceptionHandler(value = ScheduleNameExistsException.class)
+    public HttpResult scheduleNameExistsExceptionHandler(ScheduleNameExistsException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Name_Exists_Exception);
+    }
+
+    @ExceptionHandler(value = ScheduleNotExistsException.class)
+    public HttpResult scheduleNotExistsExceptionHandler(ScheduleNotExistsException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Not_Exists_Exception);
+    }
 
     // 权限控制模块
     @ExceptionHandler(value = NotItemLeaderException.class)

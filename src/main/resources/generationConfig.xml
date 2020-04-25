@@ -55,11 +55,12 @@
 &lt;!&ndash;        <table tableName="item" domainObjectName="Item"/>&ndash;&gt;-->
 <!--       &lt;!&ndash; <table tableName="task" domainObjectName="Task"/>-->
 <!--        <table tableName="task" domainObjectName="Task"/>&lt;!&ndash;&ndash;&gt;-->
-        <table tableName="user" domainObjectName="User"/>
+<!--        <table tableName="user" domainObjectName="User"/>-->
        <!-- <table tableName="item" domainObjectName="Item"/>
         <table tableName="task" domainObjectName="Task"/>
         <table tableName="schedule" domainObjectName="Schedule"/>-->
 <!--        <table tableName="tag" domainObjectName="Tag"/>-->
+        <table tableName="schedule" domainObjectName="Schedule"/>
     </context>
 
 </generatorConfiguration>
