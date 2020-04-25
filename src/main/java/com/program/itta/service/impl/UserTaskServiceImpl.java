@@ -1,13 +1,9 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
-import com.program.itta.common.config.ShiroRealmConfig;
-import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.domain.entity.Task;
-import com.program.itta.domain.entity.User;
 import com.program.itta.domain.entity.UserTask;
-import com.program.itta.mapper.UserTaskMapper;
-import com.program.itta.service.UserItemServive;
+import com.program.itta.mapper.mysql.UserTaskMapper;
 import com.program.itta.service.UserTaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

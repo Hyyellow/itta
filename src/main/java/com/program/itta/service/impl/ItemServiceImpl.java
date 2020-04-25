@@ -6,7 +6,7 @@ import com.program.itta.common.exception.item.ItemNotExistsException;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.util.fineGrainedPermissions.ItemPermissionsUtil;
 import com.program.itta.domain.entity.Item;
-import com.program.itta.mapper.ItemMapper;
+import com.program.itta.mapper.mysql.ItemMapper;
 import com.program.itta.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

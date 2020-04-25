@@ -4,7 +4,7 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.domain.entity.User;
-import com.program.itta.mapper.UserMapper;
+import com.program.itta.mapper.mysql.UserMapper;
 import com.program.itta.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
