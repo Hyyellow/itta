@@ -18,4 +18,6 @@ public interface ScheduleMapper {
     List<Schedule> selectAll();
 
     int updateByPrimaryKey(Schedule record);
+
+    List<Schedule> selectByUserId(Integer userId);
 }
