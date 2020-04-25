@@ -3,8 +3,7 @@ package com.program.itta.common.exception;
 import com.program.itta.common.exception.item.*;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
-import com.program.itta.common.exception.schedule.ScheduleNameExistsException;
-import com.program.itta.common.exception.schedule.ScheduleNotExistsException;
+import com.program.itta.common.exception.schedule.*;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
@@ -127,6 +126,21 @@ public class GlobalExceptionHandler {
     public HttpResult scheduleNotExistsExceptionHandler(ScheduleNotExistsException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Not_Exists_Exception);
+    }
+    @ExceptionHandler(value = ScheduleAddFailException.class)
+    public HttpResult scheduleAddFailExceptionHandler(ScheduleAddFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Add_Fail_Exception);
+    }
+    @ExceptionHandler(value = ScheduleDelFailException.class)
+    public HttpResult scheduleDelFailExceptionHandler(ScheduleDelFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Del_Fail_Exception);
+    }
+    @ExceptionHandler(value = ScheduleUpdateFailException.class)
+    public HttpResult scheduleUpdateFailExceptionHandler(ScheduleUpdateFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Update_Fail_Exception);
     }
 
     // 权限控制模块

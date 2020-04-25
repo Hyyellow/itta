@@ -73,7 +73,7 @@ public class ItemController {
     public HttpResult updateItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean updateItem = itemService.updateItem(item);
-        if (!updateItem){
+        if (!updateItem) {
             throw new ItemUpdateFailException("项目更新失败");
         }
         return HttpResult.success();
@@ -83,7 +83,7 @@ public class ItemController {
     public HttpResult selectItem() {
         List<Integer> itemIdList = userItemServive.selectAllItem();
         jwtConfig.removeThread();
-        if (itemIdList != null) {
+        if (itemIdList != null && !itemIdList.isEmpty()) {
             List<Item> itemList = itemService.selectAllItem(itemIdList);
             return HttpResult.success(itemList);
         } else {
