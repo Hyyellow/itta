@@ -1,95 +1,54 @@
 package com.program.itta.domain.entity;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Tolerate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import java.util.Date;
 
+@Data
+@Builder
+@Document(indexName = "schedule",
+        useServerConfiguration = true, createIndex = false)
 public class Schedule {
+    @Id
     private Integer id;
 
+    @Field(type = FieldType.Integer, analyzer = "ik_max_work")
     private Integer userId;
 
+    @Field(type = FieldType.Text, analyzer = "ik_max_work")
     private String name;
 
+    @Field(type = FieldType.Text, analyzer = "ik_max_work")
     private String place;
 
+    @Field(type = FieldType.Date, format = DateFormat.custom,
+            pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
     private Date startTime;
 
+    @Field(type = FieldType.Date, format = DateFormat.custom,
+            pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
     private Date endTime;
 
+    @Field(type = FieldType.Date, format = DateFormat.custom,
+            pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
     private Date completionTime;
 
+    @Field(type = FieldType.Date, format = DateFormat.custom,
+            pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
     private Date createTime;
 
+    @Field(type = FieldType.Date, format = DateFormat.custom,
+            pattern = "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis")
     private Date updateTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place == null ? null : place.trim();
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Date getCompletionTime() {
-        return completionTime;
-    }
-
-    public void setCompletionTime(Date completionTime) {
-        this.completionTime = completionTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    @Tolerate
+    public Schedule() {
     }
 }
