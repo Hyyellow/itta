@@ -17,12 +17,7 @@ import javax.validation.constraints.NotBlank;
 public class TagDTO {
     private Integer id;
 
-    @NotBlank
-    private String name;
-
-    private String description;
-
-    private  Integer userId;
+    private String content;
 
     public Tag convertToTag() {
         TagBaseDTOConvert userDTOConvert = new TagBaseDTOConvert();

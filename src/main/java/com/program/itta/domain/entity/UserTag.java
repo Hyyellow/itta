@@ -2,10 +2,12 @@ package com.program.itta.domain.entity;
 
 import java.util.Date;
 
-public class Tag {
+public class UserTag {
     private Integer id;
 
-    private String content;
+    private Integer tagId;
+
+    private Integer userId;
 
     private Date createTime;
 
@@ -19,12 +21,20 @@ public class Tag {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public Integer getTagId() {
+        return tagId;
     }
 
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Date getCreateTime() {
