@@ -18,4 +18,6 @@ public interface UserTagMapper {
     List<UserTag> selectAll();
 
     int updateByPrimaryKey(UserTag record);
+
+    UserTag selectByUserTag(UserTag record);
 }
