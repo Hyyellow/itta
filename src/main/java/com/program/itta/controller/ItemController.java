@@ -60,10 +60,22 @@ public class ItemController {
         return HttpResult.success(item.getMarkId());
     }
 
-    @PostMapping("/addItemMember")
-    public HttpResult addItemMember(@RequestBody @Valid ItemDTO itemDTO) {
+    @PostMapping("/joinItem")
+    public HttpResult joinItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean addUserItem = userItemServive.addItemMember(item.getId());
+        if (!addUserItem) {
+            throw new ItemAddFailException("项目成员添加失败");
+        }
+        jwtConfig.removeThread();
+        return HttpResult.success();
+    }
+
+    @PostMapping("/addItemMember")
+    public HttpResult addItemMember(@RequestParam(value = "markId") String markId,
+                                    @RequestParam(value = "itemId") Integer itemId) {
+        UserDTO userDTO = userService.selectByMarkId(markId);
+        Boolean addUserItem = userItemServive.addItemMember(userDTO.getId(),itemId);
         if (!addUserItem) {
             throw new ItemAddFailException("项目成员添加失败");
         }
@@ -121,9 +133,9 @@ public class ItemController {
     public HttpResult selectUserListByItemId(@RequestParam(value = "itemId") Integer itemId) {
         List<Integer> userIdList = userItemServive.selectAllUser(itemId);
         List<UserDTO> userList = userService.selectUserByIdList(userIdList);
-        if (userList != null && !userList.isEmpty()){
+        if (userList != null && !userList.isEmpty()) {
             return HttpResult.success(userList);
-        }else {
+        } else {
             throw new ItemFindUserListException("项目用户成员查找失败");
         }
     }

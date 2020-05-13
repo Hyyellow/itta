@@ -10,6 +10,8 @@ public interface UserItemServive {
     Boolean addUserItem(String itemName);
     // 增加用户项目关系——增加用户
     Boolean addItemMember(Integer itemId);
+    // 增加用户项目关系——增加用户
+    Boolean addItemMember(Integer userId,Integer itemId);
     // 删除用户项目关系
     Boolean deleteUserItem(Integer itemId);
     // 查找用户下的所有项目

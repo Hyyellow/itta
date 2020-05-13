@@ -49,4 +49,10 @@
     update_time
     from user
   </select>
+  <select id="selectByMarkId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, picture, wx_openid, session_key, last_time, mark_id, create_time,
+    update_time
+    from user
+    where mark_id = #{markId,jdbcType=VARCHAR}
+  </select>
 </mapper>

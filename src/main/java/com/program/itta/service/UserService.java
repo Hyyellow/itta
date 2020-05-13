@@ -17,4 +17,6 @@ public interface UserService {
     UserDTO selectUser();
     // 查找用户列表
     List<UserDTO> selectUserByIdList(List<Integer> userIds);
+    // 根据用户标志id查找用户
+    UserDTO selectByMarkId(String markId);
 }

@@ -101,6 +101,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO selectByMarkId(String markId) {
+        User user = userMapper.selectByMarkId(markId);
+        if (user!=null){
+            UserDTO userDTO = new UserDTO();
+            userDTO.convertFor(user);
+            return userDTO;
+        }
+        return null;
+    }
+
+    @Override
     public Boolean updateUserHead(String url) {
         Integer userId = jwtConfig.getUserId();
         User user = User.builder()

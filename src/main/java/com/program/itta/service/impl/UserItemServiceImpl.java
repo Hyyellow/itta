@@ -62,17 +62,14 @@ public class UserItemServiceImpl implements UserItemServive {
     @Override
     public Boolean addItemMember(Integer itemId) {
         Integer userId = jwtConfig.getUserId();
-        UserItem userItem = UserItem.builder()
-                .userId(userId)
-                .itemId(itemId)
-                .leader(false)
-                .build();
-        int insert = userItemMapper.insert(userItem);
-        if (insert != 0) {
-            logger.info("用户：" + userItem.getUserId() + "加入项目：" + userItem.getItemId());
-            return true;
-        }
-        return false;
+        Boolean addMember = addMember(userId, itemId);
+        return addMember;
+    }
+
+    @Override
+    public Boolean addItemMember(Integer userId, Integer itemId) {
+        Boolean addMember = addMember(userId, itemId);
+        return addMember;
     }
 
     @Override
@@ -142,5 +139,20 @@ public class UserItemServiceImpl implements UserItemServive {
             }
         }
         return null;
+    }
+
+    // 添加用户项目成员
+    private Boolean addMember(Integer userId, Integer itemId){
+        UserItem userItem = UserItem.builder()
+                .userId(userId)
+                .itemId(itemId)
+                .leader(false)
+                .build();
+        int insert = userItemMapper.insert(userItem);
+        if (insert != 0) {
+            logger.info("用户：" + userItem.getUserId() + "加入项目：" + userItem.getItemId());
+            return true;
+        }
+        return false;
     }
 }
