@@ -24,6 +24,10 @@ public class TagServiceImpl implements TagService {
      */
     @Override
     public Boolean addTag(Tag tag) {
+        Boolean judgeTag = judgeTag(tag.getContent());
+        if (judgeTag){
+            return true;
+        }
         int insert = tagMapper.insert(tag);
         if (insert != 0) {
             return true;
@@ -31,18 +35,11 @@ public class TagServiceImpl implements TagService {
         return false;
     }
 
-    @Override
-    public Boolean deleteTag(Tag tag) {
-        return null;
-    }
-
-    @Override
-    public Boolean updateTag(Tag tag) {
-        return null;
-    }
-
-    @Override
-    public Boolean judgeTag(Tag tag) {
+    private Boolean judgeTag(String content) {
+        Tag tag = tagMapper.selectByContent(content);
+        if (tag!=null){
+            return true;
+        }
         return null;
     }
 }

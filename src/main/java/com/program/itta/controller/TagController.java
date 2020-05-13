@@ -33,23 +33,7 @@ public class TagController {
     @PostMapping("/addTag")
     public HttpResult addTag(@RequestBody @Valid TagDTO tagDTO) {
         Tag tag = tagDTO.convertToTag();
-        //TODO 中间表进行判断是否存在
-        tagService.addTag(tag);
-        return HttpResult.success();
-    }
-
-    @DeleteMapping("/deletaTag")
-    public HttpResult deleteTag(@Valid @RequestBody TagDTO tagDTO) {
-        Tag tag = tagDTO.convertToTag();
-        // TODO 中间表的相关删除
-        tagService.deleteTag(tag);
-        return  HttpResult.success();
-    }
-
-    @PutMapping("/updateTag")
-    public HttpResult updateTag(@Valid @RequestBody TagDTO tagDTO) {
-        Tag tag = tagDTO.convertToTag();
-        tagService.updateTag(tag);
+        Boolean addTag = tagService.addTag(tag);
         return HttpResult.success();
     }
 }

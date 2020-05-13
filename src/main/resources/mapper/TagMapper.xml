@@ -33,4 +33,9 @@
     select id, content, create_time, update_time
     from tag
   </select>
+  <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, content, create_time, update_time
+    from tag
+    where content = #{content,jdbcType=VARCHAR}
+  </select>
 </mapper>

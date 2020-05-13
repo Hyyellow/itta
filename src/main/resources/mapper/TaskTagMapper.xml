@@ -35,4 +35,9 @@
     select id, task_id, tag_id, create_time, update_time
     from task_tag
   </select>
+  <select id="selectByTaskTag" parameterType="com.program.itta.domain.entity.TaskTag" resultMap="BaseResultMap">
+    select id, task_id, tag_id, create_time, update_time
+    from task_tag
+    where task_id = #{taskId,jdbcType=INTEGER} and tag_id = #{tagId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -1,7 +1,13 @@
 package com.program.itta.domain.entity;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Tolerate;
+
 import java.util.Date;
 
+@Data
+@Builder
 public class Tag {
     private Integer id;
 
@@ -11,35 +17,8 @@ public class Tag {
 
     private Date updateTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    @Tolerate
+    public Tag() {
     }
 }
+
