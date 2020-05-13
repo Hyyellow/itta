@@ -60,6 +60,17 @@ public class ItemController {
         return HttpResult.success(item.getMarkId());
     }
 
+    @PostMapping("/addItemMember")
+    public HttpResult addItemMember(@RequestBody @Valid ItemDTO itemDTO) {
+        Item item = itemDTO.convertToItem();
+        Boolean addUserItem = userItemServive.addItemMember(item.getId());
+        if (!addUserItem) {
+            throw new ItemAddFailException("项目成员添加失败");
+        }
+        jwtConfig.removeThread();
+        return HttpResult.success();
+    }
+
     @DeleteMapping("/deleteItem")
     public HttpResult deleteItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
@@ -97,10 +108,10 @@ public class ItemController {
     @GetMapping("/selectItemByMarkId")
     public HttpResult selectItemByMarkId(@RequestParam(value = "markId") String markId) {
         List<Integer> itemIdList = userItemServive.selectAllItem();
-        Item item = itemService.selectByMarkId(markId, itemIdList);
+        ItemDTO itemDTO = itemService.selectByMarkId(markId, itemIdList);
         jwtConfig.removeThread();
-        if (item != null) {
-            return HttpResult.success(item);
+        if (itemDTO != null) {
+            return HttpResult.success(itemDTO);
         } else {
             throw new ItemNotExistsException("项目id错误，该项目查找为空");
         }

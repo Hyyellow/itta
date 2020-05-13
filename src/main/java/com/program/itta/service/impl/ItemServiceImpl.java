@@ -6,6 +6,7 @@ import com.program.itta.common.exception.item.ItemNotExistsException;
 import com.program.itta.common.exception.item.ItemNotPermissFindException;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.util.fineGrainedPermissions.ItemPermissionsUtil;
+import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.mapper.ItemMapper;
 import com.program.itta.service.ItemService;
@@ -126,11 +127,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item selectByMarkId(String markId, List<Integer> itemIds) {
+    public ItemDTO selectByMarkId(String markId, List<Integer> itemIds) {
         Item item = itemMapper.selectByMarkId(markId);
         if (item != null) {
             Item itemFind = judgeItemFind(item, itemIds);
-            return itemFind;
+            ItemDTO itemDTO = new ItemDTO();
+            itemDTO.convertFor(itemFind);
+            return itemDTO;
         }
         return null;
     }

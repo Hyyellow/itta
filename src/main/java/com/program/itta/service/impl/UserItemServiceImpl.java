@@ -60,6 +60,22 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     @Override
+    public Boolean addItemMember(Integer itemId) {
+        Integer userId = jwtConfig.getUserId();
+        UserItem userItem = UserItem.builder()
+                .userId(userId)
+                .itemId(itemId)
+                .leader(false)
+                .build();
+        int insert = userItemMapper.insert(userItem);
+        if (insert != 0) {
+            logger.info("用户：" + userItem.getUserId() + "加入项目：" + userItem.getItemId());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Boolean deleteUserItem(Integer itemId) {
         int delete = 0;
         Integer userId = jwtConfig.getUserId();

@@ -1,5 +1,6 @@
 package com.program.itta.service;
 
+import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.entity.Item;
 
 import java.util.List;
@@ -21,5 +22,5 @@ public interface ItemService {
     Item selectById(Integer id);
 
     // 根据项目的标志id查找项目
-    Item selectByMarkId(String markId,List<Integer> itemIds);
+    ItemDTO selectByMarkId(String markId, List<Integer> itemIds);
 }
