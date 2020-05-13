@@ -31,17 +31,7 @@ public class UserDTO {
 
     private String name;
 
-    private String email;
-
-    private String phone;
-
-    @NotBlank(message = "openId不可为空")
-    private String wxOpenid;
-
-    @NotBlank(message = "sessionKey不可为空")
-    private String sessionKey;
-
-    private Date lastTime;
+    private String picture;
 
     private String markId;
 

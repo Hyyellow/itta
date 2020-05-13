@@ -3,6 +3,7 @@ package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.user.UserNotExistsException;
+import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;
@@ -92,14 +93,16 @@ public class UserServiceImpl implements UserService {
     /**
      * 查找用户
      *
-     * @param userId
      * @return
      */
     @Override
-    public User selectUser(Integer userId) {
-        User user1 = userMapper.selectByPrimaryKey(userId);
-        if (user1 != null) {
-            return user1;
+    public UserDTO selectUser() {
+        Integer userId = jwtConfig.getUserId();
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user != null) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.convertFor(user);
+            return userDTO;
         }
         return null;
     }
@@ -114,16 +117,6 @@ public class UserServiceImpl implements UserService {
         int update = userMapper.updateByPrimaryKey(user);
         if (update != 0) {
             logger.info("用户：" + user.getId() + "更新用户头像为：" + url);
-            return true;
-        }
-        return false;
-    }
-
-
-    @Override
-    public Boolean insert(User user) {
-        int user1 = userMapper.insert(user);
-        if (user1 != 0) {
             return true;
         }
         return false;

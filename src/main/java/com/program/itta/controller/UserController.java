@@ -64,12 +64,12 @@ public class UserController {
     }
 
     @GetMapping("/seletUser")
-    public HttpResult selectUser(@RequestParam(value = "userId") Integer userId) {
-        User user = userService.selectUser(userId);
-        if (user == null) {
+    public HttpResult selectUser() {
+        UserDTO userDTO = userService.selectUser();
+        if (userDTO == null) {
             throw new UserNotExistsException("该用户不存在");
         }
-        return HttpResult.success(user);
+        return HttpResult.success(userDTO);
     }
 
     @PostMapping("/upload")

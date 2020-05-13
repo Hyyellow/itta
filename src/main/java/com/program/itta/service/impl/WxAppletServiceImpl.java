@@ -7,6 +7,7 @@ import com.program.itta.common.util.SslUtil;
 import com.program.itta.domain.dto.Code2SessionResponse;
 import com.program.itta.domain.dto.Token;
 import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.WxAccountRepository;
 import com.program.itta.service.WxAppletService;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -78,16 +79,6 @@ public class WxAppletServiceImpl implements WxAppletService {
             }
         }
         return resultString;
-        /*JSONObject jsonObject = (JSONObject) JSONObject.parse(resultString);
-        String session_key = jsonObject.get("session_key")+"";
-        String openid = jsonObject.get("openid")+"";
-
-        System.out.println("session_key=="+session_key);
-        System.out.println("openid=="+openid);
-        //return response;
-        return restTemplate.exchange(code2Session, HttpMethod.GET,
-                new HttpEntity<String>(new HttpHeaders()),
-                String.class).getBody();*/
     }
     /**
      * 微信小程序用户登陆，完整流程可参考下面官方地址，本例中是按此流程开发
@@ -105,10 +96,10 @@ public class WxAppletServiceImpl implements WxAppletService {
             throw new AuthenticationException("code2session失败 : " + response.getErrmsg());
         } else {
             //3 . 先从本地数据库中查找用户是否存在
-            UserDTO wxAccount = wxAccountRepository.findByWxOpenid(response.getOpenid());
+            User wxAccount = wxAccountRepository.findByWxOpenid(response.getOpenid());
             String markId = UUID.randomUUID().toString();
             if (wxAccount == null) {
-                wxAccount = new UserDTO();
+                wxAccount = new User();
                 wxAccount.setWxOpenid(response.getOpenid());    //不存在就新建用户
                 wxAccount.setMarkId(markId);
             }

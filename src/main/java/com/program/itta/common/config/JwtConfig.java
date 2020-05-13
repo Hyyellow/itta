@@ -5,7 +5,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.WxAccountRepository;
+import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -48,7 +50,7 @@ public class JwtConfig {
      * @param wxAccount 微信用户信息
      * @return 返回 jwt token
      */
-    public String createTokenByWxAccount(UserDTO wxAccount) {
+    public String createTokenByWxAccount(User wxAccount) {
         String jwtId = UUID.randomUUID().toString();                 //JWT 随机ID,做为验证的key
         //1 . 加密算法进行签名得到token
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
@@ -125,9 +127,9 @@ public class JwtConfig {
 
     public Integer getUserId() {
         String openid = T1.get();
-        UserDTO wxAccount = wxAccountRepository.findByWxOpenid(openid);
+        User user = wxAccountRepository.findByWxOpenid(openid);
         T1.remove();
-        return wxAccount.getId();
+        return user.getId();
     }
 
     public void removeThread(){
