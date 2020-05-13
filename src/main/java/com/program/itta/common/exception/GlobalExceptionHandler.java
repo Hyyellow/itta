@@ -89,10 +89,17 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Item_Not_Permiss_Find_Exception);
     }
+
     @ExceptionHandler(value = ItemFindUserListException.class)
     public HttpResult itemFindUserListExceptionHandler(ItemFindUserListException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Item_Find_User_List_Exception);
+    }
+
+    @ExceptionHandler(value = ItemAddMemberFailException.class)
+    public HttpResult itemAddMemberFailExceptionHandler(ItemAddMemberFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Item_Add_Member_Fail_Exception);
     }
 
     // 任务模块
@@ -138,16 +145,19 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Not_Exists_Exception);
     }
+
     @ExceptionHandler(value = ScheduleAddFailException.class)
     public HttpResult scheduleAddFailExceptionHandler(ScheduleAddFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Add_Fail_Exception);
     }
+
     @ExceptionHandler(value = ScheduleDelFailException.class)
     public HttpResult scheduleDelFailExceptionHandler(ScheduleDelFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Del_Fail_Exception);
     }
+
     @ExceptionHandler(value = ScheduleUpdateFailException.class)
     public HttpResult scheduleUpdateFailExceptionHandler(ScheduleUpdateFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());

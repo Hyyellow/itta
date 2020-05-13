@@ -65,7 +65,7 @@ public class ItemController {
         Item item = itemDTO.convertToItem();
         Boolean addUserItem = userItemServive.addItemMember(item.getId());
         if (!addUserItem) {
-            throw new ItemAddFailException("项目成员添加失败");
+            throw new ItemAddMemberFailException("项目成员添加失败");
         }
         jwtConfig.removeThread();
         return HttpResult.success();
@@ -77,7 +77,7 @@ public class ItemController {
         UserDTO userDTO = userService.selectByMarkId(markId);
         Boolean addUserItem = userItemServive.addItemMember(userDTO.getId(),itemId);
         if (!addUserItem) {
-            throw new ItemAddFailException("项目成员添加失败");
+            throw new ItemAddMemberFailException("项目成员添加失败");
         }
         jwtConfig.removeThread();
         return HttpResult.success();
