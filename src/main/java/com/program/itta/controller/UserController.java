@@ -52,17 +52,6 @@ public class UserController {
         return HttpResult.success();
     }
 
-    @DeleteMapping("/deleteUser")
-    public HttpResult deleteUser(@RequestBody @Valid UserDTO userDTO) {
-        User user = userDTO.convertToUser();
-        // TODO 该用户的关联表数据仍需进行处理——项目， 任务， 日程
-        Boolean deleteUser = userService.deleteUser(user);
-        if (!deleteUser) {
-            throw new UserDelFailException("用户信息删除失败");
-        }
-        return HttpResult.success();
-    }
-
     @GetMapping("/seletUser")
     public HttpResult selectUser() {
         UserDTO userDTO = userService.selectUser();

@@ -54,26 +54,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 删除用户
-     *
-     * @param user
-     * @return
-     */
-    @Override
-    public Boolean deleteUser(User user) {
-        Boolean judgeUser = judgeUser(user);
-        if (!judgeUser){
-            throw new UserNotExistsException("该用户不存在");
-        }
-        int delete = userMapper.deleteByPrimaryKey(user.getId());
-        if (delete != 0) {
-            logger.info("用户：" + user.getId() + "删除用户信息为：" + user);
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 判断用户是否存在
      *
      * @param user
