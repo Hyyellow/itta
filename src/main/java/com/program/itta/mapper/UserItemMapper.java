@@ -19,7 +19,7 @@ public interface UserItemMapper {
 
     int updateByPrimaryKey(UserItem record);
 
-    List<UserItem> selectAllItem(Integer userId);
+    List<UserItem> selectAllByUserId(Integer userId);
 
-    List<UserItem> selectAllItemByItemId(Integer itemId);
+    List<UserItem> selectAllByItemId(Integer itemId);
 }

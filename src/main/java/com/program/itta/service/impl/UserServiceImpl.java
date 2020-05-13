@@ -1,4 +1,5 @@
 package com.program.itta.service.impl;
+import	java.util.ArrayList;
 
 
 import com.program.itta.common.config.JwtConfig;
@@ -85,6 +86,18 @@ public class UserServiceImpl implements UserService {
             return userDTO;
         }
         return null;
+    }
+
+    @Override
+    public List<UserDTO> selectUserByIdList(List<Integer> userIds) {
+        List<UserDTO> userList = new ArrayList<> ();
+        for (Integer userId : userIds) {
+            User user = userMapper.selectByPrimaryKey(userId);
+            UserDTO userDTO = new UserDTO();
+            userDTO.convertFor(user);
+            userList.add(userDTO);
+        }
+        return userList;
     }
 
     @Override

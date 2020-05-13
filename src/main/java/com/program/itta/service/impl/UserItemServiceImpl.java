@@ -63,7 +63,7 @@ public class UserItemServiceImpl implements UserItemServive {
     public Boolean deleteUserItem(Integer itemId) {
         int delete = 0;
         Integer userId = jwtConfig.getUserId();
-        List<UserItem> userItemList = userItemMapper.selectAllItemByItemId(itemId);
+        List<UserItem> userItemList = userItemMapper.selectAllByItemId(itemId);
         for (UserItem userItem : userItemList) {
             if (userItem.getUserId().equals(userId)) {
                 logger.info("用户：" + userItem.getUserId() + "删除项目：" + userItem.getItemId());
@@ -85,12 +85,24 @@ public class UserItemServiceImpl implements UserItemServive {
     @Override
     public List<Integer> selectAllItem() {
         Integer userId = jwtConfig.getUserId();
-        List<UserItem> userItemList = userItemMapper.selectAllItem(userId);
+        List<UserItem> userItemList = userItemMapper.selectAllByUserId(userId);
         List<Integer> itemIds = userItemList.stream()
                 .map(UserItem -> UserItem.getItemId())
                 .collect(Collectors.toList());
         if (itemIds != null && !itemIds.isEmpty()) {
             return itemIds;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Integer> selectAllUser(Integer itemId) {
+        List<UserItem> userItemList = userItemMapper.selectAllByItemId(itemId);
+        List<Integer> userIds = userItemList.stream()
+                .map(UserItem -> UserItem.getUserId())
+                .collect(Collectors.toList());
+        if (userIds != null && !userIds.isEmpty()) {
+            return userIds;
         }
         return null;
     }

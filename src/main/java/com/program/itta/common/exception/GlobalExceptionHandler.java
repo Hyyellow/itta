@@ -84,6 +84,17 @@ public class GlobalExceptionHandler {
         return HttpResult.failure(Item_Not_Exists_Exception);
     }
 
+    @ExceptionHandler(value = ItemNotPermissFindException.class)
+    public HttpResult itemNotPermissFindExceptionHandler(ItemNotPermissFindException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Item_Not_Permiss_Find_Exception);
+    }
+    @ExceptionHandler(value = ItemFindUserListException.class)
+    public HttpResult itemFindUserListExceptionHandler(ItemFindUserListException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Item_Find_User_List_Exception);
+    }
+
     // 任务模块
     @ExceptionHandler(value = TaskAddFailException.class)
     public HttpResult taskAddFailExceptionHandler(TaskAddFailException e) {

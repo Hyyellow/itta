@@ -63,4 +63,10 @@
     from item
     where leader_id = #{leaderId,jdbcType=INTEGER}
   </select>
+  <select id="selectByMarkId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select id, name, serial_number, task_prefix, color, action_scope, group_name, description,
+    leader_id, mark_id, create_time, update_time
+    from item
+    where mark_id = #{markId,jdbcType=VARCHAR}
+  </select>
 </mapper>

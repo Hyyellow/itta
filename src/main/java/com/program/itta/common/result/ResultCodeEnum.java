@@ -28,6 +28,8 @@ public enum  ResultCodeEnum {
     Item_Del_Fail_Exception(20003,"项目删除失败"),
     Item_Update_Fail_Exception(20004,"项目更新失败"),
     Item_Not_Exists_Exception(20005,"项目不存在，项目id查找为空"),
+    Item_Not_Permiss_Find_Exception(20006,"项目只有项目成员可访问"),
+    Item_Find_User_List_Exception(20006,"项目用户成员查找失败"),
     // 3000～3999 区间表示任务模块错误
     Task_Add_Fail_Exception(30001,"任务添加失败"),
     Task_Name_Exists_Exception(30002,"任务名称已存在于该项目中"),

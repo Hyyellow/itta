@@ -19,4 +19,7 @@ public interface ItemService {
 
     // 根据项目id查找项目
     Item selectById(Integer id);
+
+    // 根据项目的标志id查找项目
+    Item selectByMarkId(String markId,List<Integer> itemIds);
 }

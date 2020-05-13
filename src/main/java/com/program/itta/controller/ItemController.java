@@ -1,14 +1,14 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.config.JwtConfig;
-import com.program.itta.common.exception.item.ItemAddFailException;
-import com.program.itta.common.exception.item.ItemDelFailException;
-import com.program.itta.common.exception.item.ItemUpdateFailException;
+import com.program.itta.common.exception.item.*;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
+import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
 import com.program.itta.service.UserItemServive;
+import com.program.itta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +40,9 @@ public class ItemController {
 
     @Autowired
     private UserItemServive userItemServive;
+
+    @Autowired
+    private UserService userService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -91,4 +94,26 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/selectItemByMarkId")
+    public HttpResult selectItemByMarkId(@RequestParam(value = "markId") String markId) {
+        List<Integer> itemIdList = userItemServive.selectAllItem();
+        Item item = itemService.selectByMarkId(markId, itemIdList);
+        jwtConfig.removeThread();
+        if (item != null) {
+            return HttpResult.success(item);
+        } else {
+            throw new ItemNotExistsException("项目id错误，该项目查找为空");
+        }
+    }
+
+    @GetMapping("/selectUserListByItemId")
+    public HttpResult selectUserListByItemId(@RequestParam(value = "itemId") Integer itemId) {
+        List<Integer> userIdList = userItemServive.selectAllUser(itemId);
+        List<UserDTO> userList = userService.selectUserByIdList(userIdList);
+        if (userList != null && !userList.isEmpty()){
+            return HttpResult.success(userList);
+        }else {
+            throw new ItemFindUserListException("项目用户成员查找失败");
+        }
+    }
 }

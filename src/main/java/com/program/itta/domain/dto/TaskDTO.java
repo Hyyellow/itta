@@ -27,8 +27,6 @@ public class TaskDTO {
 
     private Integer leaderId;
 
-    private Integer securityLevel;
-
     private Integer status;
 
     private Date startTime;
@@ -42,6 +40,10 @@ public class TaskDTO {
     private Integer label;
 
     private List<Integer> userIdList;
+
+    // TODO 从属任务
+
+    // TODO markId
 
     @Tolerate
     public TaskDTO() {

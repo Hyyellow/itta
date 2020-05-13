@@ -3,6 +3,7 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.item.ItemNotExistsException;
+import com.program.itta.common.exception.item.ItemNotPermissFindException;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.util.fineGrainedPermissions.ItemPermissionsUtil;
 import com.program.itta.domain.entity.Item;
@@ -122,6 +123,31 @@ public class ItemServiceImpl implements ItemService {
             return item;
         }
         return null;
+    }
+
+    @Override
+    public Item selectByMarkId(String markId, List<Integer> itemIds) {
+        Item item = itemMapper.selectByMarkId(markId);
+        if (item != null) {
+            Item itemFind = judgeItemFind(item, itemIds);
+            return itemFind;
+        }
+        return null;
+    }
+
+    private Item judgeItemFind(Item item, List<Integer> itemIds) {
+        if (item.getActionScope() == "1") {
+            return item;
+        } else {
+            if (itemIds != null && !itemIds.isEmpty()) {
+                for (Integer itemId : itemIds) {
+                    if (itemId.equals(item.getId())) {
+                        return item;
+                    }
+                }
+            }
+            throw new ItemNotPermissFindException("该项目只有项目成员可访问");
+        }
     }
 
     private Boolean judgeItemName(Item item) {

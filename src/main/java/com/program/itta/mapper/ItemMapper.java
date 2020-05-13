@@ -20,4 +20,6 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
 
     List<Item> selectAllItemByUserId(Integer userId);
+
+    Item selectByMarkId(String markId);
 }

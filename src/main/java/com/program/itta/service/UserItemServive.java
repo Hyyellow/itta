@@ -12,4 +12,6 @@ public interface UserItemServive {
     Boolean deleteUserItem(Integer itemId);
     // 查找用户下的所有项目
     List<Integer> selectAllItem();
+    // 查找项目下的所有用户
+    List<Integer> selectAllUser(Integer itemId);
 }
