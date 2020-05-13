@@ -1,7 +1,7 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.domain.entity.Tag;
-import com.program.itta.mapper.mysql.TagMapper;
+import com.program.itta.mapper.TagMapper;
 import com.program.itta.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

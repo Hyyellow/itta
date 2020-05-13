@@ -8,8 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.util.Date;
 @Data
 @Builder
-@Document(indexName = "user",
-        useServerConfiguration = true, createIndex = false)
+/*@Document(indexName = "user",
+        useServerConfiguration = true, createIndex = false)*/
 public class User {
     private Integer id;
 

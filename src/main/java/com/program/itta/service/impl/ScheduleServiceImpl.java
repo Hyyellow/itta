@@ -4,7 +4,7 @@ import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.schedule.ScheduleNameExistsException;
 import com.program.itta.common.exception.schedule.ScheduleNotExistsException;
 import com.program.itta.domain.entity.Schedule;
-import com.program.itta.mapper.mysql.ScheduleMapper;
+import com.program.itta.mapper.ScheduleMapper;
 import com.program.itta.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

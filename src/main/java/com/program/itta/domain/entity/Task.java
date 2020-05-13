@@ -9,8 +9,8 @@ import java.util.Date;
 
 @Data
 @Builder
-@Document(indexName = "task",
-        useServerConfiguration = true, createIndex = false)
+/*@Document(indexName = "task",
+        useServerConfiguration = true, createIndex = false)*/
 public class Task {
     private Integer id;
 

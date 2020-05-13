@@ -1,4 +1,4 @@
-package com.program.itta.mapper.mysql;
+package com.program.itta.mapper;
 
 import com.program.itta.domain.entity.UserTask;
 import org.apache.ibatis.annotations.Mapper;
