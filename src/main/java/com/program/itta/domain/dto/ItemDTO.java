@@ -20,17 +20,7 @@ public class ItemDTO {
 
     private String name;
 
-    private String serialNumber;
-
-    private String taskPrefix;
-
-    private String color;
-
     private String actionScope;
-
-    private String groupName;
-
-    private String description;
 
     private Integer leaderId;
 

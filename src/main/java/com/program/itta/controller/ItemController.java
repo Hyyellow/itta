@@ -54,7 +54,7 @@ public class ItemController {
             throw new ItemAddFailException("项目添加失败");
         }
         jwtConfig.removeThread();
-        return HttpResult.success();
+        return HttpResult.success(item.getMarkId());
     }
 
     @DeleteMapping("/deleteItem")

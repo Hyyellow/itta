@@ -41,8 +41,6 @@ public class TaskDTO {
 
     private Integer label;
 
-    private String description;
-
     private List<Integer> userIdList;
 
     @Tolerate

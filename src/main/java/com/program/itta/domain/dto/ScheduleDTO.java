@@ -22,8 +22,6 @@ import java.util.Date;
 public class ScheduleDTO {
     private Integer id;
 
-    private Integer userId;
-
     private String name;
 
     private String place;
