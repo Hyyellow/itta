@@ -16,7 +16,7 @@ spring:
       ddl-auto: none
   # es配置
   data:
-   elasticsearch:
+    elasticsearch:
       cluster-nodes: 127.0.0.1:9300
       cluster-name: elasticsearch
   # mVc
@@ -85,3 +85,7 @@ wx:
   applet:
     appid: wxe9256325396b77dc
     appsecret: a524735368d6bd325efbd09b4591ede6
+
+swagger:
+  host: localhost:8080
+  show: true

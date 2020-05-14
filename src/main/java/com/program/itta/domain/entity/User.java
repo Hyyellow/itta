@@ -5,12 +5,18 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 @Data
 @Builder
+@Entity
 /*@Document(indexName = "user",
         useServerConfiguration = true, createIndex = false)*/
 public class User {
+    @Id
+    @GeneratedValue
     private Integer id;
 
     private String name;
