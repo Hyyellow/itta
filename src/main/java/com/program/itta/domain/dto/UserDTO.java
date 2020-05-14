@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.User;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -27,12 +28,16 @@ import java.util.Date;
 public class UserDTO {
     @Id
     @GeneratedValue
+    @ApiModelProperty(value = "用户id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "用户名称", example = "黄丫丫")
     private String name;
 
+    @ApiModelProperty(value = "用户头像", example = "userHead/.....")
     private String picture;
 
+    @ApiModelProperty(value = "用户标志id", example = "1syufgf2dfg4sddtvxfgf45")
     private String markId;
 
     @Tolerate

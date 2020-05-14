@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Task;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -19,26 +20,36 @@ import java.util.List;
 @Data
 @Builder
 public class TaskDTO {
+    @ApiModelProperty(value = "任务id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "任务名称", example = "写操作系统作业")
     private String name;
 
+    @ApiModelProperty(value = "项目id", example = "1")
     private Integer itemId;
 
+    @ApiModelProperty(value = "创建人id", example = "1")
     private Integer leaderId;
 
+    @ApiModelProperty(value = "任务状态", example = "1", notes = "1：完成；0：未完成")
     private Integer status;
 
+    @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")
     private Date startTime;
 
+    @ApiModelProperty(value = "结束时间", example = "2020-04-25 17:28")
     private Date endTime;
 
+    @ApiModelProperty(value = "完成时间", example = "2020-04-25 16:28")
     private Date completionTime;
 
+    @ApiModelProperty(value = "紧急程度", example = "1",notes = "3：非常紧急；2：紧急；1：一般")
     private Integer priority;
 
     private Integer label;
 
+    @ApiModelProperty(value = "该任务下的成员列表", example = "{1,2,3}")
     private List<Integer> userIdList;
 
     // TODO 从属任务

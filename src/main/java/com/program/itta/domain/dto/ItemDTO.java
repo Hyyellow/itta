@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Item;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -16,14 +17,19 @@ import org.springframework.beans.BeanUtils;
 @Data
 @Builder
 public class ItemDTO {
+    @ApiModelProperty(value = "项目id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "项目名称", example = "学习小程序")
     private String name;
 
+    @ApiModelProperty(value = "私密性", example = "1", notes = "0为私密——不可查看，1为公开——可查找到")
     private Integer actionScope;
 
+    @ApiModelProperty(value = "创建人id", example = "1")
     private Integer leaderId;
 
+    @ApiModelProperty(value = "标志id", example = "1syufgf2dfg4sddtvxfgf45")
     private String markId;
 
     @Tolerate

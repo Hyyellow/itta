@@ -3,6 +3,7 @@ package com.program.itta.domain.dto;
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Tag;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
@@ -20,16 +21,22 @@ import java.util.Date;
 @Data
 @Builder
 public class ScheduleDTO {
+    @ApiModelProperty(value = "日程id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "日程名称", example = "学习操作系统")
     private String name;
 
+    @ApiModelProperty(value = "地点", example = "图书馆")
     private String place;
 
+    @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")
     private Date startTime;
 
+    @ApiModelProperty(value = "结束时间", example = "2020-04-25 17:28")
     private Date endTime;
 
+    @ApiModelProperty(value = "完成时间", example = "2020-04-25 16:28")
     private Date completionTime;
 
     public Schedule convertToSchedule() {

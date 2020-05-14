@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Tag;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -15,8 +16,10 @@ import javax.validation.constraints.NotBlank;
  **/
 @Data
 public class TagDTO {
+    @ApiModelProperty(value = "标签id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "标签内容", example = "后台")
     private String content;
 
     public Tag convertToTag() {
