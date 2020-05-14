@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.TagDTO;
 import com.program.itta.domain.entity.Tag;
@@ -50,7 +51,7 @@ public class TagController {
         if (addTag && addTaskTag && addUserTag) {
             return HttpResult.success();
         } else {
-            throw new RuntimeException("添加任务标签失败");
+            throw new TagAddFailException("添加任务标签失败");
         }
     }
 

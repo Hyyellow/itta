@@ -20,7 +20,7 @@ public class ItemDTO {
 
     private String name;
 
-    private String actionScope;
+    private Integer actionScope;
 
     private Integer leaderId;
 

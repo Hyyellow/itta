@@ -32,7 +32,7 @@ public class Item {
     private String color;
 
 //    @Field(type = FieldType.Text, analyzer = "ik_max_work")
-    private String actionScope;
+    private Integer actionScope;
 
 //    @Field(type = FieldType.Text, analyzer = "ik_max_work")
     private String groupName;

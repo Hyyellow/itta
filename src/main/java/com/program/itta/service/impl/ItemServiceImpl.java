@@ -139,7 +139,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private Item judgeItemFind(Item item, List<Integer> itemIds) {
-        if (item.getActionScope() == "1") {
+        if (item.getActionScope().equals(1)) {
             return item;
         } else {
             if (itemIds != null && !itemIds.isEmpty()) {
