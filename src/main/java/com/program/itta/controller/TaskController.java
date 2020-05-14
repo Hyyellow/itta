@@ -13,9 +13,12 @@ import com.program.itta.service.TaskService;
 import com.program.itta.service.UserTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import static com.program.itta.common.result.ResultCodeEnum.*;
+
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
@@ -48,7 +51,8 @@ public class TaskController {
 
     @ApiOperation(value = "添加任务", notes = "(添加此任务，团队任务，个人任务皆为此接口)")
     @PostMapping("/addTask")
-    public HttpResult addTask(@RequestBody @Valid TaskDTO taskDTO) {
+    public HttpResult addTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                              @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         Boolean addTask = taskService.addTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task);
@@ -61,7 +65,8 @@ public class TaskController {
 
     @ApiOperation(value = "删除任务", notes = "(删除该任务)")
     @DeleteMapping("/deleteTask")
-    public HttpResult deleteTask(@RequestBody @Valid TaskDTO taskDTO) {
+    public HttpResult deleteTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                 @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         Boolean deleteTask = taskService.deleteTask(task);
         Boolean deleteUserTask = userTaskService.deleteUserTask(task);
@@ -75,7 +80,8 @@ public class TaskController {
 
     @ApiOperation(value = "编辑任务", notes = "(编辑该任务内容)")
     @PutMapping("/updateTask")
-    public HttpResult updateTask(@RequestBody @Valid TaskDTO taskDTO) {
+    public HttpResult updateTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                 @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);
@@ -88,7 +94,8 @@ public class TaskController {
 
     @ApiOperation(value = "查找任务", notes = "(查找该任务——待修改，存在问题)")
     @GetMapping("/selectTaskToEdit")
-    public HttpResult selectTaskToEdit(@RequestBody @Valid TaskDTO taskDTO) {
+    public HttpResult selectTaskToEdit(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                       @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         Task taskToEdit = taskService.selectTaskToEdit(task);
         if (taskToEdit != null) {
@@ -100,7 +107,8 @@ public class TaskController {
 
     @ApiOperation(value = "查找项目任务", notes = "(查看该项目的所有任务)")
     @GetMapping("/selectTaskByItemId")
-    public HttpResult selectTaskByItemId(@RequestParam(value = "itemId") Integer itemId) {
+    public HttpResult selectTaskByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
+                                         @RequestParam(value = "itemId") Integer itemId) {
         List<Task> taskList = taskService.selectTaskByItemId(itemId);
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
