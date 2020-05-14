@@ -3,6 +3,8 @@ package com.program.itta.controller;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.service.WxAppletService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,7 @@ import java.util.Map;
  * @author: Mr.Huang
  * @create: 2020-04-05 12:28
  **/
+@Api(tags = "登录接口")
 @RestController
 public class WxAppletController {
     @Resource
@@ -31,6 +34,7 @@ public class WxAppletController {
      * 微信小程序端用户登陆api
      * 返回给小程序端 自定义登陆态 token
      */
+    @ApiOperation(value = "用户登录", notes = "(用于用户登录时，获取token)")
     @PostMapping("/api/wx/user/login")
     public ResponseEntity wxAppletLoginApi(@RequestBody Map<String, String> request) {
         if (!request.containsKey("code") || request.get("code") == null || "".equals(request.get("code"))) {
@@ -41,15 +45,5 @@ public class WxAppletController {
             return new ResponseEntity<>(wxAppletService.wxUserLogin(request.get("code")), HttpStatus.OK);
         }
     }
-    /**
-     * 需要认证的测试接口  需要 @RequiresAuthentication 注解，则调用此接口需要 header 中携带自定义登陆态 authorization
-     */
-    @RequiresAuthentication
-    @PostMapping("/sayHello")
-    public ResponseEntity sayHello() {
-      /*  Integer userId = jwtConfig.getUserId();
-        Map<String, String> result = new HashMap<>();
-        result.put("words", "hello World");*/
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+   
 }
