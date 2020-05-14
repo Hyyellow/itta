@@ -11,6 +11,7 @@ import com.program.itta.domain.entity.User;
 import com.program.itta.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -47,7 +48,8 @@ public class UserController {
 
     @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
     @PutMapping("/updateUser")
-    public HttpResult updateUser(@RequestBody @Valid UserDTO userDTO) {
+    public HttpResult updateUser(@ApiParam(name = "用户DTO类", value = "传入Json格式", required = true)
+                                 @RequestBody @Valid UserDTO userDTO) {
         User user = userDTO.convertToUser();
         Boolean updateUser = userService.updateUser(user);
         if (!updateUser) {
@@ -68,7 +70,8 @@ public class UserController {
 
     @ApiOperation(value = "上传用户头像", notes = "(上传该用户的头像)")
     @PostMapping("/upload")
-    public HttpResult upload(@RequestParam(value = "file") MultipartFile file) {
+    public HttpResult upload(@ApiParam(name = "上传图片", value = "选择用户头像文件", required = true)
+                             @RequestParam(value = "file") MultipartFile file) {
         String url = cosClientUtil.upload(file, "userHead/");
         if (url != null) {
             Boolean updateUserHead = userService.updateUserHead(url);
