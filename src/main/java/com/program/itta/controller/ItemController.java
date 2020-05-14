@@ -11,6 +11,7 @@ import com.program.itta.service.UserItemServive;
 import com.program.itta.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,8 @@ public class ItemController {
 
     @ApiOperation(value = "添加项目", notes = "(创建项目)")
     @PostMapping("/addItem")
-    public HttpResult addItem(@RequestBody @Valid ItemDTO itemDTO) {
+    public HttpResult addItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
+                              @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean addItem = itemService.addItem(item);
         Boolean addUserItem = userItemServive.addUserItem(item.getName());
@@ -66,7 +68,8 @@ public class ItemController {
 
     @ApiOperation(value = "加入项目", notes = "(通过项目标志id查找到项目后，加入该项目)")
     @PostMapping("/joinItem")
-    public HttpResult joinItem(@RequestBody @Valid ItemDTO itemDTO) {
+    public HttpResult joinItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
+                               @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean addUserItem = userItemServive.addItemMember(item.getId());
         if (!addUserItem) {
@@ -78,10 +81,12 @@ public class ItemController {
 
     @ApiOperation(value = "添加项目成员", notes = "(通过个人标志id查找到个人后，拉该用户进入项目)")
     @PostMapping("/addItemMember")
-    public HttpResult addItemMember(@RequestParam(value = "markId") String markId,
+    public HttpResult addItemMember(@ApiParam(name = "成员标志id", value = "传入Json格式", required = true)
+                                    @RequestParam(value = "markId") String markId,
+                                    @ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                     @RequestParam(value = "itemId") Integer itemId) {
         UserDTO userDTO = userService.selectByMarkId(markId);
-        Boolean addUserItem = userItemServive.addItemMember(userDTO.getId(),itemId);
+        Boolean addUserItem = userItemServive.addItemMember(userDTO.getId(), itemId);
         if (!addUserItem) {
             throw new ItemAddMemberFailException("项目成员添加失败");
         }
@@ -91,7 +96,8 @@ public class ItemController {
 
     @ApiOperation(value = "删除项目", notes = "(删除此项目以及该项目下的所有任务)")
     @DeleteMapping("/deleteItem")
-    public HttpResult deleteItem(@RequestBody @Valid ItemDTO itemDTO) {
+    public HttpResult deleteItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
+                                 @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
         Boolean deleteItem = itemService.deleteItem(item);
@@ -105,7 +111,8 @@ public class ItemController {
 
     @ApiOperation(value = "编辑项目", notes = "(编辑该项目的内容)")
     @PutMapping("/updateItem")
-    public HttpResult updateItem(@RequestBody @Valid ItemDTO itemDTO) {
+    public HttpResult updateItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
+                                 @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean updateItem = itemService.updateItem(item);
         if (!updateItem) {
@@ -129,7 +136,8 @@ public class ItemController {
 
     @ApiOperation(value = "查找项目", notes = "(通过项目标志id查找项目)")
     @GetMapping("/selectItemByMarkId")
-    public HttpResult selectItemByMarkId(@RequestParam(value = "markId") String markId) {
+    public HttpResult selectItemByMarkId(@ApiParam(name = "项目标志id", value = "传入Json格式", required = true)
+                                         @RequestParam(value = "markId") String markId) {
         List<Integer> itemIdList = userItemServive.selectAllItem();
         ItemDTO itemDTO = itemService.selectByMarkId(markId, itemIdList);
         jwtConfig.removeThread();
@@ -142,7 +150,8 @@ public class ItemController {
 
     @ApiOperation(value = "查找项目成员", notes = "(查看该项目下的所有项目成员)")
     @GetMapping("/selectUserListByItemId")
-    public HttpResult selectUserListByItemId(@RequestParam(value = "itemId") Integer itemId) {
+    public HttpResult selectUserListByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
+                                             @RequestParam(value = "itemId") Integer itemId) {
         List<Integer> userIdList = userItemServive.selectAllUser(itemId);
         List<UserDTO> userList = userService.selectUserByIdList(userIdList);
         if (userList != null && !userList.isEmpty()) {
