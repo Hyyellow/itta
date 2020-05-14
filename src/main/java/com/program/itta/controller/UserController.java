@@ -28,7 +28,7 @@ import static com.program.itta.common.result.ResultCodeEnum.SERVER_ERROR;
 
 /**
  * @program: itta
- * @description: 用户Web交互控制层
+ * @description: 用户API
  * @author: Mr.Huang
  * @create: 2020-04-04 10:40
  **/

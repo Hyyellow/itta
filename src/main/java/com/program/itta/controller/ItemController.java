@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @program: itta
- * @description: 项目Api
+ * @description: 项目API
  * @author: Mr.Huang
  * @create: 2020-04-08 08:39
  **/

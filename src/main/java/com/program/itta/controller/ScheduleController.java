@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @program: itta
- * @description: 日程Api
+ * @description: 日程API
  * @author: Mr.Huang
  * @create: 2020-04-25 15:23
  **/

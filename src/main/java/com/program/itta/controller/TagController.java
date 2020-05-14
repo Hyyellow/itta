@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @program: itta
- * @description: 标签Api
+ * @description: 标签API
  * @author: Mr. Boyle
  * @create: 2020-04-08 20:49
  **/

@@ -45,5 +45,5 @@ public class WxAppletController {
             return new ResponseEntity<>(wxAppletService.wxUserLogin(request.get("code")), HttpStatus.OK);
         }
     }
-   
+
 }
