@@ -3,6 +3,7 @@ package com.program.itta.domain.dto;
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Tag;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.Date;
  **/
 @Data
 @Builder
+@ApiModel(value = "ScheduleDTO", description = "日程DTO类")
 public class ScheduleDTO {
     @ApiModelProperty(value = "日程id", example = "1")
     private Integer id;

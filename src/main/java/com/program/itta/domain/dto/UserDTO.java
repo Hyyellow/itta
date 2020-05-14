@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.User;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "user")
+@ApiModel(value = "UserDTO", description = "用户DTO类")
 public class UserDTO {
     @Id
     @GeneratedValue

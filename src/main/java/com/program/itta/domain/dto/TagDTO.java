@@ -2,8 +2,11 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Tag;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
@@ -15,6 +18,8 @@ import javax.validation.constraints.NotBlank;
  * @create: 2020-04-08 16:53
  **/
 @Data
+@Builder
+@ApiModel(value = "TagDTO", description = "标签DTO类")
 public class TagDTO {
     @ApiModelProperty(value = "标签id", example = "1")
     private Integer id;
@@ -54,5 +59,9 @@ public class TagDTO {
         public Tag apply(TagDTO tagDTO) {
             return null;
         }
+    }
+
+    @Tolerate
+    public TagDTO() {
     }
 }

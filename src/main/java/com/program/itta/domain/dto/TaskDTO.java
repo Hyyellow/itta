@@ -2,6 +2,7 @@ package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
 import com.program.itta.domain.entity.Task;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import java.util.List;
  **/
 @Data
 @Builder
+@ApiModel(value = "TaskDTO", description = "任务DTO类")
 public class TaskDTO {
     @ApiModelProperty(value = "任务id", example = "1")
     private Integer id;
