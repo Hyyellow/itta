@@ -11,6 +11,8 @@ import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.TaskService;
 import com.program.itta.service.UserTaskService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import static com.program.itta.common.result.ResultCodeEnum.*;
@@ -23,6 +25,7 @@ import javax.validation.Valid;
  * @author: Mr.Huang
  * @create: 2020-04-14 15:00
  **/
+@Api(tags = "任务接口")
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -43,6 +46,7 @@ public class TaskController {
     @Resource
     private JwtConfig jwtConfig;
 
+    @ApiOperation(value = "添加任务", notes = "(添加此任务，团队任务，个人任务皆为此接口)")
     @PostMapping("/addTask")
     public HttpResult addTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
@@ -55,11 +59,13 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "删除任务", notes = "(删除该任务)")
     @DeleteMapping("/deleteTask")
     public HttpResult deleteTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         Boolean deleteTask = taskService.deleteTask(task);
         Boolean deleteUserTask = userTaskService.deleteUserTask(task);
+        // todo 删除任务的标签
         if (!(deleteTask && deleteUserTask)) {
             throw new TaskDelFailException("任务删除失败");
         }
@@ -67,6 +73,7 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "编辑任务", notes = "(编辑该任务内容)")
     @PutMapping("/updateTask")
     public HttpResult updateTask(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
@@ -79,6 +86,7 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "查找任务", notes = "(查找该任务——待修改，存在问题)")
     @GetMapping("/selectTaskToEdit")
     public HttpResult selectTaskToEdit(@RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
@@ -90,6 +98,7 @@ public class TaskController {
         }
     }
 
+    @ApiOperation(value = "查找项目任务", notes = "(查看该项目的所有任务)")
     @GetMapping("/selectTaskByItemId")
     public HttpResult selectTaskByItemId(@RequestParam(value = "itemId") Integer itemId) {
         List<Task> taskList = taskService.selectTaskByItemId(itemId);
@@ -100,6 +109,7 @@ public class TaskController {
         }
     }
 
+    @ApiOperation(value = "查找我的任务", notes = "(查看我的所有任务)")
     @GetMapping("/selectMyTask")
     public HttpResult selectAllTask() {
         List<Task> taskList = taskService.selectTaskByLeaderId();
@@ -110,6 +120,7 @@ public class TaskController {
         }
     }
 
+    @ApiOperation(value = "查找我创建的任务", notes = "(查看我创建的所有任务)")
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
         List<Task> taskList = taskService.selectTaskByFounderId();
