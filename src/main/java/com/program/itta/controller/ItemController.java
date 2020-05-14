@@ -9,6 +9,8 @@ import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
 import com.program.itta.service.UserItemServive;
 import com.program.itta.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,7 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2020-04-08 08:39
  **/
+@Api(tags = "项目接口")
 @RestController
 @RequestMapping("/item")
 public class ItemController {
@@ -48,6 +51,7 @@ public class ItemController {
     private JwtConfig jwtConfig;
 
 
+    @ApiOperation(value = "添加项目", notes = "(创建项目)")
     @PostMapping("/addItem")
     public HttpResult addItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
@@ -60,6 +64,7 @@ public class ItemController {
         return HttpResult.success(item.getMarkId());
     }
 
+    @ApiOperation(value = "加入项目", notes = "(通过项目标志id查找到项目后，加入该项目)")
     @PostMapping("/joinItem")
     public HttpResult joinItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
@@ -71,6 +76,7 @@ public class ItemController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "添加项目成员", notes = "(通过个人标志id查找到个人后，拉该用户进入项目)")
     @PostMapping("/addItemMember")
     public HttpResult addItemMember(@RequestParam(value = "markId") String markId,
                                     @RequestParam(value = "itemId") Integer itemId) {
@@ -83,11 +89,13 @@ public class ItemController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "删除项目", notes = "(删除此项目以及该项目下的所有任务)")
     @DeleteMapping("/deleteItem")
     public HttpResult deleteItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
         Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
         Boolean deleteItem = itemService.deleteItem(item);
+        // todo 项目的任务
         if (!(deleteItem && deleteUserItem)) {
             throw new ItemDelFailException("项目删除失败");
         }
@@ -95,6 +103,7 @@ public class ItemController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "编辑项目", notes = "(编辑该项目的内容)")
     @PutMapping("/updateItem")
     public HttpResult updateItem(@RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
@@ -105,6 +114,7 @@ public class ItemController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "查找所有项目", notes = "(查看该用户下的所有项目)")
     @GetMapping("/selectItem")
     public HttpResult selectItem() {
         List<Integer> itemIdList = userItemServive.selectAllItem();
@@ -117,6 +127,7 @@ public class ItemController {
         }
     }
 
+    @ApiOperation(value = "查找项目", notes = "(通过项目标志id查找项目)")
     @GetMapping("/selectItemByMarkId")
     public HttpResult selectItemByMarkId(@RequestParam(value = "markId") String markId) {
         List<Integer> itemIdList = userItemServive.selectAllItem();
@@ -129,6 +140,7 @@ public class ItemController {
         }
     }
 
+    @ApiOperation(value = "查找项目成员", notes = "(查看该项目下的所有项目成员)")
     @GetMapping("/selectUserListByItemId")
     public HttpResult selectUserListByItemId(@RequestParam(value = "itemId") Integer itemId) {
         List<Integer> userIdList = userItemServive.selectAllUser(itemId);
