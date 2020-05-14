@@ -43,9 +43,11 @@ public enum  ResultCodeEnum {
     Schedule_Add_Fail_Exception(40002,"日程添加失败"),
     Schedule_Del_Fail_Exception(40002,"日程删除失败"),
     Schedule_Update_Fail_Exception(40002,"日程更新失败"),
-    // 5000～5999 去见表示权限控制模块错误
-    Not_Item_Leader_Exception(50001,"不具备该项目负责人的相关权限"),
-    Not_Task_Found_Exception(50002,"不具备该任务创建人的的相关权限"),
+    // 5000～5999 去见表示标签模块错误
+    Tag_Add_Fail_Exception(50001,"标签添加失败"),
+    // 6000～6999 去见表示权限控制模块错误
+    Not_Item_Leader_Exception(60001,"不具备该项目负责人的相关权限"),
+    Not_Task_Found_Exception(60002,"不具备该任务创建人的的相关权限"),
     // 。。。
 
     ;

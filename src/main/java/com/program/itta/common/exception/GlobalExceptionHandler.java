@@ -4,6 +4,7 @@ import com.program.itta.common.exception.item.*;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.schedule.*;
+import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
@@ -162,6 +163,13 @@ public class GlobalExceptionHandler {
     public HttpResult scheduleUpdateFailExceptionHandler(ScheduleUpdateFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Update_Fail_Exception);
+    }
+
+    // 标签模块
+    @ExceptionHandler(value = TagAddFailException.class)
+    public HttpResult tagAddFailExceptionHandler(TagAddFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Tag_Add_Fail_Exception);
     }
 
     // 权限控制模块

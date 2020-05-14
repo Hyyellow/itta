@@ -30,6 +30,7 @@ public class UserTagServiceImpl implements UserTagService {
 
     @Autowired
     private TagMapper tagMapper;
+
     @Override
     public Boolean addUserTag(String content) {
         Integer userId = jwtConfig.getUserId();
@@ -39,19 +40,21 @@ public class UserTagServiceImpl implements UserTagService {
                 .tagId(tag.getId())
                 .build();
         Boolean judgeUserTag = judgeUserTag(userTag);
-        if (judgeUserTag){
+        if (judgeUserTag) {
             return true;
         }
         int insert = userTagMapper.insert(userTag);
-        if (insert!=0){
+        if (insert != 0) {
             return true;
         }
         return false;
     }
 
-    private Boolean judgeUserTag(UserTag userTag){
+    private Boolean judgeUserTag(UserTag userTag) {
         UserTag selectByUserTag = userTagMapper.selectByUserTag(userTag);
-        if (selectByUserTag!=null){
+        if (selectByUserTag != null) {
+            selectByUserTag.setNumber(selectByUserTag.getNumber() + 1);
+            userTagMapper.updateByPrimaryKey(selectByUserTag);
             return true;
         }
         return false;
