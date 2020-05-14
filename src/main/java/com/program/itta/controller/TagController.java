@@ -8,6 +8,8 @@ import com.program.itta.mapper.TaskTagMapper;
 import com.program.itta.service.TagService;
 import com.program.itta.service.TaskTagService;
 import com.program.itta.service.UserTagService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import java.util.List;
  * @author: Mr. Boyle
  * @create: 2020-04-08 20:49
  **/
+@Api(tags = "标签接口")
 @RestController
 @RequestMapping("/tag")
 public class TagController {
@@ -41,6 +44,7 @@ public class TagController {
     @Autowired
     private TaskTagService taskTagService;
 
+    @ApiOperation(value = "添加标签", notes = "(添加此标签，当任务中添加标签时使用)")
     @PostMapping("/addTag")
     public HttpResult addTag(@RequestParam(value = "taskId") Integer taskId,
                              @RequestParam(value = "content") String content) {
@@ -55,6 +59,7 @@ public class TagController {
         }
     }
 
+    @ApiOperation(value = "查找任务标签", notes = "(查看该任务的所有标签)")
     @GetMapping("/selectTaskTag")
     public HttpResult selectTaskTag(@RequestParam(value = "taskId") Integer taskId) {
         List<Integer> tagIdList = taskTagService.selectAllTag(taskId);
@@ -66,6 +71,7 @@ public class TagController {
         }
     }
 
+    @ApiOperation(value = "查找用户常用标签", notes = "(查看该用户常用的前3个标签)")
     @GetMapping("/selectUserTag")
     public HttpResult selectUserTag() {
         List<Integer> tagIdList = userTagService.selectThreeTag();
