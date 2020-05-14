@@ -9,6 +9,8 @@ import com.program.itta.common.util.SslUtil;
 import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.User;
 import com.program.itta.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -30,6 +32,7 @@ import static com.program.itta.common.result.ResultCodeEnum.SERVER_ERROR;
  * @author: Mr.Huang
  * @create: 2020-04-04 10:40
  **/
+@Api(tags = "用户接口")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -42,6 +45,7 @@ public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
     @PutMapping("/updateUser")
     public HttpResult updateUser(@RequestBody @Valid UserDTO userDTO) {
         User user = userDTO.convertToUser();
@@ -52,6 +56,7 @@ public class UserController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "查找用户信息", notes = "(查看该用户的详细信息)")
     @GetMapping("/seletUser")
     public HttpResult selectUser() {
         UserDTO userDTO = userService.selectUser();
@@ -61,6 +66,7 @@ public class UserController {
         return HttpResult.success(userDTO);
     }
 
+    @ApiOperation(value = "上传用户头像", notes = "(上传该用户的头像)")
     @PostMapping("/upload")
     public HttpResult upload(@RequestParam(value = "file") MultipartFile file) {
         String url = cosClientUtil.upload(file, "userHead/");
