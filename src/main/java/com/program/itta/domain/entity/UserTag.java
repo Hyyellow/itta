@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class UserTag {
+public class UserTag implements Comparable<UserTag> {
     private Integer id;
 
     private Integer tagId;
@@ -23,5 +23,16 @@ public class UserTag {
 
     @Tolerate
     public UserTag() {
+    }
+
+    @Override
+    public int compareTo(UserTag o) {
+        if (o.number > this.number) {
+            return 1;
+        } else if (o.number.equals(this.number)) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 }

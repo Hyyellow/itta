@@ -44,4 +44,9 @@
     from user_tag
     where tag_id = #{tagId,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="selectAllTag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, tag_id, user_id, number, create_time, update_time
+    from user_tag
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
 </mapper>

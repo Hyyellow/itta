@@ -65,5 +65,14 @@ public class TagController {
         }
     }
 
-    
+    @GetMapping("/selectUserTag")
+    public HttpResult selectUserTag() {
+        List<Integer> tagIdList = userTagService.selectThreeTag();
+        List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
+        if (tagDTOList != null && !tagDTOList.isEmpty()) {
+            return HttpResult.success(tagDTOList);
+        }else {
+            return HttpResult.success("该用户尚无常用标签");
+        }
+    }
 }

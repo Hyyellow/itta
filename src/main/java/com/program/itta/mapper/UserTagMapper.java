@@ -1,5 +1,6 @@
 package com.program.itta.mapper;
 
+import com.program.itta.domain.entity.User;
 import com.program.itta.domain.entity.UserTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,6 @@ public interface UserTagMapper {
     int updateByPrimaryKey(UserTag record);
 
     UserTag selectByUserTag(UserTag record);
+
+    List<UserTag> selectAllTag(Integer userId);
 }
