@@ -40,9 +40,9 @@ public enum  ResultCodeEnum {
     // 4000～4999 去见表示日程模块错误
     Schedule_Name_Exists_Exception(40001,"该日程名称重复"),
     Schedule_Not_Exists_Exception(40002,"该日程不存在"),
-    Schedule_Add_Fail_Exception(40002,"日程添加失败"),
-    Schedule_Del_Fail_Exception(40002,"日程删除失败"),
-    Schedule_Update_Fail_Exception(40002,"日程更新失败"),
+    Schedule_Add_Fail_Exception(40003,"日程添加失败"),
+    Schedule_Del_Fail_Exception(40004,"日程删除失败"),
+    Schedule_Update_Fail_Exception(40005,"日程更新失败"),
     // 5000～5999 去见表示标签模块错误
     Tag_Add_Fail_Exception(50001,"标签添加失败"),
     // 6000～6999 去见表示权限控制模块错误

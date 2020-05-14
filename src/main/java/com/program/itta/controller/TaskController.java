@@ -11,9 +11,7 @@ import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.TaskService;
 import com.program.itta.service.UserTaskService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +48,7 @@ public class TaskController {
     private JwtConfig jwtConfig;
 
     @ApiOperation(value = "添加任务", notes = "(添加此任务，团队任务，个人任务皆为此接口)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30001, message = "任务添加失败")})
     @PostMapping("/addTask")
     public HttpResult addTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                               @RequestBody @Valid TaskDTO taskDTO) {
@@ -64,6 +63,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "删除任务", notes = "(删除该任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30004, message = "任务删除失败")})
     @DeleteMapping("/deleteTask")
     public HttpResult deleteTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid TaskDTO taskDTO) {
@@ -79,6 +79,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "编辑任务", notes = "(编辑该任务内容)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30003, message = "任务更新失败")})
     @PutMapping("/updateTask")
     public HttpResult updateTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid TaskDTO taskDTO) {
@@ -93,6 +94,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "查找任务", notes = "(查找该任务——待修改，存在问题)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
     @GetMapping("/selectTaskToEdit")
     public HttpResult selectTaskToEdit(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                        @RequestBody @Valid TaskDTO taskDTO) {
@@ -106,6 +108,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "查找项目任务", notes = "(查看该项目的所有任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该项目尚无添加任务")})
     @GetMapping("/selectTaskByItemId")
     public HttpResult selectTaskByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "itemId") Integer itemId) {
@@ -118,24 +121,26 @@ public class TaskController {
     }
 
     @ApiOperation(value = "查找我的任务", notes = "(查看我的所有任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无任务")})
     @GetMapping("/selectMyTask")
     public HttpResult selectAllTask() {
         List<Task> taskList = taskService.selectTaskByLeaderId();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
-            return HttpResult.success("该项目尚无添加任务");
+            return HttpResult.success("该用户尚无任务");
         }
     }
 
     @ApiOperation(value = "查找我创建的任务", notes = "(查看我创建的所有任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无创建任务")})
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
         List<Task> taskList = taskService.selectTaskByFounderId();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
-            return HttpResult.success("该项目尚无添加任务");
+            return HttpResult.success("该用户尚无创建任务");
         }
     }
 }

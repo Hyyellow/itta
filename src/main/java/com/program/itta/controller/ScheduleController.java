@@ -1,12 +1,13 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.exception.schedule.ScheduleAddFailException;
+import com.program.itta.common.exception.schedule.ScheduleDelFailException;
+import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.service.ScheduleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,7 @@ public class ScheduleController {
     private ScheduleService scheduleService;
 
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectSchedule")
     public HttpResult selectSchedule() {
         List<Schedule> scheduleList = scheduleService.selectByUserId();
@@ -38,37 +40,40 @@ public class ScheduleController {
     }
 
     @ApiOperation(value = "添加日程", notes = "(添加该用户的日程安排)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40003, message = "日程添加失败")})
     @PostMapping("/addSchedule")
     public HttpResult addSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
                                   @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean addSchedule = scheduleService.addSchedule(schedule);
         if (!addSchedule) {
-            throw new RuntimeException("日程添加失败");
+            throw new ScheduleAddFailException("日程添加失败");
         }
         return HttpResult.success();
     }
 
     @ApiOperation(value = "编辑日程", notes = "(编辑此日程安排)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/updateSchedule")
     public HttpResult updateSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
                                      @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean updateSchedule = scheduleService.updateSchedule(schedule);
         if (!updateSchedule) {
-            throw new RuntimeException("日程更新失败");
+            throw new ScheduleUpdateFailException("日程更新失败");
         }
         return HttpResult.success();
     }
 
     @ApiOperation(value = "删除日程", notes = "(删除此日程安排)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40004, message = "日程删除失败")})
     @DeleteMapping("/deleteSchedule")
     public HttpResult deleteSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
                                      @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean deleteSchedule = scheduleService.deleteSchedule(schedule);
         if (!deleteSchedule) {
-            throw new RuntimeException("日程删除失败");
+            throw new ScheduleDelFailException("日程删除失败");
         }
         return HttpResult.success();
     }

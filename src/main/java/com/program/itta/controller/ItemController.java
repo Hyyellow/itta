@@ -9,9 +9,7 @@ import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
 import com.program.itta.service.UserItemServive;
 import com.program.itta.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +51,7 @@ public class ItemController {
 
 
     @ApiOperation(value = "添加项目", notes = "(创建项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20002, message = "项目添加失败")})
     @PostMapping("/addItem")
     public HttpResult addItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                               @RequestBody @Valid ItemDTO itemDTO) {
@@ -67,6 +66,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "加入项目", notes = "(通过项目标志id查找到项目后，加入该项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20008, message = "项目用户成员添加失败")})
     @PostMapping("/joinItem")
     public HttpResult joinItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                @RequestBody @Valid ItemDTO itemDTO) {
@@ -80,6 +80,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "添加项目成员", notes = "(通过个人标志id查找到个人后，拉该用户进入项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20008, message = "项目用户成员添加失败")})
     @PostMapping("/addItemMember")
     public HttpResult addItemMember(@ApiParam(name = "成员标志id", value = "传入Json格式", required = true)
                                     @RequestParam(value = "markId") String markId,
@@ -95,6 +96,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "删除项目", notes = "(删除此项目以及该项目下的所有任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20003, message = "项目删除失败")})
     @DeleteMapping("/deleteItem")
     public HttpResult deleteItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid ItemDTO itemDTO) {
@@ -110,6 +112,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "编辑项目", notes = "(编辑该项目的内容)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20004, message = "项目更新失败")})
     @PutMapping("/updateItem")
     public HttpResult updateItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid ItemDTO itemDTO) {
@@ -122,6 +125,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "查找所有项目", notes = "(查看该用户下的所有项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无项目存在")})
     @GetMapping("/selectItem")
     public HttpResult selectItem() {
         List<Integer> itemIdList = userItemServive.selectAllItem();
@@ -135,6 +139,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "查找项目", notes = "(通过项目标志id查找项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20005, message = "项目不存在，项目id查找为空")})
     @GetMapping("/selectItemByMarkId")
     public HttpResult selectItemByMarkId(@ApiParam(name = "项目标志id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "markId") String markId) {
@@ -149,6 +154,7 @@ public class ItemController {
     }
 
     @ApiOperation(value = "查找项目成员", notes = "(查看该项目下的所有项目成员)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20007, message = "项目用户成员查找失败")})
     @GetMapping("/selectUserListByItemId")
     public HttpResult selectUserListByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                              @RequestParam(value = "itemId") Integer itemId) {

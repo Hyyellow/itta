@@ -9,9 +9,7 @@ import com.program.itta.common.util.SslUtil;
 import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.User;
 import com.program.itta.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -47,6 +45,7 @@ public class UserController {
     private StringRedisTemplate redisTemplate;
 
     @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10003, message = "用户更新失败")})
     @PutMapping("/updateUser")
     public HttpResult updateUser(@ApiParam(name = "用户DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid UserDTO userDTO) {
@@ -59,6 +58,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "查找用户信息", notes = "(查看该用户的详细信息)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10002, message = "用户不存在")})
     @GetMapping("/seletUser")
     public HttpResult selectUser() {
         UserDTO userDTO = userService.selectUser();
@@ -69,6 +69,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "上传用户头像", notes = "(上传该用户的头像)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
     @PostMapping("/upload")
     public HttpResult upload(@ApiParam(name = "上传图片", value = "选择用户头像文件", required = true)
                              @RequestParam(value = "file") MultipartFile file) {
