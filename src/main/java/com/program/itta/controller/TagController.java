@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @program: itta
@@ -46,9 +47,23 @@ public class TagController {
         Boolean addTag = tagService.addTag(tag);
         Boolean addUserTag = userTagService.addUserTag(content);
         Boolean addTaskTag = taskTagService.addTaskTag(taskId, content);
-        if (!(addTag && addTaskTag && addUserTag)) {
+        if (addTag && addTaskTag && addUserTag) {
+            return HttpResult.success();
+        } else {
             throw new RuntimeException("添加任务标签失败");
         }
-        return HttpResult.success();
     }
+
+    @GetMapping("/selectTaskTag")
+    public HttpResult selectTaskTag(@RequestParam(value = "taskId") Integer taskId) {
+        List<Integer> tagIdList = taskTagService.selectAllTag(taskId);
+        List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
+        if (tagDTOList != null && !tagDTOList.isEmpty()) {
+            return HttpResult.success(tagDTOList);
+        }else {
+            return HttpResult.success("该任务尚无标签");
+        }
+    }
+
+    
 }

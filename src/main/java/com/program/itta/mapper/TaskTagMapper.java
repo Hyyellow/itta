@@ -20,4 +20,6 @@ public interface TaskTagMapper {
     int updateByPrimaryKey(TaskTag record);
 
     TaskTag selectByTaskTag(TaskTag record);
+
+    List<TaskTag> selectAllTag(Integer taskId);
 }

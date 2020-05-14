@@ -8,6 +8,9 @@ import com.program.itta.service.TaskTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @program: itta
  * @description: 任务标签Service
@@ -38,6 +41,18 @@ public class TaskTagServiceImpl implements TaskTagService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Integer> selectAllTag(Integer taskId) {
+        List<TaskTag> taskTags = taskTagMapper.selectAllTag(taskId);
+        List<Integer> tagIds = taskTags.stream()
+                .map(TaskTag -> TaskTag.getTagId())
+                .collect(Collectors.toList());
+        if (tagIds != null && !tagIds.isEmpty()) {
+            return tagIds;
+        }
+        return null;
     }
 
     private Boolean judgeTaskTag(TaskTag taskTag) {
