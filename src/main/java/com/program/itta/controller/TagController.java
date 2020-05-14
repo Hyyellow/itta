@@ -10,6 +10,7 @@ import com.program.itta.service.TaskTagService;
 import com.program.itta.service.UserTagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,9 @@ public class TagController {
 
     @ApiOperation(value = "添加标签", notes = "(添加此标签，当任务中添加标签时使用)")
     @PostMapping("/addTag")
-    public HttpResult addTag(@RequestParam(value = "taskId") Integer taskId,
+    public HttpResult addTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
+                             @RequestParam(value = "taskId") Integer taskId,
+                             @ApiParam(name = "标签内容", value = "传入Json格式", required = true)
                              @RequestParam(value = "content") String content) {
         Tag tag = Tag.builder().content(content).build();
         Boolean addTag = tagService.addTag(tag);
@@ -61,12 +64,13 @@ public class TagController {
 
     @ApiOperation(value = "查找任务标签", notes = "(查看该任务的所有标签)")
     @GetMapping("/selectTaskTag")
-    public HttpResult selectTaskTag(@RequestParam(value = "taskId") Integer taskId) {
+    public HttpResult selectTaskTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
+                                    @RequestParam(value = "taskId") Integer taskId) {
         List<Integer> tagIdList = taskTagService.selectAllTag(taskId);
         List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
         if (tagDTOList != null && !tagDTOList.isEmpty()) {
             return HttpResult.success(tagDTOList);
-        }else {
+        } else {
             return HttpResult.success("该任务尚无标签");
         }
     }
@@ -78,7 +82,7 @@ public class TagController {
         List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
         if (tagDTOList != null && !tagDTOList.isEmpty()) {
             return HttpResult.success(tagDTOList);
-        }else {
+        } else {
             return HttpResult.success("该用户尚无常用标签");
         }
     }
