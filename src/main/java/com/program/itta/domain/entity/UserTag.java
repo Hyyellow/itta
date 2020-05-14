@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
 public class UserTag {
@@ -13,6 +14,8 @@ public class UserTag {
     private Integer tagId;
 
     private Integer userId;
+
+    private Integer number;
 
     private Date createTime;
 
