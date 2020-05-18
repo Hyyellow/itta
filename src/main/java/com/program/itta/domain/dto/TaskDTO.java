@@ -32,7 +32,13 @@ public class TaskDTO {
     private Integer itemId;
 
     @ApiModelProperty(value = "创建人id", example = "1")
-    private Integer leaderId;
+    private Integer userId;
+
+    @ApiModelProperty(value = "父任务id", example = "1")
+    private Integer superId;
+
+    @ApiModelProperty(value = "任务标志id", example = "1")
+    private String markId;
 
     @ApiModelProperty(value = "任务状态", example = "1", notes = "1：完成；0：未完成")
     private Integer status;
@@ -49,14 +55,9 @@ public class TaskDTO {
     @ApiModelProperty(value = "紧急程度", example = "1",notes = "3：非常紧急；2：紧急；1：一般")
     private Integer priority;
 
-    private Integer label;
-
     @ApiModelProperty(value = "该任务下的成员列表", example = "{1,2,3}")
     private List<Integer> userIdList;
 
-    // TODO 从属任务
-
-    // TODO markId
 
     @Tolerate
     public TaskDTO() {

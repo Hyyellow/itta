@@ -26,6 +26,9 @@ public class ScheduleDTO {
     @ApiModelProperty(value = "日程id", example = "1")
     private Integer id;
 
+    @ApiModelProperty(value = "用户id", example = "1")
+    private Integer userId;
+
     @ApiModelProperty(value = "日程名称", example = "学习操作系统")
     private String name;
 

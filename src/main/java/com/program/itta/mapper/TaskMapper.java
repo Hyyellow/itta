@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
 @Mapper
 public interface TaskMapper {
@@ -21,7 +20,7 @@ public interface TaskMapper {
 
     List<Task> selectByItemId(Integer itemId);
 
-    List<Task> selectByFounderId(Integer founderId);
-
     List<Task> selectByLeaderId(Integer leaderId);
+
+    List<Task> selectByFounderId(Integer founderId);
 }

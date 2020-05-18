@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 @Repository
 @Mapper
 public interface ItemMapper {
@@ -19,7 +18,7 @@ public interface ItemMapper {
 
     int updateByPrimaryKey(Item record);
 
-    List<Item> selectAllItemByUserId(Integer userId);
-
     Item selectByMarkId(String markId);
+
+    List<Item> selectAllByUserId(Integer userId);
 }

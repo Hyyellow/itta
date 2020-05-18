@@ -46,7 +46,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Boolean addTask(Task task) {
         Integer userId = jwtConfig.getUserId();
-        task.setFounderId(userId);
+        task.setUserId(userId);
         Boolean judgeItemExists = judgeItemExists(task.getItemId());
         if (judgeItemExists) {
             throw new ItemNotExistsException("该项目不存在");
@@ -57,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
         }
         int insert = taskMapper.insert(task);
         if (insert != 0) {
-            logger.info("用户：" + task.getLeaderId() + "添加任务" + task.getName());
+            logger.info("用户：" + task.getUserId() + "添加任务" + task.getName());
             return true;
         }
         return false;
@@ -98,7 +98,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private Boolean judgeTaskLeader(Integer userId, Task task) {
-        if (task.getLeaderId() != null) {
+        if (task.getUserId() != null) {
             Boolean updatePermissions = taskPermissionsUtil.UpdatePermissions(userId, task);
             if (!updatePermissions){
                 return false;
@@ -146,7 +146,7 @@ public class TaskServiceImpl implements TaskService {
                 }
             }
         } else {
-            List<Task> taskList = taskMapper.selectByFounderId(task.getFounderId());
+            List<Task> taskList = taskMapper.selectByFounderId(task.getUserId());
             for (Task task1 : taskList) {
                 if (task.getName().equals(task1.getName())) {
                     return task1;
@@ -169,7 +169,7 @@ public class TaskServiceImpl implements TaskService {
                 }
             }
         } else {
-            List<Task> taskList = taskMapper.selectByFounderId(task.getFounderId());
+            List<Task> taskList = taskMapper.selectByFounderId(task.getUserId());
             for (Task task1 : taskList) {
                 if (task.getName().equals(task1.getName())) {
                     return true;

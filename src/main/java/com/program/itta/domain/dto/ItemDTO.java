@@ -29,7 +29,7 @@ public class ItemDTO {
     private Integer actionScope;
 
     @ApiModelProperty(value = "创建人id", example = "1")
-    private Integer leaderId;
+    private Integer userId;
 
     @ApiModelProperty(value = "标志id", example = "1syufgf2dfg4sddtvxfgf45")
     private String markId;
