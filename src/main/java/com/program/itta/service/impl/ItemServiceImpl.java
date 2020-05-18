@@ -108,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> selectAllItem(List<Integer> itemIdList) {
+    public List<Item> selectItemList(List<Integer> itemIdList) {
         List<Item> itemList = null;
         for (int i = 0; i < itemIdList.size(); i++) {
             Item item = itemMapper.selectByPrimaryKey(itemIdList.get(i));

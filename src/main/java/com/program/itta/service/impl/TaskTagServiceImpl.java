@@ -45,7 +45,7 @@ public class TaskTagServiceImpl implements TaskTagService {
     }
 
     @Override
-    public List<Integer> selectAllTag(Integer taskId) {
+    public List<Integer> selectByTaskId(Integer taskId) {
         List<TaskTag> taskTags = taskTagMapper.selectByTaskId(taskId);
         List<Integer> tagIds = taskTags.stream()
                 .map(TaskTag -> TaskTag.getTagId())
@@ -58,7 +58,6 @@ public class TaskTagServiceImpl implements TaskTagService {
 
     @Override
     public Boolean deleteTaskTag(Task task) {
-
         List<TaskTag> taskTagList = taskTagMapper.selectByTaskId(task.getId());
         for (TaskTag taskTag : taskTagList) {
             int delete = taskTagMapper.deleteByPrimaryKey(taskTag.getId());

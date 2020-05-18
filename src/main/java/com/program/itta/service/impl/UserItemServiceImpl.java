@@ -96,7 +96,7 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     @Override
-    public List<Integer> selectAllItem() {
+    public List<Integer> selectByUserId() {
         Integer userId = jwtConfig.getUserId();
         List<UserItem> userItemList = userItemMapper.selectByUserId(userId);
         List<Integer> itemIds = userItemList.stream()
@@ -109,7 +109,7 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     @Override
-    public List<Integer> selectAllUser(Integer itemId) {
+    public List<Integer> selectByItemId(Integer itemId) {
         List<UserItem> userItemList = userItemMapper.selectByItemId(itemId);
         List<Integer> userIds = userItemList.stream()
                 .map(UserItem -> UserItem.getUserId())

@@ -11,7 +11,7 @@ public interface TaskTagService {
     Boolean addTaskTag(Integer taskId, String content);
 
     // 查找该任务的所有标签
-    List<Integer> selectAllTag(Integer taskId);
+    List<Integer> selectByTaskId(Integer taskId);
 
     Boolean deleteTaskTag(Task task);
 }

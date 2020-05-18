@@ -107,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public List<Task> selectTaskByItemId(Integer itemId) {
+    public List<Task> selectByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         if (taskList != null && !taskList.isEmpty()) {
             return taskList;
@@ -127,7 +127,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectTaskByUserId() {
+    public List<Task> selectByUserId() {
         Integer userId = jwtConfig.getUserId();
         List<Task> taskList = taskMapper.selectByUserId(userId);
         if (taskList != null && !taskList.isEmpty()) {

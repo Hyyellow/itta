@@ -16,11 +16,11 @@ public interface TaskService {
     Boolean updateTask(Task task);
 
     // 查看项目中的任务
-    List<Task> selectTaskByItemId(Integer itemId);
+    List<Task> selectByItemId(Integer itemId);
 
     // 查看所有我的任务
     List<Task> selectAllMyTask();
 
     // 查看所有我创建的任务
-    List<Task> selectTaskByUserId();
+    List<Task> selectByUserId();
 }

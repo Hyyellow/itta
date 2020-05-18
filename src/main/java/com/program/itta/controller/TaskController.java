@@ -103,7 +103,7 @@ public class TaskController {
     @GetMapping("/selectTaskByItemId")
     public HttpResult selectTaskByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "itemId") Integer itemId) {
-        List<Task> taskList = taskService.selectTaskByItemId(itemId);
+        List<Task> taskList = taskService.selectByItemId(itemId);
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -127,7 +127,7 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无创建任务")})
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
-        List<Task> taskList = taskService.selectTaskByUserId();
+        List<Task> taskList = taskService.selectByUserId();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {

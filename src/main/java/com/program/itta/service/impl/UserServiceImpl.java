@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> selectUserByIdList(List<Integer> userIds) {
+    public List<UserDTO> selectUserList(List<Integer> userIds) {
         List<UserDTO> userList = new ArrayList<> ();
         for (Integer userId : userIds) {
             User user = userMapper.selectByPrimaryKey(userId);

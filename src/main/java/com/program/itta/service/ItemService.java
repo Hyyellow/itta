@@ -16,7 +16,7 @@ public interface ItemService {
     Boolean updateItem(Item item);
 
     // 查找该用户的所有项目
-    List<Item> selectAllItem(List<Integer> itemIdList);
+    List<Item> selectItemList(List<Integer> itemIdList);
 
     // 根据项目id查找项目
     Item selectByItemId(Integer id);

@@ -128,10 +128,10 @@ public class ItemController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无项目存在")})
     @GetMapping("/selectItem")
     public HttpResult selectItem() {
-        List<Integer> itemIdList = userItemServive.selectAllItem();
+        List<Integer> itemIdList = userItemServive.selectByUserId();
         jwtConfig.removeThread();
         if (itemIdList != null && !itemIdList.isEmpty()) {
-            List<Item> itemList = itemService.selectAllItem(itemIdList);
+            List<Item> itemList = itemService.selectItemList(itemIdList);
             return HttpResult.success(itemList);
         } else {
             return HttpResult.success("该用户尚无项目存在");
@@ -143,7 +143,7 @@ public class ItemController {
     @GetMapping("/selectItemByMarkId")
     public HttpResult selectItemByMarkId(@ApiParam(name = "项目标志id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "markId") String markId) {
-        List<Integer> itemIdList = userItemServive.selectAllItem();
+        List<Integer> itemIdList = userItemServive.selectByUserId();
         ItemDTO itemDTO = itemService.selectByMarkId(markId, itemIdList);
         jwtConfig.removeThread();
         if (itemDTO != null) {
@@ -158,8 +158,8 @@ public class ItemController {
     @GetMapping("/selectUserListByItemId")
     public HttpResult selectUserListByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                              @RequestParam(value = "itemId") Integer itemId) {
-        List<Integer> userIdList = userItemServive.selectAllUser(itemId);
-        List<UserDTO> userList = userService.selectUserByIdList(userIdList);
+        List<Integer> userIdList = userItemServive.selectByItemId(itemId);
+        List<UserDTO> userList = userService.selectUserList(userIdList);
         if (userList != null && !userList.isEmpty()) {
             return HttpResult.success(userList);
         } else {

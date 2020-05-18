@@ -66,7 +66,7 @@ public class TagController {
     @GetMapping("/selectTaskTag")
     public HttpResult selectTaskTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
                                     @RequestParam(value = "taskId") Integer taskId) {
-        List<Integer> tagIdList = taskTagService.selectAllTag(taskId);
+        List<Integer> tagIdList = taskTagService.selectByTaskId(taskId);
         List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
         if (tagDTOList != null && !tagDTOList.isEmpty()) {
             return HttpResult.success(tagDTOList);
