@@ -40,7 +40,7 @@
     from task_tag
     where task_id = #{taskId,jdbcType=INTEGER} and tag_id = #{tagId,jdbcType=INTEGER}
   </select>
-  <select id="selectAllTag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByTaskId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, task_id, tag_id, create_time, update_time
     from task_tag
     where task_id = #{taskId,jdbcType=INTEGER}

@@ -21,5 +21,5 @@ public interface TaskTagMapper {
 
     TaskTag selectByTaskTag(TaskTag record);
 
-    List<TaskTag> selectAllTag(Integer taskId);
+    List<TaskTag> selectByTaskId(Integer taskId);
 }

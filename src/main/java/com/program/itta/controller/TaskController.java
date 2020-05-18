@@ -10,9 +10,11 @@ import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.TaskService;
+import com.program.itta.service.TaskTagService;
 import com.program.itta.service.UserTaskService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.flyway.FlywayDataSource;
 import org.springframework.web.bind.annotation.*;
 
 import static com.program.itta.common.result.ResultCodeEnum.*;
@@ -44,6 +46,9 @@ public class TaskController {
     @Autowired
     private UserTaskService userTaskService;
 
+    @Autowired
+    private TaskTagService taskTagService;
+
     @Resource
     private JwtConfig jwtConfig;
 
@@ -70,8 +75,8 @@ public class TaskController {
         Task task = taskDTO.convertToTask();
         Boolean deleteTask = taskService.deleteTask(task);
         Boolean deleteUserTask = userTaskService.deleteUserTask(task);
-        // todo 删除任务的标签
-        if (!(deleteTask && deleteUserTask)) {
+        Boolean deleteTaskTag = taskTagService.deleteTaskTag(task);
+        if (!(deleteTask && deleteUserTask && deleteTaskTag)) {
             throw new TaskDelFailException("任务删除失败");
         }
         jwtConfig.removeThread();

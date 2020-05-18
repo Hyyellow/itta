@@ -20,7 +20,5 @@ public interface TaskMapper {
 
     List<Task> selectByItemId(Integer itemId);
 
-    List<Task> selectByLeaderId(Integer leaderId);
-
     List<Task> selectByUserId(Integer userId);
 }

@@ -1,6 +1,7 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.domain.entity.Tag;
+import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.TaskTag;
 import com.program.itta.mapper.TagMapper;
 import com.program.itta.mapper.TaskTagMapper;
@@ -45,7 +46,7 @@ public class TaskTagServiceImpl implements TaskTagService {
 
     @Override
     public List<Integer> selectAllTag(Integer taskId) {
-        List<TaskTag> taskTags = taskTagMapper.selectAllTag(taskId);
+        List<TaskTag> taskTags = taskTagMapper.selectByTaskId(taskId);
         List<Integer> tagIds = taskTags.stream()
                 .map(TaskTag -> TaskTag.getTagId())
                 .collect(Collectors.toList());
@@ -53,6 +54,19 @@ public class TaskTagServiceImpl implements TaskTagService {
             return tagIds;
         }
         return null;
+    }
+
+    @Override
+    public Boolean deleteTaskTag(Task task) {
+
+        List<TaskTag> taskTagList = taskTagMapper.selectByTaskId(task.getId());
+        for (TaskTag taskTag : taskTagList) {
+            int delete = taskTagMapper.deleteByPrimaryKey(taskTag.getId());
+            if (delete == 0){
+                return false;
+            }
+        }
+        return true;
     }
 
     private Boolean judgeTaskTag(TaskTag taskTag) {
