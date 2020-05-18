@@ -8,10 +8,10 @@ package com.program.itta;
  **/
 public class Test2 {
 
-    /**
+/*    *//**
      * 打印一个语句作为测试方法
-     */
+     *//*
     public static void testMethod(){
         System.out.println("输出测试结果");
-    }
+    }*/
 }

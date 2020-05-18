@@ -16,7 +16,7 @@ import java.util.List;
  * @create: 2020-04-08 16:02
  **/
 public class GenerationTests {
-    @Test
+/*    @Test
     public void testMbg() throws Exception {
         List<String> warnings = new ArrayList<String>();
         boolean overwrite = true;
@@ -26,5 +26,5 @@ public class GenerationTests {
         DefaultShellCallback callback = new DefaultShellCallback(overwrite);
         org.mybatis.generator.api.MyBatisGenerator myBatisGenerator = new org.mybatis.generator.api.MyBatisGenerator(config, callback, warnings);
         myBatisGenerator.generate(null);
-    }
+    }*/
 }

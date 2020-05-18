@@ -10,8 +10,8 @@ import org.junit.Test;
  **/
 public class Test1 {
 
-    @Test
+/*    @Test
     public void testMethod(){
         Test2.testMethod();
-    }
+    }*/
 }

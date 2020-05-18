@@ -60,6 +60,8 @@ public class ShiroConfig {
         filterRuleMap.put("/api/response/**", "anon");
         filterRuleMap.put("/user/**", "anon");
         filterRuleMap.put("/api/**", "anon");
+        filterRuleMap.put("/task/**", "anon");
+        filterRuleMap.put("/item/**", "anon");
 //        filterRuleMap.put("/item/**", "anon");
         // 所有请求通过JWT Filter
         filterRuleMap.put("/**", "jwt");

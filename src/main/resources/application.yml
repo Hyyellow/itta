@@ -87,5 +87,5 @@ wx:
     appsecret: a524735368d6bd325efbd09b4591ede6
 
 swagger:
-  host: localhost:8080
+  host: hyyyms.com.cn:8080
   show: true

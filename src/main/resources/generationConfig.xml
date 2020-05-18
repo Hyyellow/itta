@@ -60,9 +60,9 @@
         <table tableName="task" domainObjectName="Task"/>
         <table tableName="schedule" domainObjectName="Schedule"/>-->
 <!--        <table tableName="tag" domainObjectName="Tag"/>-->
-        <table tableName="user_tag" domainObjectName="UserTag"/>
+<!--&lt;!&ndash;        <table tableName="user_tag" domainObjectName="UserTag"/>-->
 <!--        <table tableName="task_tag" domainObjectName="TaskTag"/>-->
-<!--        <table tableName="schedule" domainObjectName="Schedule"/>-->
+        <table tableName="schedule" domainObjectName="Schedule"/>
     </context>
 
 </generatorConfiguration>
