@@ -21,7 +21,7 @@ public class TaskPermissionsUtil {
     private ItemService itemService;
 
     public Boolean AddPermissions(Integer userId, Task task) {
-        Item item = itemService.selectById(task.getItemId());
+        Item item = itemService.selectByItemId(task.getItemId());
         if (userId.equals(item.getUserId())) {
             return true;
         }

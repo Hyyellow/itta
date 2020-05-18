@@ -20,5 +20,5 @@ public interface ItemMapper {
 
     Item selectByMarkId(String markId);
 
-    List<Item> selectAllByUserId(Integer userId);
+    List<Item> selectByUserId(Integer userId);
 }

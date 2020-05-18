@@ -21,5 +21,5 @@ public interface UserTagMapper {
 
     UserTag selectByUserTag(UserTag record);
 
-    List<UserTag> selectAllTag(Integer userId);
+    List<UserTag> selectByUserId(Integer userId);
 }

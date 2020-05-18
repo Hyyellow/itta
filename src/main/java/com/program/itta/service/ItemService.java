@@ -19,7 +19,7 @@ public interface ItemService {
     List<Item> selectAllItem(List<Integer> itemIdList);
 
     // 根据项目id查找项目
-    Item selectById(Integer id);
+    Item selectByItemId(Integer id);
 
     // 根据项目的标志id查找项目
     ItemDTO selectByMarkId(String markId, List<Integer> itemIds);

@@ -41,7 +41,7 @@
     select id, user_id, name, action_scope, mark_id, create_time, update_time
     from item
   </select>
-  <select id="selectAllByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, user_id, name, action_scope, mark_id, create_time, update_time
     from item
     where leader_id = #{leaderId,jdbcType=INTEGER}

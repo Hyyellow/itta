@@ -118,7 +118,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item selectById(Integer id) {
+    public Item selectByItemId(Integer id) {
         Item item = itemMapper.selectByPrimaryKey(id);
         if (item != null) {
             return item;
@@ -154,7 +154,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private Boolean judgeItemName(Item item) {
-        List<Item> items = itemMapper.selectAllByUserId(item.getUserId());
+        List<Item> items = itemMapper.selectByUserId(item.getUserId());
         for (Item item1 : items) {
             if (item1.getName().equals(item.getName())) {
                 return true;

@@ -60,7 +60,7 @@ public class UserTagServiceImpl implements UserTagService {
     public List<Integer> selectThreeTag() {
         Integer userId = jwtConfig.getUserId();
         List<UserTag> userTags = new ArrayList<>();
-        List<UserTag> userTagList = userTagMapper.selectAllTag(userId);
+        List<UserTag> userTagList = userTagMapper.selectByUserId(userId);
         Collections.sort(userTagList);
         userTags.addAll(userTagList.subList(0,3));
         List<Integer> tagIds = userTags.stream()
