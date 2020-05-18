@@ -1,6 +1,7 @@
 package com.program.itta.common.exception;
 
 import com.program.itta.common.exception.item.*;
+import com.program.itta.common.exception.news.NewsDelFailException;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.schedule.*;
@@ -170,6 +171,13 @@ public class GlobalExceptionHandler {
     public HttpResult tagAddFailExceptionHandler(TagAddFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Tag_Add_Fail_Exception);
+    }
+
+    // 消息模块
+    @ExceptionHandler(value = NewsDelFailException.class)
+    public HttpResult newsDelFailExceptionHandler(NewsDelFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(News_Del_Fail_Exception);
     }
 
     // 权限控制模块
