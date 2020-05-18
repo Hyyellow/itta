@@ -33,7 +33,7 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Override
     public Boolean addUserTask(Task task) {
         UserTask userTask = UserTask.builder()
-                .userId(task.getLeaderId())
+                .userId(task.getUserId())
                 .taskId(task.getId())
                 .leader(true)
                 .build();

@@ -22,14 +22,14 @@ public class TaskPermissionsUtil {
 
     public Boolean AddPermissions(Integer userId, Task task) {
         Item item = itemService.selectById(task.getItemId());
-        if (userId.equals(item.getLeaderId())) {
+        if (userId.equals(item.getUserId())) {
             return true;
         }
         return false;
     }
 
     public Boolean UpdatePermissions(Integer userId,Task task){
-        if (userId.equals(task.getFounderId())){
+        if (userId.equals(task.getUserId())){
             return true;
         }
         return false;

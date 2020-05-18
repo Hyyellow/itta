@@ -39,14 +39,14 @@ public class ItemDTO {
     }
 
     public Item convertToItem() {
-        ItemBaseDTOConvert userDTOConvert = new ItemBaseDTOConvert();
-        Item convert = userDTOConvert.doForward(this);
+        ItemBaseDTOConvert itemBaseDTOConvert = new ItemBaseDTOConvert();
+        Item convert = itemBaseDTOConvert.doForward(this);
         return convert;
     }
 
     public ItemDTO convertFor(Item item) {
-        ItemBaseDTOConvert userDTOConvert = new ItemBaseDTOConvert();
-        ItemDTO convert = userDTOConvert.doBackward(item);
+        ItemBaseDTOConvert itemBaseDTOConvert = new ItemBaseDTOConvert();
+        ItemDTO convert = itemBaseDTOConvert.doBackward(item);
         return convert;
     }
 

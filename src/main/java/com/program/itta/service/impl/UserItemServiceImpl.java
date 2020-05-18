@@ -44,7 +44,7 @@ public class UserItemServiceImpl implements UserItemServive {
     @Override
     public Boolean addUserItem(String itemName) {
         Integer userId = jwtConfig.getUserId();
-        List<Item> itemList = itemMapper.selectAllItemByUserId(userId);
+        List<Item> itemList = itemMapper.selectAllByUserId(userId);
         Integer itemId = selectItemIdByName(itemName, itemList).getId();
         UserItem userItem = UserItem.builder()
                 .userId(userId)

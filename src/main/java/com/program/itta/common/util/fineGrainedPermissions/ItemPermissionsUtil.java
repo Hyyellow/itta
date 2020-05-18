@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class ItemPermissionsUtil {
 
     public Boolean DeletePermissions(Integer userId, Item item) {
-        if (item.getLeaderId().equals(userId)) {
+        if (item.getUserId().equals(userId)) {
             return true;
         }
         return false;

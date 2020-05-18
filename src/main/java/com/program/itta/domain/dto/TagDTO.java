@@ -28,14 +28,14 @@ public class TagDTO {
     private String content;
 
     public Tag convertToTag() {
-        TagBaseDTOConvert userDTOConvert = new TagBaseDTOConvert();
-        Tag convert = userDTOConvert.doForward(this);
+        TagBaseDTOConvert tagBaseDTOConvert = new TagBaseDTOConvert();
+        Tag convert = tagBaseDTOConvert.doForward(this);
         return convert;
     }
 
     public TagDTO convertFor(Tag tag) {
-        TagBaseDTOConvert userDTOConvert = new TagBaseDTOConvert();
-        TagDTO convert = userDTOConvert.doBackward(tag);
+        TagBaseDTOConvert tagBaseDTOConvert = new TagBaseDTOConvert();
+        TagDTO convert = tagBaseDTOConvert.doBackward(tag);
         return convert;
     }
 
