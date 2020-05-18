@@ -2,6 +2,7 @@ package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.entity.News;
+import com.program.itta.domain.entity.Task;
 import com.program.itta.mapper.NewsMapper;
 import com.program.itta.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,18 @@ public class NewsServiceImpl implements NewsService {
         if (newsList != null && !newsList.isEmpty()) {
             return newsList;
         }
+        return null;
+    }
+
+    @Override
+    public Void insertTaskNews(Task task,Integer userId) {
+        News news = News.builder()
+                .senderId(userId)
+                .isUser(true)
+                .senderId(task.getUserId())
+                .content("edit")
+                .build();
+        newsMapper.insert(news);
         return null;
     }
 }

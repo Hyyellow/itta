@@ -9,6 +9,7 @@ import com.program.itta.common.exception.task.TaskUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Task;
+import com.program.itta.service.NewsService;
 import com.program.itta.service.TaskService;
 import com.program.itta.service.TaskTagService;
 import com.program.itta.service.UserTaskService;
@@ -49,6 +50,9 @@ public class TaskController {
     @Autowired
     private TaskTagService taskTagService;
 
+    @Autowired
+    private NewsService newsService;
+
     @Resource
     private JwtConfig jwtConfig;
 
@@ -88,10 +92,12 @@ public class TaskController {
     @PutMapping("/updateTask")
     public HttpResult updateTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid TaskDTO taskDTO) {
+        Integer userId = jwtConfig.getUserId();
         Task task = taskDTO.convertToTask();
         List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task.getId(), userIdList);
+        newsService.insertTaskNews(task,userId);
         if (!(updateTask && addUserTask)) {
             throw new TaskUpdateFailException("任务更新失败");
         }
