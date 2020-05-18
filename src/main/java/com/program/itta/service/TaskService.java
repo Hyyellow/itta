@@ -15,15 +15,12 @@ public interface TaskService {
     // 更新任务
     Boolean updateTask(Task task);
 
-    // 查找项目中的任务
+    // 查看项目中的任务
     List<Task> selectTaskByItemId(Integer itemId);
 
-    // 查找所有我的任务
-    List<Task> selectTaskByLeaderId();
+    // 查看所有我的任务
+    List<Task> selectAllMyTask();
 
     // 查看所有我创建的任务
-    List<Task> selectTaskByFounderId();
-
-    // 查看新建任务——用于建立后编辑使用
-    Task selectTaskToEdit(Task task);
+    List<Task> selectTaskByUserId();
 }

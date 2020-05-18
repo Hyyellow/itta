@@ -1,5 +1,7 @@
 package com.program.itta.service.impl;
 
+import java.util.ArrayList;
+
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemNotExistsException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
@@ -8,8 +10,10 @@ import com.program.itta.common.exception.task.TaskNotExistsException;
 import com.program.itta.common.util.fineGrainedPermissions.TaskPermissionsUtil;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.Task;
+import com.program.itta.domain.entity.UserTask;
 import com.program.itta.mapper.ItemMapper;
 import com.program.itta.mapper.TaskMapper;
+import com.program.itta.mapper.UserTaskMapper;
 import com.program.itta.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: itta
@@ -34,11 +39,14 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
 
-    @Resource
-    private JwtConfig jwtConfig;
-
     @Autowired
     private ItemMapper itemMapper;
+
+    @Autowired
+    private UserTaskMapper userTaskMapper;
+
+    @Resource
+    private JwtConfig jwtConfig;
 
     @Resource
     private TaskPermissionsUtil taskPermissionsUtil;
@@ -48,10 +56,10 @@ public class TaskServiceImpl implements TaskService {
         Integer userId = jwtConfig.getUserId();
         task.setUserId(userId);
         Boolean judgeItemExists = judgeItemExists(task.getItemId());
-        if (judgeItemExists) {
+        if (!judgeItemExists) {
             throw new ItemNotExistsException("该项目不存在");
         }
-        Boolean judgeTaskName = judgeTaskName(userId, task);
+        Boolean judgeTaskName = judgeTaskName(task);
         if (judgeTaskName) {
             throw new TaskNameExistsException("该任务名称已存在于此项目中");
         }
@@ -84,10 +92,10 @@ public class TaskServiceImpl implements TaskService {
         if (!judgeTaskExists) {
             throw new TaskNotExistsException("该任务不存在，任务id查找为空");
         }
-        Boolean judgeTaskLeader = judgeTaskLeader(userId, task);
-        if (!judgeTaskLeader){
+        /*Boolean judgeTaskLeader = judgeTaskLeader(userId, task);
+        if (!judgeTaskLeader) {
             throw new NotTaskFoundException("无设置该任务负责人的相关权限");
-        }
+        }*/
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
         if (update != 0) {
@@ -97,15 +105,6 @@ public class TaskServiceImpl implements TaskService {
         return false;
     }
 
-    private Boolean judgeTaskLeader(Integer userId, Task task) {
-        if (task.getUserId() != null) {
-            Boolean updatePermissions = taskPermissionsUtil.UpdatePermissions(userId, task);
-            if (!updatePermissions){
-                return false;
-            }
-        }
-        return true;
-    }
 
     @Override
     public List<Task> selectTaskByItemId(Integer itemId) {
@@ -117,9 +116,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectTaskByLeaderId() {
-        Integer leaderId = jwtConfig.getUserId();
-        List<Task> taskList = taskMapper.selectByLeaderId(leaderId);
+    public List<Task> selectAllMyTask() {
+        Integer userId = jwtConfig.getUserId();
+        List<UserTask> userTaskList = userTaskMapper.selectByUserId(userId);
+        List<Task> taskList = convertToTaskList(userTaskList);
         if (taskList != null && !taskList.isEmpty()) {
             return taskList;
         }
@@ -127,53 +127,45 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectTaskByFounderId() {
-        Integer founderId = jwtConfig.getUserId();
-        List<Task> taskList = taskMapper.selectByFounderId(founderId);
+    public List<Task> selectTaskByUserId() {
+        Integer userId = jwtConfig.getUserId();
+        List<Task> taskList = taskMapper.selectByUserId(userId);
         if (taskList != null && !taskList.isEmpty()) {
             return taskList;
         }
         return null;
     }
 
-    @Override
-    public Task selectTaskToEdit(Task task) {
-        if (task.getItemId() != null) {
-            List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
-            for (Task task1 : taskList) {
-                if (task.getName().equals(task1.getName())) {
-                    return task1;
-                }
+    private List<Task> convertToTaskList(List<UserTask> userTaskList) {
+        List<Task> taskList = new ArrayList<>();
+        if (userTaskList != null && !userTaskList.isEmpty()) {
+            List<Integer> taskIdList = userTaskList.stream()
+                    .map(UserTask -> UserTask.getTaskId())
+                    .collect(Collectors.toList());
+            for (Integer taskId : taskIdList) {
+                Task task = taskMapper.selectByPrimaryKey(taskId);
+                taskList.add(task);
             }
-        } else {
-            List<Task> taskList = taskMapper.selectByFounderId(task.getUserId());
-            for (Task task1 : taskList) {
-                if (task.getName().equals(task1.getName())) {
-                    return task1;
-                }
-            }
+            return taskList;
         }
         return null;
     }
 
-    private Boolean judgeTaskName(Integer userId, Task task) {
-        if (task.getItemId() != null) {
-            Boolean addPermissions = taskPermissionsUtil.AddPermissions(userId, task);
-            if (!addPermissions) {
-                throw new NotTaskFoundException("无该项目的创建任务相关权限");
+    private Boolean judgeTaskLeader(Integer userId, Task task) {
+        if (task.getUserId() != null) {
+            Boolean updatePermissions = taskPermissionsUtil.UpdatePermissions(userId, task);
+            if (!updatePermissions) {
+                return false;
             }
-            List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
-            for (Task task1 : taskList) {
-                if (task.getName().equals(task1.getName())) {
-                    return true;
-                }
-            }
-        } else {
-            List<Task> taskList = taskMapper.selectByFounderId(task.getUserId());
-            for (Task task1 : taskList) {
-                if (task.getName().equals(task1.getName())) {
-                    return true;
-                }
+        }
+        return true;
+    }
+
+    private Boolean judgeTaskName(Task task) {
+        List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
+        for (Task task1 : taskList) {
+            if (task.getName().equals(task1.getName())) {
+                return true;
             }
         }
         return false;

@@ -93,20 +93,6 @@ public class TaskController {
         return HttpResult.success();
     }
 
-    @ApiOperation(value = "查找任务", notes = "(查找该任务——待修改，存在问题)")
-    @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
-    @GetMapping("/selectTaskToEdit")
-    public HttpResult selectTaskToEdit(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
-                                       @RequestBody @Valid TaskDTO taskDTO) {
-        Task task = taskDTO.convertToTask();
-        Task taskToEdit = taskService.selectTaskToEdit(task);
-        if (taskToEdit != null) {
-            return HttpResult.success(taskToEdit);
-        } else {
-            return HttpResult.failure(NOT_FOUND);
-        }
-    }
-
     @ApiOperation(value = "查找项目任务", notes = "(查看该项目的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该项目尚无添加任务")})
     @GetMapping("/selectTaskByItemId")
@@ -124,7 +110,7 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无任务")})
     @GetMapping("/selectMyTask")
     public HttpResult selectAllTask() {
-        List<Task> taskList = taskService.selectTaskByLeaderId();
+        List<Task> taskList = taskService.selectAllMyTask();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -136,7 +122,7 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无创建任务")})
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
-        List<Task> taskList = taskService.selectTaskByFounderId();
+        List<Task> taskList = taskService.selectTaskByUserId();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {

@@ -20,4 +20,6 @@ public interface UserTaskMapper {
     int updateByPrimaryKey(UserTask record);
 
     List<UserTask> selectByTaskId(Integer taskId);
+
+    List<UserTask> selectByUserId(Integer userId);
 }
