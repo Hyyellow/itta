@@ -54,6 +54,7 @@
 <!--        <table tableName="task" domainObjectName="Task"/>-->
 <!--        <table tableName="schedule" domainObjectName="Schedule"/>-->
 <!--        <table tableName="tag" domainObjectName="Tag"/>-->
-        <table tableName="news" domainObjectName="News"/>
+<!--        <table tableName="news" domainObjectName="News"/>-->
+        <table tableName="timer" domainObjectName="Timer"/>
     </context>
 </generatorConfiguration>
