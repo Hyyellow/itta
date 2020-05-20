@@ -4,6 +4,7 @@ import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
 import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
 import com.program.itta.common.exception.timer.TimerAddFailException;
+import com.program.itta.common.exception.timer.TimerDelFailException;
 import com.program.itta.common.exception.timer.TimerUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ScheduleDTO;
@@ -100,14 +101,27 @@ public class ScheduleController {
     }
 
     @ApiOperation(value = "编辑重复", notes = "(编辑该日程的重复消息提示)")
-    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "日程更新失败")})
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "定时器更新失败")})
     @PutMapping("/updateTimer")
     public HttpResult updateTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
                                      @RequestBody @Valid TimerDTO timerDTO) {
         Timer timer = timerDTO.convertToTimer();
         Boolean updateTimer = timerService.updateTimer(timer);
         if (!updateTimer) {
-            throw new TimerUpdateFailException("日程更新失败");
+            throw new TimerUpdateFailException("定时器更新失败");
+        }
+        return HttpResult.success();
+    }
+
+    @ApiOperation(value = "删除重复", notes = "(删除该日程的重复消息提示)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70003, message = "定时器删除失败")})
+    @DeleteMapping("/deleteTimer")
+    public HttpResult deleteTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
+                                     @RequestBody @Valid TimerDTO timerDTO) {
+        Timer timer = timerDTO.convertToTimer();
+        Boolean deleteTimer = timerService.deleteTimer(timer);
+        if (!deleteTimer) {
+            throw new TimerDelFailException("定时器删除失败");
         }
         return HttpResult.success();
     }

@@ -50,6 +50,7 @@ public enum ResultCodeEnum {
     // 7000～7999 区间表示定时器模块错误
     Timer_Add_Fail_Exception(70001, "定时器添加失败"),
     Timer_Update_Fail_Exception(70002, "定时器更新失败"),
+    Timer_Del_Fail_Exception(70003, "定时器删除失败"),
     // 8000～8999 区间表示权限控制模块错误
     Not_Item_Leader_Exception(80001, "不具备该项目负责人的相关权限"),
     Not_Task_Found_Exception(80002, "不具备该任务创建人的的相关权限"),

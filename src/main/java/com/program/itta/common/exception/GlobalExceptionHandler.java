@@ -8,6 +8,7 @@ import com.program.itta.common.exception.schedule.*;
 import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.timer.TimerAddFailException;
+import com.program.itta.common.exception.timer.TimerDelFailException;
 import com.program.itta.common.exception.timer.TimerUpdateFailException;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserExistsException;
@@ -193,6 +194,11 @@ public class GlobalExceptionHandler {
     public HttpResult timerUpdateFailExceptionHandler(TimerUpdateFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Timer_Update_Fail_Exception);
+    }
+  @ExceptionHandler(value = TimerDelFailException.class)
+    public HttpResult timerDelFailExceptionHandler(TimerDelFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Timer_Del_Fail_Exception);
     }
 
     // 权限控制模块
