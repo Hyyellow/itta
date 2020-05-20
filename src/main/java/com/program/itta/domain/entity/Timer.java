@@ -13,13 +13,13 @@ public class Timer {
 
     private Integer scheduleId;
 
-    private String year;
+    private Integer year;
 
-    private String month;
+    private Integer month;
 
-    private String week;
+    private Integer week;
 
-    private String day;
+    private Integer day;
 
     private Date createTime;
 
