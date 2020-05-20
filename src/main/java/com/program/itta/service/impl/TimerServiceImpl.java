@@ -37,4 +37,25 @@ public class TimerServiceImpl implements TimerService {
         }
         return false;
     }
+
+    @Override
+    public Boolean updateTimer(Timer timer) {
+        if (timer == null) {
+            throw new RuntimeException("空");
+        }
+        int update = timerMapper.updateByPrimaryKey(timer);
+        if (update != 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean deleteTimer(Timer timer) {
+        int delete = timerMapper.deleteByPrimaryKey(timer.getId());
+        if (delete != 0) {
+            return true;
+        }
+        return false;
+    }
 }

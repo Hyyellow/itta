@@ -8,4 +8,8 @@ public interface TimerService {
     List<Timer> selectAll();
 
     Boolean addTimer(Timer timer);
+
+    Boolean updateTimer(Timer timer);
+
+    Boolean deleteTimer(Timer timer);
 }

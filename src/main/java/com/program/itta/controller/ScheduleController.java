@@ -4,6 +4,7 @@ import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
 import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
 import com.program.itta.common.exception.timer.TimerAddFailException;
+import com.program.itta.common.exception.timer.TimerUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.dto.TimerDTO;
@@ -86,7 +87,7 @@ public class ScheduleController {
     }
 
     @ApiOperation(value = "添加重复", notes = "(添加该日程的重复消息提示)")
-    @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
     @PostMapping("/addTimer")
     public HttpResult addTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
                                   @RequestBody @Valid TimerDTO timerDTO) {
@@ -94,6 +95,19 @@ public class ScheduleController {
         Boolean addTimer = timerService.addTimer(timer);
         if (!addTimer) {
             throw new TimerAddFailException("重复提醒定时器添加失败");
+        }
+        return HttpResult.success();
+    }
+
+    @ApiOperation(value = "编辑重复", notes = "(编辑该日程的重复消息提示)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "日程更新失败")})
+    @PutMapping("/updateTimer")
+    public HttpResult updateTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
+                                     @RequestBody @Valid TimerDTO timerDTO) {
+        Timer timer = timerDTO.convertToTimer();
+        Boolean updateTimer = timerService.updateTimer(timer);
+        if (!updateTimer) {
+            throw new TimerUpdateFailException("日程更新失败");
         }
         return HttpResult.success();
     }
