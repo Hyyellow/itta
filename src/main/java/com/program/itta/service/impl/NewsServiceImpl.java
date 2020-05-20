@@ -47,7 +47,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Void insertTaskNews(Task task,Integer userId) {
+    public Void addTaskNews(Task task,Integer userId) {
         News news = News.builder()
                 .senderId(userId)
                 .isUser(true)
@@ -59,7 +59,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Void insertScheduleNews(Timer timer) {
+    public Void addScheduleNews(Timer timer) {
         News news = News.builder()
                 .senderId(0)
                 .isUser(false)

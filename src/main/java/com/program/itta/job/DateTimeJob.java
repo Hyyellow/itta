@@ -54,7 +54,7 @@ public class DateTimeJob extends QuartzJobBean {
                 insertFlag = judgeWeek;
             }
             if (insertFlag) {
-                newsService.insertScheduleNews(timer);
+                newsService.addScheduleNews(timer);
             }
         }
     }

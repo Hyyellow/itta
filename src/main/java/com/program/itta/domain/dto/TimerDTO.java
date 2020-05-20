@@ -24,15 +24,11 @@ public class TimerDTO {
 
     private String day;
 
-    private Date createTime;
-
-    private Date updateTime;
-
     @Tolerate
     public TimerDTO() {
     }
 
-    public Timer convertToTask() {
+    public Timer convertToTimer() {
         TimerBaseDTOConvert timerBaseDTOConvert = new TimerBaseDTOConvert();
         Timer convert = timerBaseDTOConvert.doForward(this);
         return convert;

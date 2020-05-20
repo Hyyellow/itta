@@ -28,4 +28,13 @@ public class TimerServiceImpl implements TimerService {
         }
         return null;
     }
+
+    @Override
+    public Boolean addTimer(Timer timer) {
+        int insert = timerMapper.insert(timer);
+        if (insert != 0) {
+            return true;
+        }
+        return false;
+    }
 }

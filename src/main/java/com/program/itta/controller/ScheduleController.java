@@ -3,10 +3,14 @@ package com.program.itta.controller;
 import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
 import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
+import com.program.itta.common.exception.timer.TimerAddFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ScheduleDTO;
+import com.program.itta.domain.dto.TimerDTO;
 import com.program.itta.domain.entity.Schedule;
+import com.program.itta.domain.entity.Timer;
 import com.program.itta.service.ScheduleService;
+import com.program.itta.service.TimerService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +30,9 @@ import java.util.List;
 public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private TimerService timerService;
 
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
@@ -74,6 +81,19 @@ public class ScheduleController {
         Boolean deleteSchedule = scheduleService.deleteSchedule(schedule);
         if (!deleteSchedule) {
             throw new ScheduleDelFailException("日程删除失败");
+        }
+        return HttpResult.success();
+    }
+
+    @ApiOperation(value = "添加重复", notes = "(添加该日程的重复消息提示)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
+    @PostMapping("/addTimer")
+    public HttpResult addTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
+                                  @RequestBody @Valid TimerDTO timerDTO) {
+        Timer timer = timerDTO.convertToTimer();
+        Boolean addTimer = timerService.addTimer(timer);
+        if (!addTimer) {
+            throw new TimerAddFailException("重复提醒定时器添加失败");
         }
         return HttpResult.success();
     }

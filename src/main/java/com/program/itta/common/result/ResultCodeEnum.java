@@ -37,19 +37,21 @@ public enum ResultCodeEnum {
     Task_Update_Fail_Exception(30003, "任务更新失败"),
     Task_Del_Fail_Exception(30004, "任务删除失败"),
     Task_Not_Exists_Exception(30005, "任务不存在，任务id查找为空"),
-    // 4000～4999 去见表示日程模块错误
+    // 4000～4999 区间表示日程模块错误
     Schedule_Name_Exists_Exception(40001, "该日程名称重复"),
     Schedule_Not_Exists_Exception(40002, "该日程不存在"),
     Schedule_Add_Fail_Exception(40003, "日程添加失败"),
     Schedule_Del_Fail_Exception(40004, "日程删除失败"),
     Schedule_Update_Fail_Exception(40005, "日程更新失败"),
-    // 5000～5999 去见表示标签模块错误
+    // 5000～5999 区间表示标签模块错误
     Tag_Add_Fail_Exception(50001, "标签添加失败"),
-    // 6000～6999 去见表示标签模块错误
+    // 6000～6999 区间表示标签模块错误
     News_Del_Fail_Exception(60001, "消息删除失败"),
-    // 7000～7999 去见表示权限控制模块错误
-    Not_Item_Leader_Exception(70001, "不具备该项目负责人的相关权限"),
-    Not_Task_Found_Exception(70002, "不具备该任务创建人的的相关权限"),
+    // 7000～7999 区间表示定时器模块错误
+    Timer_Add_Fail_Exception(70001, "定时器添加失败"),
+    // 8000～8999 区间表示权限控制模块错误
+    Not_Item_Leader_Exception(80001, "不具备该项目负责人的相关权限"),
+    Not_Task_Found_Exception(80002, "不具备该任务创建人的的相关权限"),
     // 。。。
 
     ;

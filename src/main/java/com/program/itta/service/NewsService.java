@@ -12,7 +12,7 @@ public interface NewsService {
 
     List<News> selectNewsList();
 
-    Void insertTaskNews(Task task, Integer userId);
+    Void addTaskNews(Task task, Integer userId);
 
-    Void insertScheduleNews(Timer timer);
+    Void addScheduleNews(Timer timer);
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TimerService {
     List<Timer> selectAll();
+
+    Boolean addTimer(Timer timer);
 }

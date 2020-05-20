@@ -97,7 +97,7 @@ public class TaskController {
         List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task.getId(), userIdList);
-        newsService.insertTaskNews(task,userId);
+        newsService.addTaskNews(task,userId);
         if (!(updateTask && addUserTask)) {
             throw new TaskUpdateFailException("任务更新失败");
         }
