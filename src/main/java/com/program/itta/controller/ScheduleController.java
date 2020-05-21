@@ -100,6 +100,17 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "添加工作日重复", notes = "(添加该日程的工作日重复消息提示)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
+    @PostMapping("/addWorkDayTimer")
+    public HttpResult addWorkDayTimer() {
+        Boolean addTimer = timerService.addWorkDayTimer();
+        if (!addTimer) {
+            throw new TimerAddFailException("重复提醒定时器添加失败");
+        }
+        return HttpResult.success();
+    }
+
     @ApiOperation(value = "编辑重复", notes = "(编辑该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "定时器更新失败")})
     @PutMapping("/updateTimer")

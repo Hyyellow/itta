@@ -12,4 +12,6 @@ public interface TimerService {
     Boolean updateTimer(Timer timer);
 
     Boolean deleteTimer(Timer timer);
+
+    Boolean addWorkDayTimer();
 }

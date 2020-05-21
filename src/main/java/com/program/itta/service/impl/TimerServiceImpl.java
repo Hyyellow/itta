@@ -58,4 +58,21 @@ public class TimerServiceImpl implements TimerService {
         }
         return false;
     }
+
+    @Override
+    public Boolean addWorkDayTimer() {
+        Timer timer = Timer.builder()
+                .year(0)
+                .month(0)
+                .day(0)
+                .build();
+        for (int i = 1; i <= 5; i++) {
+            timer.setWeek(i);
+            int insert = timerMapper.insert(timer);
+            if (insert == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
