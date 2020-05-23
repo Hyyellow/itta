@@ -16,4 +16,7 @@ public interface ScheduleService {
 
     // 查找用户下的所有日程
     List<Schedule> selectByUserId();
+
+    // 查找用户今日未完成日程
+    List<Schedule> selectNotFinishSchedule();
 }

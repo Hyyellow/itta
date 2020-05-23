@@ -48,6 +48,18 @@ public class ScheduleController {
         }
     }
 
+    @ApiOperation(value = "查找未完成日程", notes = "(查看该用户的今日未完成日程安排)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
+    @GetMapping("/selectNotFinishSchedule")
+    public HttpResult selectNotFinishSchedule() {
+        List<Schedule> scheduleList = scheduleService.selectByUserId();
+        if (scheduleList != null && !scheduleList.isEmpty()) {
+            return HttpResult.success(scheduleList);
+        } else {
+            return HttpResult.success("该用户无添加日程");
+        }
+    }
+
     @ApiOperation(value = "添加日程", notes = "(添加该用户的日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40003, message = "日程添加失败")})
     @PostMapping("/addSchedule")
@@ -56,10 +68,12 @@ public class ScheduleController {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean addSchedule = scheduleService.addSchedule(schedule);
         if (!addSchedule) {
-            throw new ScheduleAddFailException("日程添加失败");
-        }
+        throw new ScheduleAddFailException("日程添加失败");
+    }
         return HttpResult.success();
     }
+
+
 
     @ApiOperation(value = "编辑日程", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
