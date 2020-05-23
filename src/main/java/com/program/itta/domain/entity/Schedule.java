@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.util.Date;
+
 @Data
 @Builder
 public class Schedule {
@@ -15,6 +16,8 @@ public class Schedule {
     private String name;
 
     private String place;
+
+    private Boolean whetherFinish;
 
     private Date startTime;
 

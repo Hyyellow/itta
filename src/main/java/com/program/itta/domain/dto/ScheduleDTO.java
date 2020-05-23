@@ -35,6 +35,9 @@ public class ScheduleDTO {
     @ApiModelProperty(value = "地点", example = "图书馆")
     private String place;
 
+    @ApiModelProperty(value = "完成标志", example = "0")
+    private Boolean whetherFinish;
+
     @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")
     private Date startTime;
 
