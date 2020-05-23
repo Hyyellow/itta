@@ -30,6 +30,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Boolean addSchedule(Schedule schedule) {
+        Boolean judgeScheduleTime = judgeScheduleTime(schedule);
+        if (judgeScheduleTime){
+            throw new RuntimeException("该日程的结束时间不可早于开始时间");
+        }
         Boolean judgeScheduleExists = judgeScheduleName(schedule);
         if (judgeScheduleExists) {
             throw new ScheduleNameExistsException("该任务名称已存在");
@@ -124,6 +128,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     private Boolean judgeScheduleExists(Schedule schedule) {
         Schedule select = scheduleMapper.selectByPrimaryKey(schedule.getId());
         if (select != null) {
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean judgeScheduleTime(Schedule schedule){
+        Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
+        Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
+        if (startCalendar.before(endCalendar)){
             return true;
         }
         return false;
