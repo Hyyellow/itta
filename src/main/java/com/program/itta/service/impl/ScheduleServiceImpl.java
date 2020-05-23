@@ -80,13 +80,35 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> selectNotFinishSchedule() {
         Integer userId = jwtConfig.getUserId();
-        Date time = new Date();
         List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
         if (scheduleList != null && !scheduleList.isEmpty()) {
-            List<Schedule> schedules = getFinishSchedule(scheduleList);
+            List<Schedule> schedules = getSchedulesByCalendar(scheduleList, false);
             return schedules;
         }
         return null;
+    }
+
+    @Override
+    public List<Schedule> selectFinishSchedule() {
+        Integer userId = jwtConfig.getUserId();
+        List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
+        if (scheduleList != null && !scheduleList.isEmpty()) {
+            List<Schedule> schedules = getSchedulesByCalendar(scheduleList, true);
+            return schedules;
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean setScheduleFinish(Schedule schedule) {
+        schedule.setWhetherFinish(true);
+        schedule.setCompletionTime(new Date());
+        schedule.setUpdateTime(new Date());
+        int update = scheduleMapper.updateByPrimaryKey(schedule);
+        if (update != 0) {
+            return true;
+        }
+        return false;
     }
 
     private Boolean judgeScheduleName(Schedule schedule) {
@@ -107,7 +129,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return false;
     }
 
-    private List<Schedule> getFinishSchedule(List<Schedule> scheduleList) {
+    private List<Schedule> getSchedulesByCalendar(List<Schedule> scheduleList, Boolean flag) {
         List<Schedule> schedules = new ArrayList<>();
         for (Schedule schedule : scheduleList) {
             Calendar calendar = assignmentCalendar(new Date());
@@ -115,8 +137,13 @@ public class ScheduleServiceImpl implements ScheduleService {
             Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
             int startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-            boolean before = calendar.before(endCalendar);
-            if ((startDay == day) && (before)) {
+            Boolean judge = null;
+            if (flag) {
+                judge = schedule.getWhetherFinish();
+            } else {
+                judge = calendar.before(endCalendar);
+            }
+            if ((startDay == day) && (judge)) {
                 schedules.add(schedule);
             }
         }

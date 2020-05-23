@@ -19,4 +19,10 @@ public interface ScheduleService {
 
     // 查找用户今日未完成日程
     List<Schedule> selectNotFinishSchedule();
+
+    // 查找用户今日完成日程
+    List<Schedule> selectFinishSchedule();
+
+    // 设置日程为完成状态
+    Boolean setScheduleFinish(Schedule schedule);
 }
