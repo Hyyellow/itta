@@ -92,10 +92,6 @@ public class TaskServiceImpl implements TaskService {
         if (!judgeTaskExists) {
             throw new TaskNotExistsException("该任务不存在，任务id查找为空");
         }
-        /*Boolean judgeTaskLeader = judgeTaskLeader(userId, task);
-        if (!judgeTaskLeader) {
-            throw new NotTaskFoundException("无设置该任务负责人的相关权限");
-        }*/
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
         if (update != 0) {
@@ -134,6 +130,35 @@ public class TaskServiceImpl implements TaskService {
             return taskList;
         }
         return null;
+    }
+
+    @Override
+    public List<Task> selectBySuperId(Task task) {
+        List<Task> taskList = taskMapper.selectBySuperId(task.getId());
+        if (taskList != null && !taskList.isEmpty()) {
+            return taskList;
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean deleteByItemId(Integer itemId) {
+        List<Task> taskList = taskMapper.selectByItemId(itemId);
+        int delete;
+        for (Task task : taskList) {
+            List<UserTask> userTaskList = userTaskMapper.selectByTaskId(task.getId());
+            for (UserTask userTask : userTaskList) {
+                delete = userTaskMapper.deleteByPrimaryKey(userTask.getId());
+                if (delete == 0) {
+                    return false;
+                }
+            }
+            delete = taskMapper.deleteByPrimaryKey(task.getId());
+            if (delete == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<Task> convertToTaskList(List<UserTask> userTaskList) {

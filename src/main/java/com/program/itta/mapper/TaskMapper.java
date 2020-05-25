@@ -22,4 +22,7 @@ public interface TaskMapper {
     List<Task> selectByItemId(Integer itemId);
 
     List<Task> selectByUserId(Integer userId);
+
+    List<Task> selectBySuperId(Integer taskId);
+
 }

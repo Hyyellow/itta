@@ -97,7 +97,7 @@ public class TaskController {
         List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task.getId(), userIdList);
-        newsService.addTaskNews(task,userId);
+        newsService.addTaskNews(task, userId);
         if (!(updateTask && addUserTask)) {
             throw new TaskUpdateFailException("任务更新失败");
         }
@@ -140,4 +140,20 @@ public class TaskController {
             return HttpResult.success("该用户尚无创建任务");
         }
     }
+
+    @ApiOperation(value = "查找该任务的子任务", notes = "(查找该任务的所有子任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该任务尚无子任务")})
+    @GetMapping("/selectSubTask")
+    public HttpResult selectSubTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                    @RequestBody @Valid TaskDTO taskDTO) {
+        Task task = taskDTO.convertToTask();
+        List<Task> taskList = taskService.selectBySuperId(task);
+        if (taskList.size() != 0) {
+            return HttpResult.success(taskList);
+        } else {
+            return HttpResult.success("该任务尚无子任务");
+        }
+    }
+
+
 }

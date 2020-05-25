@@ -7,6 +7,7 @@ import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.service.ItemService;
+import com.program.itta.service.TaskService;
 import com.program.itta.service.UserItemServive;
 import com.program.itta.service.UserService;
 import io.swagger.annotations.*;
@@ -45,6 +46,9 @@ public class ItemController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TaskService taskService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -103,8 +107,8 @@ public class ItemController {
         Item item = itemDTO.convertToItem();
         Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
         Boolean deleteItem = itemService.deleteItem(item);
-        // todo 项目的任务
-        if (!(deleteItem && deleteUserItem)) {
+        Boolean deleteByItemId = taskService.deleteByItemId(item.getId());
+        if (!(deleteItem && deleteUserItem && deleteByItemId)) {
             throw new ItemDelFailException("项目删除失败");
         }
         jwtConfig.removeThread();
@@ -166,4 +170,6 @@ public class ItemController {
             throw new ItemFindUserListException("项目用户成员查找失败");
         }
     }
+
+
 }
