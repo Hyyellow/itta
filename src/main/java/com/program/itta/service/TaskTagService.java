@@ -13,5 +13,6 @@ public interface TaskTagService {
     // 查找该任务的所有标签
     List<Integer> selectByTaskId(Integer taskId);
 
+    // 删除该任务标签
     Boolean deleteTaskTag(Task task);
 }

@@ -40,7 +40,7 @@ public class TaskDTO {
     @ApiModelProperty(value = "任务标志id", example = "1")
     private String markId;
 
-    @ApiModelProperty(value = "任务状态", example = "1", notes = "1：完成；0：未完成")
+    @ApiModelProperty(value = "任务状态", example = "1", notes = "0：未开始，1：进行中，2：完成")
     private Integer status;
 
     @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")

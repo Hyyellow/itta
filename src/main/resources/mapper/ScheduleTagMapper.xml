@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.program.itta.mapper.ScheduleTagMapper">
+    <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.ScheduleTag">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="schedule_id" jdbcType="INTEGER" property="scheduleId"/>
+        <result column="tag_id" jdbcType="INTEGER" property="tagId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from schedule_tag
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.program.itta.domain.entity.ScheduleTag">
+    insert into schedule_tag (id, schedule_id, tag_id, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{scheduleId,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.ScheduleTag">
+    update schedule_tag
+    set schedule_id = #{scheduleId,jdbcType=INTEGER},
+      tag_id = #{tagId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, schedule_id, tag_id, create_time, update_time
+    from schedule_tag
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, schedule_id, tag_id, create_time, update_time
+    from schedule_tag
+  </select>
+    <select id="selectByScheduleTag" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, schedule_id, tag_id, create_time, update_time
+    from schedule_tag
+    where schedule_id = #{scheduleId,jdbcType=INTEGER} and tag_id = #{tagId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByScheduleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, schedule_id, tag_id, create_time, update_time
+    from schedule_tag
+    where schedule_id = #{scheduleId,jdbcType=INTEGER}
+  </select>
+</mapper>
