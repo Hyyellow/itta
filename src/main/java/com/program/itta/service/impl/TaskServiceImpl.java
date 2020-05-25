@@ -142,6 +142,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> selectByItemMember(Integer itemId, Integer userId) {
+        List<Task> memberTaskList = new ArrayList<>();
+        List<Task> taskList = taskMapper.selectByItemId(itemId);
+        for (Task task : taskList) {
+            if (userId.equals(task.getUserId())) {
+                memberTaskList.add(task);
+            }
+        }
+        return memberTaskList;
+    }
+
+    @Override
     public Boolean deleteByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         int delete;

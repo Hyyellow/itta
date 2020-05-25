@@ -27,6 +27,9 @@ public interface TaskService {
     // 查看所有我的子任务
     List<Task> selectBySuperId(Task task);
 
+    // 查看该项目成员的所有任务
+    List<Task> selectByItemMember(Integer itemId, Integer userId);
+
     // 删除该项目下的所有任务
     Boolean deleteByItemId(Integer itemId);
 }

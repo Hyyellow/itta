@@ -155,5 +155,19 @@ public class TaskController {
         }
     }
 
+    @ApiOperation(value = "查找该项目成员的所有任务", notes = "(查找该项目成员的所有任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无任务")})
+    @GetMapping("/selectItemMemberTask")
+    public HttpResult selectItemMemberTask(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
+                                           @RequestParam(value = "itemId") Integer itemId,
+                                           @ApiParam(name = "用户id", value = "传入Json格式", required = true)
+                                           @RequestParam(value = "userId") Integer userId) {
+        List<Task> taskList = taskService.selectByItemMember(itemId, userId);
+        if (taskList.size() != 0) {
+            return HttpResult.success(taskList);
+        } else {
+            return HttpResult.success("该成员尚无任务");
+        }
+    }
 
 }
