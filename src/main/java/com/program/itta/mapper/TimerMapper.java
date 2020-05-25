@@ -18,4 +18,6 @@ public interface TimerMapper {
     List<Timer> selectAll();
 
     int updateByPrimaryKey(Timer record);
+
+    List<Timer> selectByScheduleId(Integer scheduleId);
 }

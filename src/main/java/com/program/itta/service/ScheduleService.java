@@ -14,6 +14,9 @@ public interface ScheduleService {
     // 更新日程
     Boolean updateSchedule(Schedule schedule);
 
+    // 查找日程
+    Schedule selectByPrimaryKey(Integer id);
+
     // 查找用户下的所有日程
     List<Schedule> selectByUserId();
 

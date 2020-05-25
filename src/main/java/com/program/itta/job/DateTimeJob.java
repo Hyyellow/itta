@@ -1,7 +1,9 @@
 package com.program.itta.job;
 
+import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Timer;
 import com.program.itta.service.NewsService;
+import com.program.itta.service.ScheduleService;
 import com.program.itta.service.TimerService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -29,6 +31,9 @@ public class DateTimeJob extends QuartzJobBean {
     private TimerService timerService;
 
     @Autowired
+    private ScheduleService scheduleService;
+
+    @Autowired
     private NewsService newsService;
 
     @Override
@@ -42,10 +47,12 @@ public class DateTimeJob extends QuartzJobBean {
     private void judgeTime(List<Timer> timerList) {
         for (Timer timer : timerList) {
             Boolean insertFlag = null;
-            Calendar createCalendar = assignmentCalendar(timer.getCreateTime());
+            Schedule schedule = scheduleService.selectByPrimaryKey(timer.getScheduleId());
+            Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
+            Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
             Calendar nowCalendar = assignmentCalendar(new Date());
             if (timer.getWeek() == 0) {
-                Boolean judgeYear = judgeYear(timer, createCalendar, nowCalendar);
+                Boolean judgeYear = judgeYear(timer, startCalendar, nowCalendar);
                 Boolean judgeMonth = judgeMonth(timer, nowCalendar);
                 Boolean judgeDay = judgeDay(timer, nowCalendar);
                 insertFlag = judgeDay && judgeMonth && judgeYear;
@@ -54,18 +61,30 @@ public class DateTimeJob extends QuartzJobBean {
                 insertFlag = judgeWeek;
             }
             if (insertFlag) {
-                newsService.addScheduleNews(timer);
+                Schedule newSchedule = getNewSchedule(schedule, startCalendar, endCalendar, nowCalendar);
+                scheduleService.addSchedule(newSchedule);
             }
         }
     }
 
-    private Boolean judgeYear(Timer timer, Calendar createCalendar, Calendar nowCalendar) {
+    private Schedule getNewSchedule(Schedule schedule, Calendar startCalendar, Calendar endCalendar, Calendar nowCalendar) {
+        int day = nowCalendar.get(Calendar.DAY_OF_MONTH);
+        startCalendar.set(Calendar.DAY_OF_MONTH, day);
+        endCalendar.set(Calendar.DAY_OF_MONTH, day);
+        Date startTime = startCalendar.getTime();
+        Date endTime = endCalendar.getTime();
+        schedule.setStartTime(startTime);
+        schedule.setEndTime(endTime);
+        return schedule;
+    }
+
+    private Boolean judgeYear(Timer timer, Calendar startCalendar, Calendar nowCalendar) {
         if (0 == timer.getYear()) {
             return true;
         }
-        int createYear = createCalendar.get(Calendar.YEAR);
+        int startYear = startCalendar.get(Calendar.YEAR);
         int nowYear = nowCalendar.get(Calendar.YEAR);
-        if (createYear - nowYear == timer.getYear()) {
+        if (startYear - nowYear == timer.getYear()) {
             return true;
         } else {
             return false;

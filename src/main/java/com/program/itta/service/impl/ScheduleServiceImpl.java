@@ -31,7 +31,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public Boolean addSchedule(Schedule schedule) {
         Boolean judgeScheduleTime = judgeScheduleTime(schedule);
-        if (judgeScheduleTime){
+        if (judgeScheduleTime) {
             throw new RuntimeException("该日程的结束时间不可早于开始时间");
         }
         Boolean judgeScheduleExists = judgeScheduleName(schedule);
@@ -69,6 +69,15 @@ public class ScheduleServiceImpl implements ScheduleService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Schedule selectByPrimaryKey(Integer id) {
+        Schedule schedule = scheduleMapper.selectByPrimaryKey(id);
+        if (schedule != null) {
+            return schedule;
+        }
+        return null;
     }
 
     @Override
@@ -133,10 +142,10 @@ public class ScheduleServiceImpl implements ScheduleService {
         return false;
     }
 
-    private Boolean judgeScheduleTime(Schedule schedule){
+    private Boolean judgeScheduleTime(Schedule schedule) {
         Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
         Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
-        if (startCalendar.before(endCalendar)){
+        if (startCalendar.before(endCalendar)) {
             return true;
         }
         return false;

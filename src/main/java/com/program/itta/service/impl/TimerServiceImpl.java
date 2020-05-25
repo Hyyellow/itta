@@ -1,6 +1,7 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.domain.entity.Timer;
+import com.program.itta.mapper.ScheduleMapper;
 import com.program.itta.mapper.TimerMapper;
 import com.program.itta.service.TimerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class TimerServiceImpl implements TimerService {
 
     @Autowired
     private TimerMapper timerMapper;
+
+    @Autowired
+    private ScheduleMapper scheduleMapper;
 
     @Override
     public List<Timer> selectAll() {
@@ -51,12 +55,15 @@ public class TimerServiceImpl implements TimerService {
     }
 
     @Override
-    public Boolean deleteTimer(Timer timer) {
-        int delete = timerMapper.deleteByPrimaryKey(timer.getId());
-        if (delete != 0) {
-            return true;
+    public Boolean deleteTimer(Integer scheduleId) {
+        List<Timer> timerList = timerMapper.selectByScheduleId(scheduleId);
+        for (Timer timer : timerList){
+            int delete = timerMapper.deleteByPrimaryKey(timer.getId());
+            if (delete == 0){
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     @Override

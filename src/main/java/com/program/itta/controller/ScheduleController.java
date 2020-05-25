@@ -168,7 +168,7 @@ public class ScheduleController {
     public HttpResult deleteTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
                                   @RequestBody @Valid TimerDTO timerDTO) {
         Timer timer = timerDTO.convertToTimer();
-        Boolean deleteTimer = timerService.deleteTimer(timer);
+        Boolean deleteTimer = timerService.deleteTimer(timer.getScheduleId());
         if (!deleteTimer) {
             throw new TimerDelFailException("定时器删除失败");
         }
