@@ -37,6 +37,7 @@ public enum ResultCodeEnum {
     Task_Update_Fail_Exception(30003, "任务更新失败"),
     Task_Del_Fail_Exception(30004, "任务删除失败"),
     Task_Not_Exists_Exception(30005, "任务不存在，任务id查找为空"),
+    Task_Find_User_List_Exception(30006, "任务用户成员查找失败"),
     // 4000～4999 区间表示日程模块错误
     Schedule_Name_Exists_Exception(40001, "该日程名称重复"),
     Schedule_Not_Exists_Exception(40002, "该日程不存在"),

@@ -137,6 +137,11 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Task_Not_Exists_Exception);
     }
+    @ExceptionHandler(value = TaskFindUserListException.class)
+    public HttpResult taskFindUserListExceptionHandler(TaskFindUserListException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Task_Find_User_List_Exception);
+    }
 
     // 日程模块
     @ExceptionHandler(value = ScheduleNameExistsException.class)

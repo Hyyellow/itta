@@ -14,4 +14,7 @@ public interface UserTaskService {
 
     // 删除用户任务中间关系
     Boolean deleteUserTask(Task task);
+
+    // 查看该任务的所有参与人
+    List<Integer> selectByTaskId(Integer taskId);
 }

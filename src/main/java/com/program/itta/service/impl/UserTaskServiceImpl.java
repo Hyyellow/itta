@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @program: itta
@@ -82,6 +83,18 @@ public class UserTaskServiceImpl implements UserTaskService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Integer> selectByTaskId(Integer taskId) {
+        List<UserTask> userTaskList = userTaskMapper.selectByTaskId(taskId);
+        List<Integer> userIdList = userTaskList.stream()
+                .map(UserTask -> UserTask.getUserId())
+                .collect(Collectors.toList());
+        if (userIdList != null && !userIdList.isEmpty()) {
+            return userIdList;
+        }
+        return null;
     }
 
     private int deleteUserTaskList(List<UserTask> userTaskList) {

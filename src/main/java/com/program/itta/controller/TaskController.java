@@ -3,16 +3,16 @@ package com.program.itta.controller;
 import java.util.List;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.common.exception.item.ItemFindUserListException;
 import com.program.itta.common.exception.task.TaskAddFailException;
 import com.program.itta.common.exception.task.TaskDelFailException;
+import com.program.itta.common.exception.task.TaskFindUserListException;
 import com.program.itta.common.exception.task.TaskUpdateFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.TaskDTO;
+import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.Task;
-import com.program.itta.service.NewsService;
-import com.program.itta.service.TaskService;
-import com.program.itta.service.TaskTagService;
-import com.program.itta.service.UserTaskService;
+import com.program.itta.service.*;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.flyway.FlywayDataSource;
@@ -52,6 +52,9 @@ public class TaskController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private UserService userService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -152,6 +155,21 @@ public class TaskController {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该任务尚无子任务");
+        }
+    }
+
+    @ApiOperation(value = "查找该任务的所有参与者", notes = "(查找该任务的所有参与者)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30006, message = "任务用户成员查找失败")})
+    @GetMapping("/selectTaskMember")
+    public HttpResult selectTaskMember(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                       @RequestBody @Valid TaskDTO taskDTO) {
+        Task task = taskDTO.convertToTask();
+        List<Integer> userIdList = userTaskService.selectByTaskId(task.getItemId());
+        List<UserDTO> userList = userService.selectUserList(userIdList);
+        if (userList != null && !userList.isEmpty()) {
+            return HttpResult.success(userList);
+        } else {
+            throw new TaskFindUserListException("任务用户成员查找失败");
         }
     }
 
