@@ -154,6 +154,21 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> selectAllSubTask(Integer taskId, List<Integer> taskIdList) {
+        Task task = taskMapper.selectByPrimaryKey(taskId);
+        List<Task> taskList = selectBySuperId(task);
+        List<Task> subTaskList = new ArrayList<>();
+        for (Task subTask : taskList) {
+            for (Integer id : taskIdList) {
+                if (id.equals(subTask.getId())){
+                    subTaskList.add(subTask);
+                }
+            }
+        }
+        return subTaskList;
+    }
+
+    @Override
     public Boolean deleteByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         int delete;

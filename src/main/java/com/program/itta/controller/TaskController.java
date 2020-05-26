@@ -174,17 +174,18 @@ public class TaskController {
     }
 
     @ApiOperation(value = "查找该参与者的关于父任务的所有相关子任务", notes = "(查找该参与者的关于父任务的所有相关子任务)")
-    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30006, message = "任务用户成员查找失败")})
-    @GetMapping("/selectTaskMember")
-    public HttpResult selectTaskMember(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
-                                       @RequestBody @Valid TaskDTO taskDTO) {
-        Task task = taskDTO.convertToTask();
-        List<Integer> userIdList = userTaskService.selectByTaskId(task.getItemId());
-        List<UserDTO> userList = userService.selectUserList(userIdList);
-        if (userList != null && !userList.isEmpty()) {
-            return HttpResult.success(userList);
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无子任务")})
+    @GetMapping("/selectMemberTask")
+    public HttpResult selectMemberTask(@ApiParam(name = "父任务id", value = "传入Json格式", required = true)
+                                           @RequestParam(value = "taskId") Integer taskId,
+                                       @ApiParam(name = "用户id", value = "传入Json格式", required = true)
+                                           @RequestParam(value = "userId") Integer userId) {
+        List<Integer> taskIdList = userTaskService.selectByUserId(userId);
+        List<Task> subTaskList = taskService.selectAllSubTask(taskId,taskIdList);
+        if (subTaskList != null && !subTaskList.isEmpty()) {
+            return HttpResult.success(subTaskList);
         } else {
-            throw new TaskFindUserListException("任务用户成员查找失败");
+            return HttpResult.success("该成员尚无子任务");
         }
     }
 

@@ -17,4 +17,7 @@ public interface UserTaskService {
 
     // 查看该任务的所有参与人
     List<Integer> selectByTaskId(Integer taskId);
+
+    // 查看该用户的所以后任务
+    List<Integer> selectByUserId(Integer userId);
 }

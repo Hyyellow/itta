@@ -97,6 +97,18 @@ public class UserTaskServiceImpl implements UserTaskService {
         return null;
     }
 
+    @Override
+    public List<Integer> selectByUserId(Integer userId) {
+        List<UserTask> userTaskList = userTaskMapper.selectByUserId(userId);
+        List<Integer> taskIdList = userTaskList.stream()
+                .map(UserTask -> UserTask.getTaskId())
+                .collect(Collectors.toList());
+        if (taskIdList != null && !taskIdList.isEmpty()) {
+            return taskIdList;
+        }
+        return null;
+    }
+
     private int deleteUserTaskList(List<UserTask> userTaskList) {
         for (UserTask userTask : userTaskList) {
             int delete = userTaskMapper.deleteByPrimaryKey(userTask.getId());
