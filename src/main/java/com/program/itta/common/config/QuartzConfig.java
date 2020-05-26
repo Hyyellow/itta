@@ -1,6 +1,7 @@
 package com.program.itta.common.config;
 
-import com.program.itta.job.DateTimeJob;
+import com.program.itta.job.NewsJob;
+import com.program.itta.job.ScheduleJob;
 import org.quartz.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,18 +15,37 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class QuartzConfig {
     @Bean
-    public JobDetail scheduleNewsJobDetail(){
-        return JobBuilder.newJob(DateTimeJob.class)//PrintTimeJob我们的业务类
-                .withIdentity("DateTimeJob")//可以给该JobDetail起一个id
-                .storeDurably()//即使没有Trigger关联时，也不需要删除该JobDetail
+    public JobDetail scheduleJobDetail() {
+        return JobBuilder.newJob(ScheduleJob.class)
+                .withIdentity("ScheduleJob")
+                .storeDurably()
                 .build();
     }
+
     @Bean
-    public Trigger printTimeJobTrigger() {
+    public Trigger scheduleJobTrigger() {
         CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 1 * * ?");
         return TriggerBuilder.newTrigger()
-                .forJob(scheduleNewsJobDetail())//关联上述的JobDetail
-                .withIdentity("quartzTaskService")//给Trigger起个名字
+                .forJob(scheduleJobDetail())
+                .withIdentity("scheduleJobService")
+                .withSchedule(cronScheduleBuilder)
+                .build();
+    }
+
+    @Bean
+    public JobDetail newsJobDetail(){
+        return JobBuilder.newJob(NewsJob.class)
+                .withIdentity("NewsJob")
+                .storeDurably()
+                .build();
+    }
+
+    @Bean
+    public Trigger newsJobTrigger() {
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0 0 2 * * ?");
+        return TriggerBuilder.newTrigger()
+                .forJob(newsJobDetail())
+                .withIdentity("newsJobService")
                 .withSchedule(cronScheduleBuilder)
                 .build();
     }

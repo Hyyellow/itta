@@ -19,7 +19,7 @@ public class Schedule {
 
     private Integer priority;
 
-    private Boolean isFinish;
+    private Boolean whetherFinish;
 
     private Date startTime;
 

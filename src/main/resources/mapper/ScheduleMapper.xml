@@ -7,7 +7,7 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="place" jdbcType="VARCHAR" property="place"/>
         <result column="priority" jdbcType="INTEGER" property="priority"/>
-        <result column="is_finish" jdbcType="BIT" property="isFinish"/>
+        <result column="is_finish" jdbcType="BIT" property="whetherFinish"/>
         <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
         <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
         <result column="completion_time" jdbcType="TIMESTAMP" property="completionTime"/>
@@ -24,7 +24,7 @@
       start_time, end_time, completion_time, 
       create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{place,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{isFinish,jdbcType=BIT}, 
+      #{place,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{whetherFinish,jdbcType=BIT},
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
@@ -34,7 +34,7 @@
       name = #{name,jdbcType=VARCHAR},
       place = #{place,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=INTEGER},
-      is_finish = #{isFinish,jdbcType=BIT},
+      is_finish = #{whetherFinish,jdbcType=BIT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       completion_time = #{completionTime,jdbcType=TIMESTAMP},

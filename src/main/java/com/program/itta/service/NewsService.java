@@ -2,6 +2,7 @@ package com.program.itta.service;
 
 
 import com.program.itta.domain.entity.News;
+import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.Timer;
 
@@ -14,5 +15,5 @@ public interface NewsService {
 
     Void addTaskNews(Task task, Integer userId);
 
-    Void addScheduleNews(Timer timer);
+    Void addScheduleNews(Schedule schedule);
 }

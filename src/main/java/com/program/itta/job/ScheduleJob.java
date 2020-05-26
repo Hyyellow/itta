@@ -20,12 +20,12 @@ import java.util.List;
 
 /**
  * @program: itta
- * @description: QuartzTest
+ * @description: 定时日程
  * @author: Mr.Huang
  * @create: 2020-05-20 11:28
  **/
 @Component
-public class DateTimeJob extends QuartzJobBean {
+public class ScheduleJob extends QuartzJobBean {
 
     @Autowired
     private TimerService timerService;
@@ -63,7 +63,6 @@ public class DateTimeJob extends QuartzJobBean {
             if (insertFlag) {
                 Schedule newSchedule = getNewSchedule(schedule, startCalendar, endCalendar, nowCalendar);
                 scheduleService.addSchedule(newSchedule);
-                newsService.addScheduleNews(timer);
             }
         }
     }

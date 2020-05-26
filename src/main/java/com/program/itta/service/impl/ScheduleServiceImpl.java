@@ -72,6 +72,15 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<Schedule> selectAll() {
+        List<Schedule> scheduleList = scheduleMapper.selectAll();
+        if (scheduleList != null && !scheduleList.isEmpty()) {
+            return scheduleList;
+        }
+        return null;
+    }
+
+    @Override
     public Schedule selectByPrimaryKey(Integer id) {
         Schedule schedule = scheduleMapper.selectByPrimaryKey(id);
         if (schedule != null) {
