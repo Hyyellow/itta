@@ -27,7 +27,7 @@ public class NewsDTO  implements Serializable {
     private Integer recipientId;
 
     @ApiModelProperty(value = "用户标志", example = "1")
-    private Boolean isUser;
+    private Boolean whetherUser;
 
     @ApiModelProperty(value = "消息内容", example = "todo")
     private String content;

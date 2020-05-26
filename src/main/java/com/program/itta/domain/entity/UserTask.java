@@ -16,7 +16,7 @@ public class UserTask  implements Serializable {
 
     private Integer taskId;
 
-    private Boolean leader;
+    private Boolean whetherLeader;
 
     private Date createTime;
 

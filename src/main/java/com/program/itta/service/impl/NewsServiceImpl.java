@@ -51,7 +51,7 @@ public class NewsServiceImpl implements NewsService {
     public Void addTaskNews(Task task,Integer userId) {
         News news = News.builder()
                 .senderId(userId)
-                .isUser(true)
+                .whetherUser(true)
                 .recipientId(task.getUserId())
                 .content("edit")
                 .build();
@@ -63,7 +63,7 @@ public class NewsServiceImpl implements NewsService {
     public Void addScheduleNews(Schedule schedule) {
         News news = News.builder()
                 .senderId(0)
-                .isUser(false)
+                .whetherUser(false)
                 .recipientId(schedule.getId())
                 .content("todo")
                 .build();

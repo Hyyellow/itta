@@ -16,7 +16,7 @@ public class UserItem  implements Serializable {
 
     private Integer itemId;
 
-    private Boolean leader;
+    private Boolean whetherLeader;
 
     private Date createTime;
 

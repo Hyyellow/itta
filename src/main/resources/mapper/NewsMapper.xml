@@ -6,7 +6,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="sender_id" jdbcType="INTEGER" property="senderId"/>
         <result column="recipient_id" jdbcType="INTEGER" property="recipientId"/>
-        <result column="is_user" jdbcType="BIT" property="isUser"/>
+        <result column="is_user" jdbcType="BIT" property="whetherUser"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
@@ -20,7 +20,7 @@
       is_user, content, create_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{senderId,jdbcType=INTEGER}, #{recipientId,jdbcType=INTEGER}, 
-      #{isUser,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{whetherUser,jdbcType=BIT}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.News">
@@ -28,7 +28,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="senderId != null">sender_id = #{senderId,jdbcType=INTEGER},</if>
             <if test="recipientId != null">recipient_id = #{recipientId,jdbcType=INTEGER},</if>
-            <if test="isUser != null">is_user = #{isUser,jdbcType=BIT},</if>
+            <if test="whetherUser != null">is_user = #{whetherUser,jdbcType=BIT},</if>
             <if test="content != null">content = #{content,jdbcType=VARCHAR},</if>
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>

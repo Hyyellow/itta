@@ -6,7 +6,7 @@
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="item_id" jdbcType="INTEGER" property="itemId"/>
-        <result column="is_leader" jdbcType="BIT" property="leader"/>
+        <result column="is_leader" jdbcType="BIT" property="whetherLeader"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
     </resultMap>
@@ -19,7 +19,7 @@
       is_leader, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, 
-      #{leader,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      #{whetherLeader,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.UserItem">
@@ -27,7 +27,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
             <if test="itemId != null">item_id = #{itemId,jdbcType=INTEGER},</if>
-            <if test="leader != null">is_leader = #{leader,jdbcType=BIT},</if>
+            <if test="whetherLeader != null">is_leader = #{whetherLeader,jdbcType=BIT},</if>
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>
         </trim>

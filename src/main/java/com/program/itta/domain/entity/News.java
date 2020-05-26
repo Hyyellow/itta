@@ -17,7 +17,7 @@ public class News  implements Serializable {
 
     private Integer recipientId;
 
-    private Boolean isUser;
+    private Boolean whetherUser;
 
     private String content;
 
