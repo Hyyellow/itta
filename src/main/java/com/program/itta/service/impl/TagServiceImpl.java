@@ -47,7 +47,7 @@ public class TagServiceImpl implements TagService {
         for (Integer tagId : tagIdList) {
             Tag tag = tagMapper.selectByPrimaryKey(tagId);
             TagDTO tagDTO = new TagDTO();
-            tagDTO.convertFor(tag);
+            tagDTO = tagDTO.convertFor(tag);
             tagDTOList.add(tagDTO);
         }
         return tagDTOList;

@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByPrimaryKey(userId);
         if (user != null) {
             UserDTO userDTO = new UserDTO();
-            userDTO.convertFor(user);
+            userDTO= userDTO.convertFor(user);
             return userDTO;
         }
         return null;
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
         for (Integer userId : userIds) {
             User user = userMapper.selectByPrimaryKey(userId);
             UserDTO userDTO = new UserDTO();
-            userDTO.convertFor(user);
+            userDTO= userDTO.convertFor(user);
             userList.add(userDTO);
         }
         return userList;
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByMarkId(markId);
         if (user!=null){
             UserDTO userDTO = new UserDTO();
-            userDTO.convertFor(user);
+            userDTO= userDTO.convertFor(user);
             return userDTO;
         }
         return null;

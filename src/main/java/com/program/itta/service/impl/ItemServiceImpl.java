@@ -132,7 +132,7 @@ public class ItemServiceImpl implements ItemService {
         if (item != null) {
             Item itemFind = judgeItemFind(item, itemIds);
             ItemDTO itemDTO = new ItemDTO();
-            itemDTO.convertFor(itemFind);
+            itemDTO = itemDTO.convertFor(itemFind);
             return itemDTO;
         }
         return null;
