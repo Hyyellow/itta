@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @Data
 @Builder
 @ApiModel(value = "TaskDTO", description = "任务DTO类")
-public class TaskDTO {
+public class TaskDTO  implements Serializable {
     @ApiModelProperty(value = "任务id", example = "1")
     private Integer id;
 

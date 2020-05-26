@@ -11,6 +11,7 @@ import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Date;
 @Data
 @Builder
 @ApiModel(value = "ScheduleDTO", description = "日程DTO类")
-public class ScheduleDTO {
+public class ScheduleDTO  implements Serializable {
     @ApiModelProperty(value = "日程id", example = "1")
     private Integer id;
 

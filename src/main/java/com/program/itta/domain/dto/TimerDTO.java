@@ -7,11 +7,12 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
-public class TimerDTO {
+public class TimerDTO  implements Serializable {
     private Integer id;
 
     private Integer scheduleId;

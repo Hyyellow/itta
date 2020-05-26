@@ -8,11 +8,12 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
-public class NewsDTO {
+public class NewsDTO  implements Serializable {
     private Integer id;
 
     private Integer senderId;

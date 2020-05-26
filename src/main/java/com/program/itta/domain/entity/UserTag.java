@@ -4,11 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
-public class UserTag implements Comparable<UserTag> {
+public class UserTag implements Comparable<UserTag>, Serializable {
     private Integer id;
 
     private Integer tagId;

@@ -8,13 +8,14 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 @Data
 @Builder
 @Entity
 /*@Document(indexName = "user",
         useServerConfiguration = true, createIndex = false)*/
-public class User {
+public class User  implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;

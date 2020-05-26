@@ -10,6 +10,7 @@ import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * @program: itta
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @Builder
 @ApiModel(value = "TagDTO", description = "标签DTO类")
-public class TagDTO {
+public class TagDTO  implements Serializable {
     @ApiModelProperty(value = "标签id", example = "1")
     private Integer id;
 

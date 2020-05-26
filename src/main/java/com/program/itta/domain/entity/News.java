@@ -5,11 +5,12 @@ import lombok.experimental.Tolerate;
 
 import	java.io.DataOutput;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
-public class News {
+public class News  implements Serializable {
     private Integer id;
 
     private Integer senderId;

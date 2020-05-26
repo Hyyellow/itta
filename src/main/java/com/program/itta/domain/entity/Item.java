@@ -4,11 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
-public class Item {
+public class Item  implements Serializable {
     private Integer id;
 
     private Integer userId;

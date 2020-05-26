@@ -4,10 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
+import java.io.Serializable;
 import java.util.Date;
 @Data
 @Builder
-public class Tag {
+public class Tag  implements Serializable {
     private Integer id;
 
     private String content;

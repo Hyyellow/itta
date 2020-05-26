@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+import java.io.Serializable;
+
 /**
  * @program: itta
  * @description: DTO item类
@@ -18,7 +20,7 @@ import org.springframework.beans.BeanUtils;
 @Data
 @Builder
 @ApiModel(value = "ItemDTO", description = "项目DTO类")
-public class ItemDTO {
+public class ItemDTO implements Serializable {
     @ApiModelProperty(value = "项目id", example = "1")
     private Integer id;
 

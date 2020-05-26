@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Date;
 @Entity
 @Table(name = "user")
 @ApiModel(value = "UserDTO", description = "用户DTO类")
-public class UserDTO {
+public class UserDTO  implements Serializable {
     @Id
     @GeneratedValue
     @ApiModelProperty(value = "用户id", example = "1")
