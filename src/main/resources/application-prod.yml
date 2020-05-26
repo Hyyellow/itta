@@ -14,3 +14,13 @@ spring:
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
+  #  redis配置
+  redis:
+    database: 0
+    host: 119.3.213.219
+    port: 6379
+    password: a570911275
+# swagger配置
+swagger:
+  host: hyyyms.com.cn:8080
+  show: true

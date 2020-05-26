@@ -173,6 +173,21 @@ public class TaskController {
         }
     }
 
+    @ApiOperation(value = "查找该参与者的关于父任务的所有相关子任务", notes = "(查找该参与者的关于父任务的所有相关子任务)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30006, message = "任务用户成员查找失败")})
+    @GetMapping("/selectTaskMember")
+    public HttpResult selectTaskMember(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
+                                       @RequestBody @Valid TaskDTO taskDTO) {
+        Task task = taskDTO.convertToTask();
+        List<Integer> userIdList = userTaskService.selectByTaskId(task.getItemId());
+        List<UserDTO> userList = userService.selectUserList(userIdList);
+        if (userList != null && !userList.isEmpty()) {
+            return HttpResult.success(userList);
+        } else {
+            throw new TaskFindUserListException("任务用户成员查找失败");
+        }
+    }
+
     @ApiOperation(value = "查找该项目成员的所有任务", notes = "(查找该项目成员的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无任务")})
     @GetMapping("/selectItemMemberTask")

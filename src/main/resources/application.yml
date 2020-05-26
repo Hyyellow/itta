@@ -27,12 +27,6 @@ spring:
       enabled: true
     restart:
       additional-paths: static/**
-  #  redis配置
-  redis:
-    database: 0
-    host: localhost
-    port: 6379
-    password: a570911275
   # datasource配置
   datasource:
     # 扩展插件
@@ -85,7 +79,3 @@ wx:
   applet:
     appid: wxe9256325396b77dc
     appsecret: a524735368d6bd325efbd09b4591ede6
-
-swagger:
-  host: hyyyms.com.cn:8080
-  show: true
