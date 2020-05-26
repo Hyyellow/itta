@@ -97,11 +97,9 @@ public class TaskController {
                                  @RequestBody @Valid TaskDTO taskDTO) {
         Integer userId = jwtConfig.getUserId();
         Task task = taskDTO.convertToTask();
-        List<Integer> userIdList = taskDTO.getUserIdList();
         Boolean updateTask = taskService.updateTask(task);
-        Boolean addUserTask = userTaskService.addUserTask(task.getId(), userIdList);
         newsService.addTaskNews(task, userId);
-        if (!(updateTask && addUserTask)) {
+        if (!updateTask){
             throw new TaskUpdateFailException("任务更新失败");
         }
         return HttpResult.success();
@@ -177,11 +175,11 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无子任务")})
     @GetMapping("/selectMemberTask")
     public HttpResult selectMemberTask(@ApiParam(name = "父任务id", value = "传入Json格式", required = true)
-                                           @RequestParam(value = "taskId") Integer taskId,
+                                       @RequestParam(value = "taskId") Integer taskId,
                                        @ApiParam(name = "用户id", value = "传入Json格式", required = true)
-                                           @RequestParam(value = "userId") Integer userId) {
+                                       @RequestParam(value = "userId") Integer userId) {
         List<Integer> taskIdList = userTaskService.selectByUserId(userId);
-        List<Task> subTaskList = taskService.selectAllSubTask(taskId,taskIdList);
+        List<Task> subTaskList = taskService.selectAllSubTask(taskId, taskIdList);
         if (subTaskList != null && !subTaskList.isEmpty()) {
             return HttpResult.success(subTaskList);
         } else {
