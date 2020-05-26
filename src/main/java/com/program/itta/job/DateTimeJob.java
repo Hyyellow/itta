@@ -63,6 +63,7 @@ public class DateTimeJob extends QuartzJobBean {
             if (insertFlag) {
                 Schedule newSchedule = getNewSchedule(schedule, startCalendar, endCalendar, nowCalendar);
                 scheduleService.addSchedule(newSchedule);
+                newsService.addScheduleNews(timer);
             }
         }
     }
