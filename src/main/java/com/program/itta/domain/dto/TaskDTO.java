@@ -55,10 +55,6 @@ public class TaskDTO {
     @ApiModelProperty(value = "紧急程度", example = "1",notes = "3：非常紧急；2：紧急；1：一般")
     private Integer priority;
 
-    @ApiModelProperty(value = "该任务下的成员列表", example = "{1,2,3}")
-    private List<Integer> userIdList;
-
-
     @Tolerate
     public TaskDTO() {
     }
