@@ -10,10 +10,7 @@ import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.NewsService;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +24,7 @@ import java.util.List;
  * @author: Mr.Huang
  * @create: 2020-05-18 16:35
  **/
+@Api(tags = "消息接口")
 @RestController
 @RequestMapping("/news")
 public class NewsController {
@@ -42,6 +40,8 @@ public class NewsController {
     @Resource
     private JwtConfig jwtConfig;
 
+    @ApiOperation(value = "删除消息", notes = "(删除该条消息)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 60001, message = "消息删除失败")})
     @DeleteMapping("/deleteNews")
     public HttpResult deleteItem(@RequestBody @Valid NewsDTO newsDTO) {
         News news = newsDTO.convertToNews();
@@ -52,6 +52,8 @@ public class NewsController {
         return HttpResult.success();
     }
 
+    @ApiOperation(value = "查找消息", notes = "(获取该用户的所有消息)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无消息存在")})
     @GetMapping("/selectNews")
     public HttpResult selectNews() {
         List<News> newsList = newsService.selectNewsList();
