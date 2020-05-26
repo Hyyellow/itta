@@ -49,7 +49,7 @@ public class UserItemServiceImpl implements UserItemServive {
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
-                .leader(true)
+                .whetherLeader(true)
                 .build();
         int insert = userItemMapper.insert(userItem);
         if (insert != 0) {
@@ -81,7 +81,7 @@ public class UserItemServiceImpl implements UserItemServive {
             if (userItem.getUserId().equals(userId)) {
                 logger.info("用户：" + userItem.getUserId() + "删除项目：" + userItem.getItemId());
                 // 负责人删除
-                if (userItem.getLeader()) {
+                if (userItem.getWhetherLeader()) {
                     delete = deleteUserItemList(userItemList);
                 } else {
                     // 正常删除
@@ -146,7 +146,7 @@ public class UserItemServiceImpl implements UserItemServive {
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
-                .leader(false)
+                .whetherLeader(false)
                 .build();
         int insert = userItemMapper.insert(userItem);
         if (insert != 0) {

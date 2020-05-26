@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @program: itta
@@ -48,7 +49,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Boolean addItem(Item item) {
         Integer userId = jwtConfig.getUserId();
+        String markId = UUID.randomUUID().toString();
         item.setUserId(userId);
+        item.setMarkId(markId);
         Boolean judgeItem = judgeItemName(item);
         if (judgeItem) {
             throw new ItemNameExistsException("项目名称已存在");

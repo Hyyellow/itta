@@ -36,7 +36,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         UserTask userTask = UserTask.builder()
                 .userId(task.getUserId())
                 .taskId(task.getId())
-                .leader(true)
+                .whetherLeader(true)
                 .build();
         int insert = userTaskMapper.insert(userTask);
         if (insert != 0) {
@@ -71,7 +71,7 @@ public class UserTaskServiceImpl implements UserTaskService {
             if (userTask.getUserId().equals(userId)) {
                 logger.info("用户：" + userTask.getUserId() + "删除任务：" + userTask.getTaskId());
                 // 负责人删除
-                if (userTask.getLeader()) {
+                if (userTask.getWhetherLeader()) {
                     delete = deleteUserTaskList(userTaskList);
                 } else {
                     // 正常删除
