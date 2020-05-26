@@ -35,6 +35,9 @@ public class ScheduleDTO {
     @ApiModelProperty(value = "地点", example = "图书馆")
     private String place;
 
+    @ApiModelProperty(value = "紧急程度", example = "1",notes = "3：非常紧急；2：紧急；1：一般")
+    private Integer priority;
+
     @ApiModelProperty(value = "完成标志", example = "0")
     private Boolean whetherFinish;
 

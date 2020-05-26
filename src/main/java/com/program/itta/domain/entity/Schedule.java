@@ -17,7 +17,9 @@ public class Schedule {
 
     private String place;
 
-    private Boolean whetherFinish;
+    private Integer priority;
+
+    private Boolean isFinish;
 
     private Date startTime;
 

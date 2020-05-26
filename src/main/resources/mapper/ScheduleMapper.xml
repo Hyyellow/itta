@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.program.itta.mapper.ScheduleMapper">
-  <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Schedule">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="place" jdbcType="VARCHAR" property="place" />
-    <result column="is_finish" jdbcType="BIT" property="whetherFinish" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
-    <result column="completion_time" jdbcType="TIMESTAMP" property="completionTime" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <resultMap id="BaseResultMap" type="com.program.itta.domain.entity.Schedule">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="place" jdbcType="VARCHAR" property="place"/>
+        <result column="priority" jdbcType="INTEGER" property="priority"/>
+        <result column="is_finish" jdbcType="BIT" property="isFinish"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="completion_time" jdbcType="TIMESTAMP" property="completionTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from schedule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.program.itta.domain.entity.Schedule">
+    <insert id="insert" parameterType="com.program.itta.domain.entity.Schedule">
     insert into schedule (id, user_id, name, 
-      place, is_finish, start_time, 
-      end_time, completion_time, create_time, 
-      update_time)
+      place, priority, is_finish, 
+      start_time, end_time, completion_time, 
+      create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{place,jdbcType=VARCHAR}, #{whetherFinish,jdbcType=BIT}, #{startTime,jdbcType=TIMESTAMP},
-      #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{place,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{isFinish,jdbcType=BIT}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{completionTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Schedule">
+    <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Schedule">
     update schedule
     set user_id = #{userId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       place = #{place,jdbcType=VARCHAR},
-      is_finish = #{whetherFinish,jdbcType=BIT},
+      priority = #{priority,jdbcType=INTEGER},
+      is_finish = #{isFinish,jdbcType=BIT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       completion_time = #{completionTime,jdbcType=TIMESTAMP},
@@ -40,19 +42,19 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, name, place, is_finish, start_time, end_time, completion_time, 
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, name, place, priority, is_finish, start_time, end_time, completion_time, 
     create_time, update_time
     from schedule
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, name, place, is_finish, start_time, end_time, completion_time, 
+    <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, name, place, priority, is_finish, start_time, end_time, completion_time, 
     create_time, update_time
     from schedule
   </select>
-  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, user_id, name, place, is_finish, start_time, end_time, completion_time,
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, name, place, priority, is_finish, start_time, end_time, completion_time,
     create_time, update_time
     from schedule
     where user_id = #{userId,jdbcType=INTEGER}
