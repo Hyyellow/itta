@@ -30,19 +30,21 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.Schedule">
-    update schedule
-    set user_id = #{userId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR},
-      place = #{place,jdbcType=VARCHAR},
-      priority = #{priority,jdbcType=INTEGER},
-      is_finish = #{whetherFinish,jdbcType=BIT},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      completion_time = #{completionTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update schedule
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="place != null">place = #{place,jdbcType=VARCHAR},</if>
+            <if test="priority != null">priority = #{priority,jdbcType=INTEGER},</if>
+            <if test="whetherFinish != null">is_finish = #{whetherFinish,jdbcType=BIT},</if>
+            <if test="startTime != null">start_time = #{startTime,jdbcType=TIMESTAMP},</if>
+            <if test="endTime != null">end_time = #{endTime,jdbcType=TIMESTAMP},</if>
+            <if test="completionTime != null">completion_time = #{completionTime,jdbcType=TIMESTAMP},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, user_id, name, place, priority, is_finish, start_time, end_time, completion_time, 
     create_time, update_time

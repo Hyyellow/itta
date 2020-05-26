@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public Boolean judgeUser(User user) {
         List<User> userList = userMapper.selectAll();
         for (User user1 : userList) {
-            if (user1.getWxOpenid().equals(user.getWxOpenid())) {
+            if (user1.getId().equals(user.getId())) {
                 return true;
             }
         }

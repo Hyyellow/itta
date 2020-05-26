@@ -28,17 +28,19 @@
       )
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.User">
-    update user
-    set name = #{name,jdbcType=VARCHAR},
-      picture = #{picture,jdbcType=VARCHAR},
-      wx_openid = #{wxOpenid,jdbcType=VARCHAR},
-      session_key = #{sessionKey,jdbcType=VARCHAR},
-      last_time = #{lastTime,jdbcType=TIMESTAMP},
-      mark_id = #{markId,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="picture != null">picture = #{picture,jdbcType=VARCHAR},</if>
+            <if test="wxOpenid != null">wx_openid = #{wxOpenid,jdbcType=VARCHAR},</if>
+            <if test="sessionKey != null">session_key = #{sessionKey,jdbcType=VARCHAR},</if>
+            <if test="lastTime != null">last_time = #{lastTime,jdbcType=TIMESTAMP},</if>
+            <if test="markId != null">mark_id = #{markId,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, name, picture, wx_openid, session_key, last_time, mark_id, create_time, 
     update_time

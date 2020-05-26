@@ -24,15 +24,17 @@
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
     <update id="updateByPrimaryKey" parameterType="com.program.itta.domain.entity.News">
-    update news
-    set sender_id = #{senderId,jdbcType=INTEGER},
-      recipient_id = #{recipientId,jdbcType=INTEGER},
-      is_user = #{isUser,jdbcType=BIT},
-      content = #{content,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update news
+        <trim prefix="set" suffixOverrides=",">
+            <if test="senderId != null">sender_id = #{senderId,jdbcType=INTEGER},</if>
+            <if test="recipientId != null">recipient_id = #{recipientId,jdbcType=INTEGER},</if>
+            <if test="isUser != null">is_user = #{isUser,jdbcType=BIT},</if>
+            <if test="content != null">content = #{content,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP}</if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, sender_id, recipient_id, is_user, content, create_time, update_time
     from news

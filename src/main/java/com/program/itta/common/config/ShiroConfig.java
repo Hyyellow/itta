@@ -57,11 +57,11 @@ public class ShiroConfig {
         Map<String, String> filterRuleMap = new HashMap<>();
         //登陆相关api不需要被过滤器拦截
         filterRuleMap.put("/api/wx/user/login/**", "anon");
-        filterRuleMap.put("/api/response/**", "anon");
-        filterRuleMap.put("/user/**", "anon");
-        filterRuleMap.put("/api/**", "anon");
-        filterRuleMap.put("/task/**", "anon");
-        filterRuleMap.put("/item/**", "anon");
+//        filterRuleMap.put("/api/response/**", "anon");
+//        filterRuleMap.put("/user/**", "anon");
+//        filterRuleMap.put("/api/**", "anon");
+//        filterRuleMap.put("/task/**", "anon");
+//        filterRuleMap.put("/item/**", "anon");
 //        filterRuleMap.put("/item/**", "anon");
         // 所有请求通过JWT Filter
         filterRuleMap.put("/**", "jwt");
