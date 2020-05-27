@@ -135,7 +135,7 @@ public class ItemController {
         List<Integer> itemIdList = userItemServive.selectByUserId();
         jwtConfig.removeThread();
         if (itemIdList != null && !itemIdList.isEmpty()) {
-            List<Item> itemList = itemService.selectItemList(itemIdList);
+            List<ItemDTO> itemList = itemService.selectItemList(itemIdList);
             return HttpResult.success(itemList);
         } else {
             return HttpResult.success("该用户尚无项目存在");

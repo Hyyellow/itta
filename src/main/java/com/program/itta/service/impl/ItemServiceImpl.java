@@ -116,11 +116,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> selectItemList(List<Integer> itemIdList) {
-        List<Item> itemList = new ArrayList<>();
+    public List<ItemDTO> selectItemList(List<Integer> itemIdList) {
+        List<ItemDTO> itemList = new ArrayList<>();
         for (int i = 0; i < itemIdList.size(); i++) {
             Item item = itemMapper.selectByPrimaryKey(itemIdList.get(i));
-            itemList.add(item);
+            ItemDTO itemDTO = new ItemDTO();
+            itemDTO = itemDTO.convertFor(item);
+            itemList.add(itemDTO);
         }
         return itemList;
     }
