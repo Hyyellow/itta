@@ -5,10 +5,14 @@ import com.program.itta.common.util.ApplicationContextHolder;
 import org.apache.ibatis.cache.Cache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -25,16 +29,19 @@ public class RedisCache implements  Cache{
     private final String id; // cache instance id
     private RedisTemplate redisTemplate;
     private static final long EXPIRE_TIME_IN_MINUTES = 30; // redis过期时间
+
     public RedisCache(String id) {
         if (id == null) {
             throw new IllegalArgumentException("Cache instances require an ID");
         }
         this.id = id;
     }
+
     @Override
     public String getId() {
         return id;
     }
+
     /**
      * Put query result to redis
      *
@@ -49,6 +56,7 @@ public class RedisCache implements  Cache{
         opsForValue.set(key, value, EXPIRE_TIME_IN_MINUTES, TimeUnit.MINUTES);
         logger.debug("Put query result to redis");
     }
+
     /**
      * Get cached query result from redis
      *
@@ -62,6 +70,7 @@ public class RedisCache implements  Cache{
         logger.debug("Get cached query result from redis");
         return opsForValue.get(key);
     }
+
     /**
      * Remove cached query result from redis
      *
@@ -76,6 +85,7 @@ public class RedisCache implements  Cache{
         logger.debug("Remove cached query result from redis");
         return null;
     }
+
     /**
      * Clears this cache instance
      */
@@ -88,10 +98,12 @@ public class RedisCache implements  Cache{
         });
         logger.debug("Clear all the cached query result from redis");
     }
+
     @Override
     public int getSize() {
         return 0;
     }
+
     @Override
     public ReadWriteLock getReadWriteLock() {
         return readWriteLock;

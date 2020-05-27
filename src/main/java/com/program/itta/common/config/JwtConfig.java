@@ -128,7 +128,7 @@ public class JwtConfig {
     public Integer getUserId() {
         String openid = T1.get();
         User user = wxAccountRepository.findByWxOpenid(openid);
-        T1.remove();
+//        T1.remove();
         return user.getId();
     }
 

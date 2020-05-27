@@ -142,7 +142,11 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     // 添加用户项目成员
-    private Boolean addMember(Integer userId, Integer itemId){
+    private Boolean addMember(Integer userId, Integer itemId) {
+        Boolean judgeMember = judgeMember(userId, itemId);
+        if (judgeMember){
+            return judgeMember;
+        }
         UserItem userItem = UserItem.builder()
                 .userId(userId)
                 .itemId(itemId)
@@ -152,6 +156,16 @@ public class UserItemServiceImpl implements UserItemServive {
         if (insert != 0) {
             logger.info("用户：" + userItem.getUserId() + "加入项目：" + userItem.getItemId());
             return true;
+        }
+        return false;
+    }
+
+    private Boolean judgeMember(Integer userId, Integer itemId) {
+        List<UserItem> userItemList = userItemMapper.selectByUserId(userId);
+        for (UserItem userItem : userItemList) {
+            if (userItem.getItemId().equals(itemId)){
+                return true;
+            }
         }
         return false;
     }

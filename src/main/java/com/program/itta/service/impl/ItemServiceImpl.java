@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -101,6 +102,10 @@ public class ItemServiceImpl implements ItemService {
         if (!judgeItemExists) {
             throw new ItemNotExistsException("该项目不存在，项目id查找为空");
         }
+        Boolean judgeItem = judgeItemName(item);
+        if (judgeItem) {
+            throw new ItemNameExistsException("项目名称已存在");
+        }
         item.setUpdateTime(new Date());
         int update = itemMapper.updateByPrimaryKey(item);
         if (update != 0) {
@@ -112,7 +117,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> selectItemList(List<Integer> itemIdList) {
-        List<Item> itemList = null;
+        List<Item> itemList = new ArrayList<>();
         for (int i = 0; i < itemIdList.size(); i++) {
             Item item = itemMapper.selectByPrimaryKey(itemIdList.get(i));
             itemList.add(item);

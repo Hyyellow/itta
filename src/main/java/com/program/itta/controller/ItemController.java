@@ -83,7 +83,7 @@ public class ItemController {
         return HttpResult.success();
     }
 
-    @ApiOperation(value = "添加项目成员", notes = "(通过个人标志id查找到个人后，拉该用户进入项目)")
+    @ApiOperation(value = "添加项目成员", notes = "(通过个人标志id拉该用户加入项目)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20008, message = "项目用户成员添加失败")})
     @PostMapping("/addItemMember")
     public HttpResult addItemMember(@ApiParam(name = "成员标志id", value = "传入Json格式", required = true)
@@ -170,6 +170,4 @@ public class ItemController {
             throw new ItemFindUserListException("项目用户成员查找失败");
         }
     }
-
-
 }
