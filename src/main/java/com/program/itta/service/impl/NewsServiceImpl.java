@@ -1,6 +1,8 @@
 package com.program.itta.service.impl;
+import	java.util.ArrayList;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.domain.dto.NewsDTO;
 import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Task;
@@ -38,11 +40,12 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<News> selectNewsList() {
+    public List<NewsDTO> selectNewsList() {
         Integer userId = jwtConfig.getUserId();
         List<News> newsList = newsMapper.selectByUserId(userId);
         if (newsList != null && !newsList.isEmpty()) {
-            return newsList;
+            List<NewsDTO> newsDTOList = convertToNewsDTOList(newsList);
+            return newsDTOList;
         }
         return null;
     }
@@ -69,5 +72,15 @@ public class NewsServiceImpl implements NewsService {
                 .build();
         newsMapper.insert(news);
         return null;
+    }
+
+    private List<NewsDTO> convertToNewsDTOList(List<News> newsList){
+        List<NewsDTO> newsDTOList = new ArrayList<> ();
+        for (News news : newsList){
+            NewsDTO newsDTO = new NewsDTO();
+            newsDTO = newsDTO.convertFor(news);
+            newsDTOList.add(newsDTO);
+        }
+        return newsDTOList;
     }
 }

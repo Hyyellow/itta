@@ -56,7 +56,7 @@ public class NewsController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无消息存在")})
     @GetMapping("/selectNews")
     public HttpResult selectNews() {
-        List<News> newsList = newsService.selectNewsList();
+        List<NewsDTO> newsList = newsService.selectNewsList();
         jwtConfig.removeThread();
         if (newsList != null && !newsList.isEmpty()) {
             return HttpResult.success(newsList);

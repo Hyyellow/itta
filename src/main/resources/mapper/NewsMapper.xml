@@ -44,4 +44,9 @@
     select id, sender_id, recipient_id, is_user, content, create_time, update_time
     from news
   </select>
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, sender_id, recipient_id, is_user, content, create_time, update_time
+    from news
+    where recipient_id = #{recipientId,jdbcType=INTEGER}
+  </select>
 </mapper>

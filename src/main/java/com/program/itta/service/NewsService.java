@@ -1,6 +1,7 @@
 package com.program.itta.service;
 
 
+import com.program.itta.domain.dto.NewsDTO;
 import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Task;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface NewsService {
     Boolean deleteNews(News news);
 
-    List<News> selectNewsList();
+    List<NewsDTO> selectNewsList();
 
     Void addTaskNews(Task task, Integer userId);
 
