@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
 import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
@@ -17,6 +18,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -36,11 +38,15 @@ public class ScheduleController {
     @Autowired
     private TimerService timerService;
 
+    @Resource
+    private JwtConfig jwtConfig;
+
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectSchedule")
     public HttpResult selectSchedule() {
-        List<Schedule> scheduleList = scheduleService.selectByUserId();
+        List<ScheduleDTO> scheduleList = scheduleService.selectByUserId();
+        jwtConfig.removeThread();
         if (scheduleList != null && !scheduleList.isEmpty()) {
             return HttpResult.success(scheduleList);
         } else {
@@ -52,7 +58,8 @@ public class ScheduleController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectNotFinishSchedule")
     public HttpResult selectNotFinishSchedule() {
-        List<Schedule> scheduleList = scheduleService.selectNotFinishSchedule();
+        List<ScheduleDTO> scheduleList = scheduleService.selectNotFinishSchedule();
+        jwtConfig.removeThread();
         if (scheduleList != null && !scheduleList.isEmpty()) {
             return HttpResult.success(scheduleList);
         } else {
@@ -64,7 +71,8 @@ public class ScheduleController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无完成日程")})
     @GetMapping("/selectFinishSchedule")
     public HttpResult selectFinishSchedule() {
-        List<Schedule> scheduleList = scheduleService.selectFinishSchedule();
+        List<ScheduleDTO> scheduleList = scheduleService.selectFinishSchedule();
+        jwtConfig.removeThread();
         if (scheduleList != null && !scheduleList.isEmpty()) {
             return HttpResult.success(scheduleList);
         } else {
@@ -79,6 +87,7 @@ public class ScheduleController {
                                   @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean addSchedule = scheduleService.addSchedule(schedule);
+        jwtConfig.removeThread();
         if (!addSchedule) {
             throw new ScheduleAddFailException("日程添加失败");
         }
@@ -93,19 +102,20 @@ public class ScheduleController {
                                      @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean updateSchedule = scheduleService.updateSchedule(schedule);
+        jwtConfig.removeThread();
         if (!updateSchedule) {
             throw new ScheduleUpdateFailException("日程更新失败");
         }
         return HttpResult.success();
     }
 
-    @ApiOperation(value = "设置日程状态为完成", notes = "(编辑此日程安排)")
+    @ApiOperation(value = "改变日程是否完成状态", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
-    @PutMapping("/setScheduleFinish")
-    public HttpResult setScheduleFinish(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
+    @PutMapping("/setScheduleStatus")
+    public HttpResult setScheduleStatus(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
                                      @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
-        Boolean updateSchedule = scheduleService.setScheduleFinish(schedule);
+        Boolean updateSchedule = scheduleService.setScheduleStatus(schedule);
         if (!updateSchedule) {
             throw new ScheduleUpdateFailException("日程更新失败");
         }

@@ -173,6 +173,11 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Update_Fail_Exception);
     }
+    @ExceptionHandler(value = ScheduleTimeException.class)
+    public HttpResult scheduleTimeExceptionHandler(ScheduleTimeException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Schedule_Time_Exception);
+    }
 
     // 标签模块
     @ExceptionHandler(value = TagAddFailException.class)

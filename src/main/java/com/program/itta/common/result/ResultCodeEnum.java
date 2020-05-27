@@ -44,6 +44,7 @@ public enum ResultCodeEnum {
     Schedule_Add_Fail_Exception(40003, "日程添加失败"),
     Schedule_Del_Fail_Exception(40004, "日程删除失败"),
     Schedule_Update_Fail_Exception(40005, "日程更新失败"),
+    Schedule_Time_Exception(40006, "日程开始时间不可晚于结束时间"),
     // 5000～5999 区间表示标签模块错误
     Tag_Add_Fail_Exception(50001, "标签添加失败"),
     // 6000～6999 区间表示标签模块错误

@@ -3,6 +3,8 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.schedule.ScheduleNameExistsException;
 import com.program.itta.common.exception.schedule.ScheduleNotExistsException;
+import com.program.itta.common.exception.schedule.ScheduleTimeException;
+import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.mapper.ScheduleMapper;
 import com.program.itta.service.ScheduleService;
@@ -30,13 +32,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Boolean addSchedule(Schedule schedule) {
-        Boolean judgeScheduleTime = judgeScheduleTime(schedule);
-        if (judgeScheduleTime) {
-            throw new RuntimeException("该日程的结束时间不可早于开始时间");
-        }
-        Boolean judgeScheduleExists = judgeScheduleName(schedule);
-        if (judgeScheduleExists) {
-            throw new ScheduleNameExistsException("该任务名称已存在");
+        Integer userId = jwtConfig.getUserId();
+        schedule.setUserId(userId);
+        judgeScheduleNameExistsException(schedule);
+        if (schedule.getStartTime() != null) {
+            judgeScheduleTimeException(schedule);
         }
         int insert = scheduleMapper.insert(schedule);
         if (insert != 0) {
@@ -47,10 +47,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Boolean deleteSchedule(Schedule schedule) {
-        Boolean judgeScheduleExists = judgeScheduleExists(schedule);
-        if (!judgeScheduleExists) {
-            throw new ScheduleNotExistsException("该任务不存在");
-        }
+        judgeScheduleNotExistsException(schedule);
         int delete = scheduleMapper.deleteByPrimaryKey(schedule.getId());
         if (delete != 0) {
             return true;
@@ -60,9 +57,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public Boolean updateSchedule(Schedule schedule) {
-        Boolean judgeScheduleExists = judgeScheduleExists(schedule);
-        if (!judgeScheduleExists) {
-            throw new ScheduleNotExistsException("该任务不存在");
+        judgeScheduleNotExistsException(schedule);
+        if (schedule.getName() != null) {
+            judgeScheduleNameExistsException(schedule);
+        }
+        if (schedule.getStartTime() != null) {
+            judgeScheduleTimeException(schedule);
         }
         int update = scheduleMapper.updateByPrimaryKey(schedule);
         if (update != 0) {
@@ -72,10 +72,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> selectAll() {
+    public List<ScheduleDTO> selectAll() {
         List<Schedule> scheduleList = scheduleMapper.selectAll();
         if (scheduleList != null && !scheduleList.isEmpty()) {
-            return scheduleList;
+            List<ScheduleDTO> scheduleDTOList = convertToScheduleDTOList(scheduleList);
+            return scheduleDTOList;
         }
         return null;
     }
@@ -90,40 +91,47 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule> selectByUserId() {
+    public List<ScheduleDTO> selectByUserId() {
         Integer userId = jwtConfig.getUserId();
         List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
         if (scheduleList != null && !scheduleList.isEmpty()) {
-            return scheduleList;
+            List<ScheduleDTO> scheduleDTOList = convertToScheduleDTOList(scheduleList);
+            return scheduleDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Schedule> selectNotFinishSchedule() {
+    public List<ScheduleDTO> selectNotFinishSchedule() {
         Integer userId = jwtConfig.getUserId();
         List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
         if (scheduleList != null && !scheduleList.isEmpty()) {
             List<Schedule> schedules = getSchedulesByCalendar(scheduleList, false);
-            return schedules;
+            List<ScheduleDTO> scheduleDTOList = convertToScheduleDTOList(schedules);
+            return scheduleDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Schedule> selectFinishSchedule() {
+    public List<ScheduleDTO> selectFinishSchedule() {
         Integer userId = jwtConfig.getUserId();
         List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
         if (scheduleList != null && !scheduleList.isEmpty()) {
             List<Schedule> schedules = getSchedulesByCalendar(scheduleList, true);
-            return schedules;
+            List<ScheduleDTO> scheduleDTOList = convertToScheduleDTOList(schedules);
+            return scheduleDTOList;
         }
         return null;
     }
 
     @Override
-    public Boolean setScheduleFinish(Schedule schedule) {
-        schedule.setWhetherFinish(true);
+    public Boolean setScheduleStatus(Schedule schedule) {
+        if (schedule.getWhetherFinish()) {
+            schedule.setWhetherFinish(false);
+        } else {
+            schedule.setWhetherFinish(true);
+        }
         schedule.setCompletionTime(new Date());
         schedule.setUpdateTime(new Date());
         int update = scheduleMapper.updateByPrimaryKey(schedule);
@@ -134,8 +142,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     private Boolean judgeScheduleName(Schedule schedule) {
-        List<Schedule> scheduleList = selectByUserId();
-        for (Schedule schedule1 : scheduleList) {
+        List<ScheduleDTO> scheduleList = selectByUserId();
+        if (scheduleList == null) {
+            return false;
+        }
+        for (ScheduleDTO schedule1 : scheduleList) {
             if (schedule.getName().equals(schedule1.getName())) {
                 return true;
             }
@@ -165,14 +176,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         for (Schedule schedule : scheduleList) {
             Calendar calendar = assignmentCalendar(new Date());
             Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
-            Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
             int startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
             Boolean judge = null;
             if (flag) {
                 judge = schedule.getWhetherFinish();
             } else {
-                judge = calendar.before(endCalendar);
+                judge = !schedule.getWhetherFinish();
             }
             if ((startDay == day) && (judge)) {
                 schedules.add(schedule);
@@ -185,5 +195,36 @@ public class ScheduleServiceImpl implements ScheduleService {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
         return calendar;
+    }
+
+    private void judgeScheduleNotExistsException(Schedule schedule) {
+        Boolean judgeScheduleExists = judgeScheduleExists(schedule);
+        if (!judgeScheduleExists) {
+            throw new ScheduleNotExistsException("该任务不存在");
+        }
+    }
+
+    private void judgeScheduleNameExistsException(Schedule schedule) {
+        Boolean judgeScheduleName = judgeScheduleName(schedule);
+        if (judgeScheduleName) {
+            throw new ScheduleNameExistsException("该任务名称已存在");
+        }
+    }
+
+    private void judgeScheduleTimeException(Schedule schedule) {
+        Boolean judgeScheduleTime = judgeScheduleTime(schedule);
+        if (judgeScheduleTime) {
+            throw new ScheduleTimeException("该日程的结束时间不可早于开始时间");
+        }
+    }
+
+    private List<ScheduleDTO> convertToScheduleDTOList(List<Schedule> scheduleList) {
+        List<ScheduleDTO> scheduleDTOList = new ArrayList<>();
+        for (Schedule schedule : scheduleList) {
+            ScheduleDTO scheduleDTO = new ScheduleDTO();
+            scheduleDTO = scheduleDTO.convertFor(schedule);
+            scheduleDTOList.add(scheduleDTO);
+        }
+        return scheduleDTOList;
     }
 }

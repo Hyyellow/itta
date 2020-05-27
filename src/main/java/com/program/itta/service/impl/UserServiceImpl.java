@@ -4,7 +4,9 @@ import	java.util.ArrayList;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.user.UserNotExistsException;
+import com.program.itta.domain.dto.NewsDTO;
 import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.User;
 import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.UserService;

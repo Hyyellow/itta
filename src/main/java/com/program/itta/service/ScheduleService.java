@@ -1,5 +1,6 @@
 package com.program.itta.service;
 
+import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.Schedule;
 
 import java.util.List;
@@ -15,20 +16,20 @@ public interface ScheduleService {
     Boolean updateSchedule(Schedule schedule);
 
     // 查找所有日程
-    List<Schedule> selectAll();
+    List<ScheduleDTO> selectAll();
 
     // 查找日程
     Schedule selectByPrimaryKey(Integer id);
 
     // 查找用户下的所有日程
-    List<Schedule> selectByUserId();
+    List<ScheduleDTO> selectByUserId();
 
     // 查找用户今日未完成日程
-    List<Schedule> selectNotFinishSchedule();
+    List<ScheduleDTO> selectNotFinishSchedule();
 
     // 查找用户今日完成日程
-    List<Schedule> selectFinishSchedule();
+    List<ScheduleDTO> selectFinishSchedule();
 
     // 设置日程为完成状态
-    Boolean setScheduleFinish(Schedule schedule);
+    Boolean setScheduleStatus(Schedule schedule);
 }
