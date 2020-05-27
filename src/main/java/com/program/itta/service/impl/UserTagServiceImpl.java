@@ -49,6 +49,7 @@ public class UserTagServiceImpl implements UserTagService {
         if (judgeUserTag) {
             return true;
         }
+        userTag.setNumber(1);
         int insert = userTagMapper.insert(userTag);
         if (insert != 0) {
             return true;

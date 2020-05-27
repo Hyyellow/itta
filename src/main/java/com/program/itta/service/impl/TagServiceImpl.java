@@ -58,6 +58,6 @@ public class TagServiceImpl implements TagService {
         if (tag != null) {
             return true;
         }
-        return null;
+        return false;
     }
 }

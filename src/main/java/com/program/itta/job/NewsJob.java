@@ -2,6 +2,7 @@ package com.program.itta.job;
 
 import java.io.DataOutputStream;
 
+import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.service.NewsService;
 import com.program.itta.service.ScheduleService;
@@ -33,8 +34,8 @@ public class NewsJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        List<Schedule> scheduleList = scheduleService.selectAll();
-        for (Schedule schedule : scheduleList) {
+        List<ScheduleDTO> scheduleList = scheduleService.selectAll();
+        for (ScheduleDTO schedule : scheduleList) {
             Boolean judgeTime = judgeTime(schedule);
             if (judgeTime){
                 newsService.addScheduleNews(schedule);
@@ -42,7 +43,7 @@ public class NewsJob extends QuartzJobBean {
         }
     }
 
-    private Boolean judgeTime(Schedule schedule) {
+    private Boolean judgeTime(ScheduleDTO schedule) {
         Calendar calendar = assignmentCalendar(new Date());
         Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
         int year = calendar.get(Calendar.YEAR);

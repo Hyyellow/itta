@@ -3,6 +3,7 @@ import	java.util.ArrayList;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.dto.NewsDTO;
+import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Task;
@@ -63,7 +64,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Void addScheduleNews(Schedule schedule) {
+    public Void addScheduleNews(ScheduleDTO schedule) {
         News news = News.builder()
                 .senderId(0)
                 .whetherUser(false)
