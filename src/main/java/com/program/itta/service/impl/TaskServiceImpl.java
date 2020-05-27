@@ -8,6 +8,7 @@ import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.task.TaskNameExistsException;
 import com.program.itta.common.exception.task.TaskNotExistsException;
 import com.program.itta.common.util.fineGrainedPermissions.TaskPermissionsUtil;
+import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.UserTask;
@@ -55,6 +56,7 @@ public class TaskServiceImpl implements TaskService {
     public Boolean addTask(Task task) {
         Integer userId = jwtConfig.getUserId();
         task.setUserId(userId);
+        task.setSuperId(0);
         Boolean judgeItemExists = judgeItemExists(task.getItemId());
         if (!judgeItemExists) {
             throw new ItemNotExistsException("该项目不存在");
@@ -87,10 +89,13 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Boolean updateTask(Task task) {
-        Integer userId = jwtConfig.getUserId();
         Boolean judgeTaskExists = judgeTaskExists(task);
         if (!judgeTaskExists) {
             throw new TaskNotExistsException("该任务不存在，任务id查找为空");
+        }
+        Boolean judgeTaskName = judgeTaskName(task);
+        if (judgeTaskName) {
+            throw new TaskNameExistsException("该任务名称已存在于此项目中");
         }
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
@@ -103,46 +108,50 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public List<Task> selectByItemId(Integer itemId) {
+    public List<TaskDTO> selectByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         if (taskList != null && !taskList.isEmpty()) {
-            return taskList;
+            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
+            return taskDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Task> selectAllMyTask() {
+    public List<TaskDTO> selectAllMyTask() {
         Integer userId = jwtConfig.getUserId();
         List<UserTask> userTaskList = userTaskMapper.selectByUserId(userId);
         List<Task> taskList = convertToTaskList(userTaskList);
         if (taskList != null && !taskList.isEmpty()) {
-            return taskList;
+            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
+            return taskDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Task> selectByUserId() {
+    public List<TaskDTO> selectByUserId() {
         Integer userId = jwtConfig.getUserId();
         List<Task> taskList = taskMapper.selectByUserId(userId);
         if (taskList != null && !taskList.isEmpty()) {
-            return taskList;
+            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
+            return taskDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Task> selectBySuperId(Task task) {
+    public List<TaskDTO> selectBySuperId(Task task) {
         List<Task> taskList = taskMapper.selectBySuperId(task.getId());
         if (taskList != null && !taskList.isEmpty()) {
-            return taskList;
+            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
+            return taskDTOList;
         }
         return null;
     }
 
     @Override
-    public List<Task> selectByItemMember(Integer itemId, Integer userId) {
+    public List<TaskDTO> selectByItemMember(Integer itemId, Integer userId) {
         List<Task> memberTaskList = new ArrayList<>();
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         for (Task task : taskList) {
@@ -150,17 +159,18 @@ public class TaskServiceImpl implements TaskService {
                 memberTaskList.add(task);
             }
         }
-        return memberTaskList;
+        List<TaskDTO> taskDTOList = convertToTaskDTOList(memberTaskList);
+        return taskDTOList;
     }
 
     @Override
-    public List<Task> selectAllSubTask(Integer taskId, List<Integer> taskIdList) {
+    public List<TaskDTO> selectAllSubTask(Integer taskId, List<Integer> taskIdList) {
         Task task = taskMapper.selectByPrimaryKey(taskId);
-        List<Task> taskList = selectBySuperId(task);
-        List<Task> subTaskList = new ArrayList<>();
-        for (Task subTask : taskList) {
+        List<TaskDTO> taskList = selectBySuperId(task);
+        List<TaskDTO> subTaskList = new ArrayList<>();
+        for (TaskDTO subTask : taskList) {
             for (Integer id : taskIdList) {
-                if (id.equals(subTask.getId())){
+                if (id.equals(subTask.getId())) {
                     subTaskList.add(subTask);
                 }
             }
@@ -237,5 +247,15 @@ public class TaskServiceImpl implements TaskService {
             return true;
         }
         return false;
+    }
+
+    private List<TaskDTO> convertToTaskDTOList(List<Task> taskList) {
+        List<TaskDTO> taskDTOList = new ArrayList<>();
+        for (Task task : taskList) {
+            TaskDTO taskDTO = new TaskDTO();
+            taskDTO = taskDTO.convertFor(task);
+            taskDTOList.add(taskDTO);
+        }
+        return taskDTOList;
     }
 }

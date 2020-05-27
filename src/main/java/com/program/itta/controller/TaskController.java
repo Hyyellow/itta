@@ -99,6 +99,7 @@ public class TaskController {
         Task task = taskDTO.convertToTask();
         Boolean updateTask = taskService.updateTask(task);
         newsService.addTaskNews(task, userId);
+        jwtConfig.removeThread();
         if (!updateTask){
             throw new TaskUpdateFailException("任务更新失败");
         }
@@ -110,7 +111,7 @@ public class TaskController {
     @GetMapping("/selectTaskByItemId")
     public HttpResult selectTaskByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "itemId") Integer itemId) {
-        List<Task> taskList = taskService.selectByItemId(itemId);
+        List<TaskDTO> taskList = taskService.selectByItemId(itemId);
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -122,7 +123,7 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无任务")})
     @GetMapping("/selectMyTask")
     public HttpResult selectAllTask() {
-        List<Task> taskList = taskService.selectAllMyTask();
+        List<TaskDTO> taskList = taskService.selectAllMyTask();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -134,7 +135,7 @@ public class TaskController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无创建任务")})
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
-        List<Task> taskList = taskService.selectByUserId();
+        List<TaskDTO> taskList = taskService.selectByUserId();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -148,7 +149,7 @@ public class TaskController {
     public HttpResult selectSubTask(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                     @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
-        List<Task> taskList = taskService.selectBySuperId(task);
+        List<TaskDTO> taskList = taskService.selectBySuperId(task);
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -179,7 +180,7 @@ public class TaskController {
                                        @ApiParam(name = "用户id", value = "传入Json格式", required = true)
                                        @RequestParam(value = "userId") Integer userId) {
         List<Integer> taskIdList = userTaskService.selectByUserId(userId);
-        List<Task> subTaskList = taskService.selectAllSubTask(taskId, taskIdList);
+        List<TaskDTO> subTaskList = taskService.selectAllSubTask(taskId, taskIdList);
         if (subTaskList != null && !subTaskList.isEmpty()) {
             return HttpResult.success(subTaskList);
         } else {
@@ -194,7 +195,7 @@ public class TaskController {
                                            @RequestParam(value = "itemId") Integer itemId,
                                            @ApiParam(name = "用户id", value = "传入Json格式", required = true)
                                            @RequestParam(value = "userId") Integer userId) {
-        List<Task> taskList = taskService.selectByItemMember(itemId, userId);
+        List<TaskDTO> taskList = taskService.selectByItemMember(itemId, userId);
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {

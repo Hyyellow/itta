@@ -1,5 +1,6 @@
 package com.program.itta.service;
 
+import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.Task;
 
@@ -16,22 +17,22 @@ public interface TaskService {
     Boolean updateTask(Task task);
 
     // 查看项目中的任务
-    List<Task> selectByItemId(Integer itemId);
+    List<TaskDTO> selectByItemId(Integer itemId);
 
     // 查看所有我的任务
-    List<Task> selectAllMyTask();
+    List<TaskDTO> selectAllMyTask();
 
     // 查看所有我创建的任务
-    List<Task> selectByUserId();
+    List<TaskDTO> selectByUserId();
 
     // 查看所有该任务的子任务
-    List<Task> selectBySuperId(Task task);
+    List<TaskDTO> selectBySuperId(Task task);
 
     // 查看该项目成员的所有任务
-    List<Task> selectByItemMember(Integer itemId, Integer userId);
+    List<TaskDTO> selectByItemMember(Integer itemId, Integer userId);
 
     // 查看该成员的所有关于该任务的子任务
-    List<Task> selectAllSubTask(Integer taskId, List<Integer> taskIdList);
+    List<TaskDTO> selectAllSubTask(Integer taskId, List<Integer> taskIdList);
 
     // 删除该项目下的所有任务
     Boolean deleteByItemId(Integer itemId);

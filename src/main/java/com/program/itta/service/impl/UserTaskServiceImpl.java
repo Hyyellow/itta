@@ -3,6 +3,7 @@ package com.program.itta.service.impl;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.UserTask;
+import com.program.itta.mapper.TaskMapper;
 import com.program.itta.mapper.UserTaskMapper;
 import com.program.itta.service.UserTaskService;
 import org.slf4j.Logger;
@@ -28,14 +29,19 @@ public class UserTaskServiceImpl implements UserTaskService {
     @Autowired
     private UserTaskMapper userTaskMapper;
 
+    @Autowired
+    private TaskMapper taskMapper;
+
     @Resource
     private JwtConfig jwtConfig;
 
     @Override
     public Boolean addUserTask(Task task) {
+        Task task1 = getTask(task);
+        taskMapper.selectByItemId(task.getItemId());
         UserTask userTask = UserTask.builder()
-                .userId(task.getUserId())
-                .taskId(task.getId())
+                .userId(task1.getUserId())
+                .taskId(task1.getId())
                 .whetherLeader(true)
                 .build();
         int insert = userTaskMapper.insert(userTask);
@@ -117,5 +123,17 @@ public class UserTaskServiceImpl implements UserTaskService {
             }
         }
         return 1;
+    }
+
+    private Task getTask(Task task) {
+        List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
+        for (Task task1 : taskList) {
+            Boolean judgeUserId = task.getUserId().equals(task1.getUserId());
+            Boolean judgeTaskName = task.getName().equals(task1.getName());
+            if(judgeUserId && judgeTaskName){
+                return task1;
+            }
+        }
+        return null;
     }
 }
