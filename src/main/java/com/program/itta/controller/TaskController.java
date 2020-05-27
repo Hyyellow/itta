@@ -163,7 +163,7 @@ public class TaskController {
     public HttpResult selectTaskMember(@ApiParam(name = "任务DTO类", value = "传入Json格式", required = true)
                                        @RequestBody @Valid TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
-        List<Integer> userIdList = userTaskService.selectByTaskId(task.getItemId());
+        List<Integer> userIdList = userTaskService.selectByTaskId(task.getId());
         List<UserDTO> userList = userService.selectUserList(userIdList);
         if (userList != null && !userList.isEmpty()) {
             return HttpResult.success(userList);
@@ -173,7 +173,7 @@ public class TaskController {
     }
 
     @ApiOperation(value = "查找该参与者的关于父任务的所有相关子任务", notes = "(查找该参与者的关于父任务的所有相关子任务)")
-    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无子任务")})
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无关于该任务的子任务")})
     @GetMapping("/selectMemberTask")
     public HttpResult selectMemberTask(@ApiParam(name = "父任务id", value = "传入Json格式", required = true)
                                        @RequestParam(value = "taskId") Integer taskId,
@@ -184,7 +184,7 @@ public class TaskController {
         if (subTaskList != null && !subTaskList.isEmpty()) {
             return HttpResult.success(subTaskList);
         } else {
-            return HttpResult.success("该成员尚无子任务");
+            return HttpResult.success("该成员尚无关于该任务的子任务");
         }
     }
 
