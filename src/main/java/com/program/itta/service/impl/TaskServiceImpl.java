@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemNotExistsException;
-import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.task.TaskNameExistsException;
 import com.program.itta.common.exception.task.TaskNotExistsException;
-import com.program.itta.common.util.fineGrainedPermissions.TaskPermissionsUtil;
 import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.domain.entity.Task;
@@ -49,22 +47,13 @@ public class TaskServiceImpl implements TaskService {
     @Resource
     private JwtConfig jwtConfig;
 
-    @Resource
-    private TaskPermissionsUtil taskPermissionsUtil;
-
     @Override
     public Boolean addTask(Task task) {
         Integer userId = jwtConfig.getUserId();
         task.setUserId(userId);
         task.setSuperId(0);
-        Boolean judgeItemExists = judgeItemExists(task.getItemId());
-        if (!judgeItemExists) {
-            throw new ItemNotExistsException("该项目不存在");
-        }
-        Boolean judgeTaskName = judgeTaskName(task);
-        if (judgeTaskName) {
-            throw new TaskNameExistsException("该任务名称已存在于此项目中");
-        }
+        judgeItemExists(task.getItemId());
+        judgeTaskName(task);
         int insert = taskMapper.insert(task);
         if (insert != 0) {
             logger.info("用户：" + task.getUserId() + "添加任务" + task.getName());
@@ -75,10 +64,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Boolean deleteTask(Task task) {
-        Boolean judgeTaskExists = judgeTaskExists(task);
-        if (!judgeTaskExists) {
-            throw new TaskNotExistsException("该任务不存在，任务id查找为空");
-        }
+        judgeTaskExists(task);
         int delete = taskMapper.deleteByPrimaryKey(task.getId());
         if (delete != 0) {
             logger.info("删除任务：" + task.getName() + "任务id为：" + task.getId());
@@ -89,14 +75,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Boolean updateTask(Task task) {
-        Boolean judgeTaskExists = judgeTaskExists(task);
-        if (!judgeTaskExists) {
-            throw new TaskNotExistsException("该任务不存在，任务id查找为空");
-        }
-        Boolean judgeTaskName = judgeTaskName(task);
-        if (judgeTaskName) {
-            throw new TaskNameExistsException("该任务名称已存在于此项目中");
-        }
+        judgeTaskExists(task);
+        judgeTaskName(task);
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
         if (update != 0) {
@@ -111,8 +91,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> selectByItemId(Integer itemId) {
         List<Task> taskList = taskMapper.selectByItemId(itemId);
         if (taskList != null && !taskList.isEmpty()) {
-            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
-            return taskDTOList;
+            return convertToTaskDTOList(taskList);
         }
         return null;
     }
@@ -123,8 +102,7 @@ public class TaskServiceImpl implements TaskService {
         List<UserTask> userTaskList = userTaskMapper.selectByUserId(userId);
         List<Task> taskList = convertToTaskList(userTaskList);
         if (taskList != null && !taskList.isEmpty()) {
-            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
-            return taskDTOList;
+            return convertToTaskDTOList(taskList);
         }
         return null;
     }
@@ -134,8 +112,7 @@ public class TaskServiceImpl implements TaskService {
         Integer userId = jwtConfig.getUserId();
         List<Task> taskList = taskMapper.selectByUserId(userId);
         if (taskList != null && !taskList.isEmpty()) {
-            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
-            return taskDTOList;
+            return convertToTaskDTOList(taskList);
         }
         return null;
     }
@@ -144,8 +121,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskDTO> selectBySuperId(Task task) {
         List<Task> taskList = taskMapper.selectBySuperId(task.getId());
         if (taskList != null && !taskList.isEmpty()) {
-            List<TaskDTO> taskDTOList = convertToTaskDTOList(taskList);
-            return taskDTOList;
+            return convertToTaskDTOList(taskList);
         }
         return null;
     }
@@ -159,8 +135,7 @@ public class TaskServiceImpl implements TaskService {
                 memberTaskList.add(task);
             }
         }
-        List<TaskDTO> taskDTOList = convertToTaskDTOList(memberTaskList);
-        return taskDTOList;
+        return convertToTaskDTOList(memberTaskList);
     }
 
     @Override
@@ -213,40 +188,39 @@ public class TaskServiceImpl implements TaskService {
         return null;
     }
 
-    private Boolean judgeTaskLeader(Integer userId, Task task) {
-        if (task.getUserId() != null) {
-            Boolean updatePermissions = taskPermissionsUtil.UpdatePermissions(userId, task);
-            if (!updatePermissions) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private Boolean judgeTaskName(Task task) {
+    private void judgeTaskName(Task task) {
+        boolean judgeTaskName = false;
         List<Task> taskList = taskMapper.selectByItemId(task.getItemId());
         for (Task task1 : taskList) {
             if (task.getName().equals(task1.getName())) {
-                return true;
+                judgeTaskName = true;
             }
         }
-        return false;
+        if (judgeTaskName) {
+            throw new TaskNameExistsException("该任务名称已存在于此项目中");
+        }
     }
 
-    private Boolean judgeTaskExists(Task task) {
+    private void judgeTaskExists(Task task) {
+        boolean judgeTaskExists = false;
         Task select = taskMapper.selectByPrimaryKey(task.getId());
         if (select != null) {
-            return true;
+            judgeTaskExists = true;
         }
-        return false;
+        if (!judgeTaskExists) {
+            throw new TaskNotExistsException("该任务不存在，任务id查找为空");
+        }
     }
 
-    private Boolean judgeItemExists(Integer itemId) {
+    private void judgeItemExists(Integer itemId) {
+        boolean judgeItemExists = false;
         Item item = itemMapper.selectByPrimaryKey(itemId);
         if (item != null) {
-            return true;
+            judgeItemExists = true;
         }
-        return false;
+        if (!judgeItemExists) {
+            throw new ItemNotExistsException("该项目不存在");
+        }
     }
 
     private List<TaskDTO> convertToTaskDTOList(List<Task> taskList) {

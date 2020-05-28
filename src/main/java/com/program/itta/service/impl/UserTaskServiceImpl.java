@@ -54,9 +54,9 @@ public class UserTaskServiceImpl implements UserTaskService {
 
     @Override
     public Boolean addUserTask(Integer taskId, List<Integer> userIdList) {
-        for (int i = 0; i < userIdList.size(); i++) {
+        for (Integer integer : userIdList) {
             UserTask userTask = UserTask.builder()
-                    .userId(userIdList.get(i))
+                    .userId(integer)
                     .taskId(taskId)
                     .build();
             logger.info("用户：" + userTask.getUserId() + "加入任务：" + userTask.getTaskId());
@@ -97,7 +97,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         List<Integer> userIdList = userTaskList.stream()
                 .map(UserTask -> UserTask.getUserId())
                 .collect(Collectors.toList());
-        if (userIdList != null && !userIdList.isEmpty()) {
+        if (!userIdList.isEmpty()) {
             return userIdList;
         }
         return null;
@@ -109,7 +109,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         List<Integer> taskIdList = userTaskList.stream()
                 .map(UserTask -> UserTask.getTaskId())
                 .collect(Collectors.toList());
-        if (taskIdList != null && !taskIdList.isEmpty()) {
+        if (!taskIdList.isEmpty()) {
             return taskIdList;
         }
         return null;

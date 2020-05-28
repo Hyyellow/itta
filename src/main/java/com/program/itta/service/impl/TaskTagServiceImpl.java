@@ -50,7 +50,7 @@ public class TaskTagServiceImpl implements TaskTagService {
         List<Integer> tagIds = taskTags.stream()
                 .map(TaskTag -> TaskTag.getTagId())
                 .collect(Collectors.toList());
-        if (tagIds != null && !tagIds.isEmpty()) {
+        if (!tagIds.isEmpty()) {
             return tagIds;
         }
         return null;
@@ -70,9 +70,6 @@ public class TaskTagServiceImpl implements TaskTagService {
 
     private Boolean judgeTaskTag(TaskTag taskTag) {
         TaskTag selectByTaskTag = taskTagMapper.selectByTaskTag(taskTag);
-        if (selectByTaskTag != null) {
-            return true;
-        }
-        return false;
+        return selectByTaskTag != null;
     }
 }

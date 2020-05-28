@@ -55,7 +55,7 @@ public class ScheduleTagServiceImpl implements ScheduleTagService {
         List<Integer> tagIds = scheduleTags.stream()
                 .map(ScheduleTag -> ScheduleTag.getTagId())
                 .collect(Collectors.toList());
-        if (tagIds != null && !tagIds.isEmpty()) {
+        if (!tagIds.isEmpty()) {
             return tagIds;
         }
         return null;
@@ -75,9 +75,6 @@ public class ScheduleTagServiceImpl implements ScheduleTagService {
 
     private Boolean judgeScheduleTag(ScheduleTag scheduleTag) {
         ScheduleTag selectByScheduleTag = scheduleTagMapper.selectByScheduleTag(scheduleTag);
-        if (selectByScheduleTag != null) {
-            return true;
-        }
-        return false;
+        return selectByScheduleTag != null;
     }
 }

@@ -62,14 +62,12 @@ public class UserItemServiceImpl implements UserItemServive {
     @Override
     public Boolean addItemMember(Integer itemId) {
         Integer userId = jwtConfig.getUserId();
-        Boolean addMember = addMember(userId, itemId);
-        return addMember;
+        return addMember(userId, itemId);
     }
 
     @Override
     public Boolean addItemMember(Integer userId, Integer itemId) {
-        Boolean addMember = addMember(userId, itemId);
-        return addMember;
+        return addMember(userId, itemId);
     }
 
     @Override
@@ -102,7 +100,7 @@ public class UserItemServiceImpl implements UserItemServive {
         List<Integer> itemIds = userItemList.stream()
                 .map(UserItem -> UserItem.getItemId())
                 .collect(Collectors.toList());
-        if (itemIds != null && !itemIds.isEmpty()) {
+        if (!itemIds.isEmpty()) {
             return itemIds;
         }
         return null;
@@ -114,7 +112,7 @@ public class UserItemServiceImpl implements UserItemServive {
         List<Integer> userIds = userItemList.stream()
                 .map(UserItem -> UserItem.getUserId())
                 .collect(Collectors.toList());
-        if (userIds != null && !userIds.isEmpty()) {
+        if (!userIds.isEmpty()) {
             return userIds;
         }
         return null;

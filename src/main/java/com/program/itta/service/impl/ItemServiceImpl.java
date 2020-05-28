@@ -5,7 +5,6 @@ import com.program.itta.common.exception.item.ItemNameExistsException;
 import com.program.itta.common.exception.item.ItemNotExistsException;
 import com.program.itta.common.exception.item.ItemNotPermissFindException;
 import com.program.itta.common.exception.permissions.NotItemLeaderException;
-import com.program.itta.common.util.fineGrainedPermissions.ItemPermissionsUtil;
 import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.entity.Item;
 import com.program.itta.mapper.ItemMapper;
@@ -36,9 +35,6 @@ public class ItemServiceImpl implements ItemService {
     private ItemMapper itemMapper;
 
     @Resource
-    private ItemPermissionsUtil itemPermissionsUtil;
-
-    @Resource
     private JwtConfig jwtConfig;
 
     /**
@@ -53,10 +49,7 @@ public class ItemServiceImpl implements ItemService {
         String markId = UUID.randomUUID().toString();
         item.setUserId(userId);
         item.setMarkId(markId);
-        Boolean judgeItem = judgeItemName(item);
-        if (judgeItem) {
-            throw new ItemNameExistsException("项目名称已存在");
-        }
+        judgeItemNameExists(item);
         int insert = itemMapper.insert(item);
         if (insert != 0) {
             logger.info("添加项目：" + item.getName());
@@ -74,14 +67,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Boolean deleteItem(Item item) {
         Integer userId = jwtConfig.getUserId();
-        Boolean judgeItemExists = judgeItemExists(item);
-        if (!judgeItemExists) {
-            throw new ItemNotExistsException("该项目不存在，项目id查找为空");
-        }
-        Boolean leaderPermissions = itemPermissionsUtil.DeletePermissions(userId, item);
-        if (!leaderPermissions) {
-            throw new NotItemLeaderException("无该项目负责人的权限");
-        }
+        judgeItemNotExists(item);
+        judgeDeletePermissions(userId, item);
         int delete = itemMapper.deleteByPrimaryKey(item.getId());
         if (delete != 0) {
             logger.info("删除项目：" + item.getName() + "项目id为:" + item.getId());
@@ -98,14 +85,8 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public Boolean updateItem(Item item) {
-        Boolean judgeItemExists = judgeItemExists(item);
-        if (!judgeItemExists) {
-            throw new ItemNotExistsException("该项目不存在，项目id查找为空");
-        }
-        Boolean judgeItem = judgeItemName(item);
-        if (judgeItem) {
-            throw new ItemNameExistsException("项目名称已存在");
-        }
+        judgeItemNotExists(item);
+        judgeItemNameExists(item);
         item.setUpdateTime(new Date());
         int update = itemMapper.updateByPrimaryKey(item);
         if (update != 0) {
@@ -118,8 +99,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDTO> selectItemList(List<Integer> itemIdList) {
         List<ItemDTO> itemList = new ArrayList<>();
-        for (int i = 0; i < itemIdList.size(); i++) {
-            Item item = itemMapper.selectByPrimaryKey(itemIdList.get(i));
+        for (Integer integer : itemIdList) {
+            Item item = itemMapper.selectByPrimaryKey(integer);
             ItemDTO itemDTO = new ItemDTO();
             itemDTO = itemDTO.convertFor(item);
             itemList.add(itemDTO);
@@ -129,11 +110,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item selectByItemId(Integer id) {
-        Item item = itemMapper.selectByPrimaryKey(id);
-        if (item != null) {
-            return item;
-        }
-        return null;
+        return itemMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -146,6 +123,30 @@ public class ItemServiceImpl implements ItemService {
             return itemDTO;
         }
         return null;
+    }
+
+    private void judgeItemNotExists(Item item) {
+        boolean judgeItemExists = false;
+        Item select = itemMapper.selectByPrimaryKey(item.getId());
+        if (select != null) {
+            judgeItemExists = true;
+        }
+        if (!judgeItemExists) {
+            throw new ItemNotExistsException("该项目不存在，项目id查找为空");
+        }
+    }
+
+    private void judgeItemNameExists(Item item) {
+        boolean judgeItem = false;
+        List<Item> items = itemMapper.selectByUserId(item.getUserId());
+        for (Item item1 : items) {
+            if (item1.getName().equals(item.getName())) {
+                judgeItem = true;
+            }
+        }
+        if (judgeItem) {
+            throw new ItemNameExistsException("项目名称已存在");
+        }
     }
 
     private Item judgeItemFind(Item item, List<Integer> itemIds) {
@@ -163,21 +164,13 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-    private Boolean judgeItemName(Item item) {
-        List<Item> items = itemMapper.selectByUserId(item.getUserId());
-        for (Item item1 : items) {
-            if (item1.getName().equals(item.getName())) {
-                return true;
-            }
+    private void judgeDeletePermissions(Integer userId, Item item) {
+        boolean leaderPermissions = false;
+        if (item.getUserId().equals(userId)) {
+            leaderPermissions = true;
         }
-        return false;
-    }
-
-    private Boolean judgeItemExists(Item item) {
-        Item select = itemMapper.selectByPrimaryKey(item.getId());
-        if (select != null) {
-            return true;
+        if (!leaderPermissions) {
+            throw new NotItemLeaderException("无该项目负责人的权限");
         }
-        return false;
     }
 }

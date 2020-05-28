@@ -45,8 +45,7 @@ public class NewsServiceImpl implements NewsService {
         Integer userId = jwtConfig.getUserId();
         List<News> newsList = newsMapper.selectByUserId(userId);
         if (newsList != null && !newsList.isEmpty()) {
-            List<NewsDTO> newsDTOList = convertToNewsDTOList(newsList);
-            return newsDTOList;
+            return convertToNewsDTOList(newsList);
         }
         return null;
     }

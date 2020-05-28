@@ -55,9 +55,6 @@ public class TagServiceImpl implements TagService {
 
     private Boolean judgeTag(String content) {
         Tag tag = tagMapper.selectByContent(content);
-        if (tag != null) {
-            return true;
-        }
-        return false;
+        return tag != null;
     }
 }
