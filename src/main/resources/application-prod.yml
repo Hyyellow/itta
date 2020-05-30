@@ -1,5 +1,9 @@
 server:
   port: 8080
+  ssl:
+    key-store: classpath:hyyyms.com.cn.jks
+    key-store-password: krkm2p1k56
+    key-store-type: JKS
 spring:
   profiles: prod
   datasource:
