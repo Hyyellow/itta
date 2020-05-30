@@ -78,12 +78,15 @@ public class UserTaskServiceImpl implements UserTaskService {
     }
 
     @Override
-    public Boolean deleteMemberUserTask(List<TaskDTO> taskList) {
+    public Boolean deleteMemberUserTask(List<TaskDTO> taskList, Integer userId) {
         for (TaskDTO taskDTO : taskList) {
             UserTask userTask = UserTask.builder()
                     .taskId(taskDTO.getId())
                     .userId(taskDTO.getUserId())
                     .build();
+            if (userId != 0) {
+                userTask.setUserId(userId);
+            }
             UserTask userTask1 = userTaskMapper.selectByUserTask(userTask);
             int delete = userTaskMapper.deleteByPrimaryKey(userTask1.getId());
             if (delete == 0) {

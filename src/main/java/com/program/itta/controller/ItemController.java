@@ -109,8 +109,9 @@ public class ItemController {
     public HttpResult deleteItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
+        Integer userId = jwtConfig.getUserId();
         Boolean deleteItem = itemService.deleteItem(item);
-        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
+        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId(),userId);
         Boolean deleteByItemId = taskService.deleteByItemId(item.getId());
         if (!(deleteItem && deleteUserItem && deleteByItemId)) {
             throw new ItemDelFailException("项目删除失败");
@@ -125,11 +126,31 @@ public class ItemController {
     public HttpResult exitItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
-        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
+        Integer userId = jwtConfig.getUserId();
+        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId(),userId);
         List<TaskDTO> taskDTOList = taskService.selectByItemId(item.getId());
-        Boolean deleteMemberUserTask = userTaskService.deleteMemberUserTask(taskDTOList);
+        Boolean deleteMemberUserTask = userTaskService.deleteMemberUserTask(taskDTOList,0);
         Boolean deleteMemberTaskTag = taskTagService.deleteMemberTaskTag(taskDTOList);
         Boolean deleteByItemId = taskService.deleteByItemId(item.getId());
+        if (!(deleteUserItem && deleteByItemId && deleteMemberTaskTag && deleteMemberUserTask)) {
+            throw new ItemDelFailException("项目删除失败");
+        }
+        jwtConfig.removeThread();
+        return HttpResult.success();
+    }
+
+    @ApiOperation(value = "移除项目成员", notes = "(移除项目中的项目成员)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20003, message = "项目删除失败")})
+    @DeleteMapping("/deleteMember")
+    public HttpResult deleteMember(@ApiParam(name = "用户id", value = "传入Json格式", required = true)
+                                       @RequestParam(value = "userId") Integer userId,
+                                   @ApiParam(name = "项目id", value = "传入Json格式", required = true)
+                                       @RequestParam(value = "itemId") Integer itemId) {
+        Boolean deleteUserItem = userItemServive.deleteUserItem(itemId,userId);
+        List<TaskDTO> taskDTOList = taskService.selectByItemId(itemId);
+        Boolean deleteMemberUserTask = userTaskService.deleteMemberUserTask(taskDTOList,userId);
+        Boolean deleteMemberTaskTag = taskTagService.deleteMemberTaskTag(taskDTOList);
+        Boolean deleteByItemId = taskService.deleteByItemId(itemId);
         if (!(deleteUserItem && deleteByItemId && deleteMemberTaskTag && deleteMemberUserTask)) {
             throw new ItemDelFailException("项目删除失败");
         }

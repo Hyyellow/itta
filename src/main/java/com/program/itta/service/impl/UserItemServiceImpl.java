@@ -71,9 +71,8 @@ public class UserItemServiceImpl implements UserItemServive {
     }
 
     @Override
-    public Boolean deleteUserItem(Integer itemId) {
+    public Boolean deleteUserItem(Integer itemId, Integer userId) {
         int delete = 0;
-        Integer userId = jwtConfig.getUserId();
         List<UserItem> userItemList = userItemMapper.selectByItemId(itemId);
         for (UserItem userItem : userItemList) {
             if (userItem.getUserId().equals(userId)) {

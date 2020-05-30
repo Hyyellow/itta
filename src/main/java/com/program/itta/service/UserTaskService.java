@@ -14,7 +14,7 @@ public interface UserTaskService {
     Boolean deleteUserTask(Task task);
 
     // 删除用户的所有任务
-    Boolean deleteMemberUserTask(List<TaskDTO> taskList);
+    Boolean deleteMemberUserTask(List<TaskDTO> taskList, Integer userId);
 
     // 查看该任务的所有参与人
     List<Integer> selectByTaskId(Integer taskId);
