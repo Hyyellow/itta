@@ -1,6 +1,7 @@
 package com.program.itta.service.impl;
 
 import com.program.itta.common.config.JwtConfig;
+import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.UserTask;
 import com.program.itta.mapper.TaskMapper;
@@ -53,22 +54,6 @@ public class UserTaskServiceImpl implements UserTaskService {
     }
 
     @Override
-    public Boolean addUserTask(Integer taskId, List<Integer> userIdList) {
-        for (Integer integer : userIdList) {
-            UserTask userTask = UserTask.builder()
-                    .userId(integer)
-                    .taskId(taskId)
-                    .build();
-            logger.info("用户：" + userTask.getUserId() + "加入任务：" + userTask.getTaskId());
-            int insert = userTaskMapper.insert(userTask);
-            if (insert == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
     public Boolean deleteUserTask(Task task) {
         int delete = 0;
         Integer userId = jwtConfig.getUserId();
@@ -86,9 +71,26 @@ public class UserTaskServiceImpl implements UserTaskService {
             }
         }
         if (delete != 0) {
+            logger.info("用户：" + userId + "删除任务：" + task.getId());
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Boolean deleteMemberUserTask(List<TaskDTO> taskList) {
+        for (TaskDTO taskDTO : taskList) {
+            UserTask userTask = UserTask.builder()
+                    .taskId(taskDTO.getId())
+                    .userId(taskDTO.getUserId())
+                    .build();
+            UserTask userTask1 = userTaskMapper.selectByUserTask(userTask);
+            int delete = userTaskMapper.deleteByPrimaryKey(userTask1.getId());
+            if (delete == 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -130,7 +132,7 @@ public class UserTaskServiceImpl implements UserTaskService {
         for (Task task1 : taskList) {
             Boolean judgeUserId = task.getUserId().equals(task1.getUserId());
             Boolean judgeTaskName = task.getName().equals(task1.getName());
-            if(judgeUserId && judgeTaskName){
+            if (judgeUserId && judgeTaskName) {
                 return task1;
             }
         }

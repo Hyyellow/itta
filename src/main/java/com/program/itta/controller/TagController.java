@@ -1,9 +1,13 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.exception.tag.TagAddFailException;
+import com.program.itta.common.exception.tag.TagDelFailException;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.TagDTO;
+import com.program.itta.domain.dto.TimerDTO;
+import com.program.itta.domain.entity.ScheduleTag;
 import com.program.itta.domain.entity.Tag;
+import com.program.itta.domain.entity.TaskTag;
 import com.program.itta.mapper.TaskTagMapper;
 import com.program.itta.service.ScheduleTagService;
 import com.program.itta.service.TagService;
@@ -28,9 +32,7 @@ import java.util.List;
 public class TagController {
     /*TODO
       1.标签的添加
-      2.标签的删除
       3.标签的查找
-      4.标签的更新
       5.标签与用户中间表相关
         (1).添加
         (2).删除
@@ -51,9 +53,9 @@ public class TagController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addTaskTag")
     public HttpResult addTaskTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
-                             @RequestParam(value = "taskId") Integer taskId,
-                             @ApiParam(name = "标签内容", value = "传入Json格式", required = true)
-                             @RequestParam(value = "content") String content) {
+                                 @RequestParam(value = "taskId") Integer taskId,
+                                 @ApiParam(name = "标签内容", value = "传入Json格式", required = true)
+                                 @RequestParam(value = "content") String content) {
         Tag tag = Tag.builder().content(content).build();
         Boolean addTag = tagService.addTag(tag);
         Boolean addUserTag = userTagService.addUserTag(content);
@@ -63,6 +65,21 @@ public class TagController {
         } else {
             throw new TagAddFailException("添加任务标签失败");
         }
+    }
+
+    @ApiOperation(value = "删除任务标签", notes = "(删除此任务标签)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50002, message = "标签删除失败")})
+    @PostMapping("/deleteTaskTag")
+    public HttpResult deleteTaskTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
+                                    @RequestParam(value = "taskId") Integer taskId,
+                                    @ApiParam(name = "标签id", value = "传入Json格式", required = true)
+                                    @RequestParam(value = "tagId") Integer tagId) {
+        TaskTag taskTag = TaskTag.builder().taskId(taskId).tagId(tagId).build();
+        Boolean deleteTaskTag = taskTagService.deleteTaskTag(taskTag);
+        if (!deleteTaskTag) {
+            throw new TagDelFailException("删除失败");
+        }
+        return HttpResult.success();
     }
 
     @ApiOperation(value = "查找任务标签", notes = "(查看该任务的所有标签)")
@@ -79,13 +96,13 @@ public class TagController {
         }
     }
 
-    @ApiOperation(value = "添加日程标签", notes = "(添加此标签，当任务中添加标签时使用)")
+    @ApiOperation(value = "添加日程标签", notes = "(添加此标签，当日程中添加标签时使用)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addScheduleTag")
     public HttpResult addScheduleTag(@ApiParam(name = "日程id", value = "传入Json格式", required = true)
-                             @RequestParam(value = "scheduleId") Integer scheduleId,
-                             @ApiParam(name = "标签内容", value = "传入Json格式", required = true)
-                             @RequestParam(value = "content") String content) {
+                                     @RequestParam(value = "scheduleId") Integer scheduleId,
+                                     @ApiParam(name = "标签内容", value = "传入Json格式", required = true)
+                                     @RequestParam(value = "content") String content) {
         Tag tag = Tag.builder().content(content).build();
         Boolean addTag = tagService.addTag(tag);
         Boolean addUserTag = userTagService.addUserTag(content);
@@ -97,11 +114,26 @@ public class TagController {
         }
     }
 
+    @ApiOperation(value = "删除日程标签", notes = "(删除此日程标签)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50002, message = "标签删除失败")})
+    @PostMapping("/deleteScheduleTag")
+    public HttpResult deleteScheduleTag(@ApiParam(name = "日程id", value = "传入Json格式", required = true)
+                                        @RequestParam(value = "scheduleId") Integer scheduleId,
+                                        @ApiParam(name = "标签id", value = "传入Json格式", required = true)
+                                        @RequestParam(value = "tagId") Integer tagId) {
+        ScheduleTag scheduleTag = ScheduleTag.builder().scheduleId(scheduleId).tagId(tagId).build();
+        Boolean deleteScheduleTag = scheduleTagService.deleteScheduleTag(scheduleTag);
+        if (!deleteScheduleTag) {
+            throw new TagDelFailException("删除失败");
+        }
+        return HttpResult.success();
+    }
+
     @ApiOperation(value = "查找日程标签", notes = "(查看该日程的所有标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该日程尚无标签")})
     @GetMapping("/selectScheduleTag")
     public HttpResult selectScheduleTag(@ApiParam(name = "日程id", value = "传入Json格式", required = true)
-                                    @RequestParam(value = "scheduleId") Integer scheduleId) {
+                                        @RequestParam(value = "scheduleId") Integer scheduleId) {
         List<Integer> tagIdList = scheduleTagService.selectByScheduleId(scheduleId);
         List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
         if (tagDTOList != null && !tagDTOList.isEmpty()) {

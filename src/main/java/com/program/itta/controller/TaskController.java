@@ -82,7 +82,7 @@ public class TaskController {
         Task task = taskDTO.convertToTask();
         Boolean deleteTask = taskService.deleteTask(task);
         Boolean deleteUserTask = userTaskService.deleteUserTask(task);
-        Boolean deleteTaskTag = taskTagService.deleteTaskTag(task);
+        Boolean deleteTaskTag = taskTagService.deleteAllTaskTag(task);
         if (!(deleteTask && deleteUserTask && deleteTaskTag)) {
             throw new TaskDelFailException("任务删除失败");
         }

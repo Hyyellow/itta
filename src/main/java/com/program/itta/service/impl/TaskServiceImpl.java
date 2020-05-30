@@ -170,6 +170,7 @@ public class TaskServiceImpl implements TaskService {
                 return false;
             }
         }
+        logger.info("删除项目" + itemId + "下的所有任务");
         return true;
     }
 

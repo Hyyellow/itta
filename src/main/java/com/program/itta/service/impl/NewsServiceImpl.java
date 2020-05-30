@@ -1,5 +1,6 @@
 package com.program.itta.service.impl;
-import	java.util.ArrayList;
+
+import java.util.ArrayList;
 
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.dto.NewsDTO;
@@ -10,6 +11,8 @@ import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.Timer;
 import com.program.itta.mapper.NewsMapper;
 import com.program.itta.service.NewsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,9 @@ import java.util.List;
  **/
 @Service
 public class NewsServiceImpl implements NewsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NewsServiceImpl.class);
+
     @Autowired
     private NewsMapper newsMapper;
 
@@ -35,6 +41,7 @@ public class NewsServiceImpl implements NewsService {
     public Boolean deleteNews(News news) {
         int delete = newsMapper.deleteByPrimaryKey(news.getId());
         if (delete != 0) {
+            logger.info("删除消息" + news);
             return true;
         }
         return false;
@@ -51,7 +58,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public Void addTaskNews(Task task,Integer userId) {
+    public Void addTaskNews(Task task, Integer userId) {
         News news = News.builder()
                 .senderId(userId)
                 .whetherUser(true)
@@ -59,6 +66,7 @@ public class NewsServiceImpl implements NewsService {
                 .content("edit")
                 .build();
         newsMapper.insert(news);
+        logger.info("增加任务消息" + news);
         return null;
     }
 
@@ -71,12 +79,13 @@ public class NewsServiceImpl implements NewsService {
                 .content("todo")
                 .build();
         newsMapper.insert(news);
+        logger.info("增加日程消息" + news);
         return null;
     }
 
-    private List<NewsDTO> convertToNewsDTOList(List<News> newsList){
-        List<NewsDTO> newsDTOList = new ArrayList<> ();
-        for (News news : newsList){
+    private List<NewsDTO> convertToNewsDTOList(List<News> newsList) {
+        List<NewsDTO> newsDTOList = new ArrayList<>();
+        for (News news : newsList) {
             NewsDTO newsDTO = new NewsDTO();
             newsDTO = newsDTO.convertFor(news);
             newsDTOList.add(newsDTO);

@@ -22,4 +22,7 @@ public interface UserTaskMapper {
     List<UserTask> selectByTaskId(Integer taskId);
 
     List<UserTask> selectByUserId(Integer userId);
+
+    UserTask selectByUserTask(UserTask record);
+
 }

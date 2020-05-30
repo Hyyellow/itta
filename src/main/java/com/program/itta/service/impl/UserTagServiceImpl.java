@@ -13,6 +13,8 @@ import com.program.itta.mapper.TagMapper;
 import com.program.itta.mapper.UserTagMapper;
 import com.program.itta.service.UserTagService;
 import com.program.itta.service.UserTaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,9 @@ import static java.util.Collections.*;
  **/
 @Service
 public class UserTagServiceImpl implements UserTagService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserTagServiceImpl.class);
+
     @Autowired
     private UserTagMapper userTagMapper;
 
@@ -52,6 +57,7 @@ public class UserTagServiceImpl implements UserTagService {
         userTag.setNumber(1);
         int insert = userTagMapper.insert(userTag);
         if (insert != 0) {
+            logger.info("增加用户标签" + userTag);
             return true;
         }
         return false;
@@ -63,7 +69,7 @@ public class UserTagServiceImpl implements UserTagService {
         List<UserTag> userTags = new ArrayList<>();
         List<UserTag> userTagList = userTagMapper.selectByUserId(userId);
         Collections.sort(userTagList);
-        userTags.addAll(userTagList.subList(0,3));
+        userTags.addAll(userTagList.subList(0, 3));
         List<Integer> tagIds = userTags.stream()
                 .map(UserTag -> UserTag.getTagId())
                 .collect(Collectors.toList());

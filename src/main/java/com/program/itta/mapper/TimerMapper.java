@@ -19,5 +19,5 @@ public interface TimerMapper {
 
     int updateByPrimaryKey(Timer record);
 
-    List<Timer> selectByScheduleId(Integer scheduleId);
+    Timer selectByScheduleId(Integer scheduleId);
 }

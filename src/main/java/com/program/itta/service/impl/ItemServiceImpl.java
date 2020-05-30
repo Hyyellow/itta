@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
         judgeItemNameExists(item);
         int insert = itemMapper.insert(item);
         if (insert != 0) {
-            logger.info("添加项目：" + item.getName());
+            logger.info("用户" + userId + "添加项目：" + item.getName());
             return true;
         }
         return false;
@@ -71,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
         judgeDeletePermissions(userId, item);
         int delete = itemMapper.deleteByPrimaryKey(item.getId());
         if (delete != 0) {
-            logger.info("删除项目：" + item.getName() + "项目id为:" + item.getId());
+            logger.info("删除项目：" + item.getName() + "项目id为: " + item.getId());
             return true;
         }
         return false;

@@ -4,6 +4,8 @@ import com.program.itta.domain.entity.Timer;
 import com.program.itta.mapper.ScheduleMapper;
 import com.program.itta.mapper.TimerMapper;
 import com.program.itta.service.TimerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,10 @@ import java.util.List;
 @Service
 public class TimerServiceImpl implements TimerService {
 
-    @Autowired
-    private TimerMapper timerMapper;
+    private static final Logger logger = LoggerFactory.getLogger(TimerServiceImpl.class);
 
     @Autowired
-    private ScheduleMapper scheduleMapper;
+    private TimerMapper timerMapper;
 
     @Override
     public List<Timer> selectAll() {
@@ -37,6 +38,7 @@ public class TimerServiceImpl implements TimerService {
     public Boolean addTimer(Timer timer) {
         int insert = timerMapper.insert(timer);
         if (insert != 0) {
+            logger.info("日程" + timer.getScheduleId() + "增加定时器" + timer);
             return true;
         }
         return false;
@@ -49,6 +51,7 @@ public class TimerServiceImpl implements TimerService {
         }
         int update = timerMapper.updateByPrimaryKey(timer);
         if (update != 0) {
+            logger.info("日程" + timer.getScheduleId() + "更新定时器" + timer);
             return true;
         }
         return false;
@@ -56,14 +59,13 @@ public class TimerServiceImpl implements TimerService {
 
     @Override
     public Boolean deleteTimer(Integer scheduleId) {
-        List<Timer> timerList = timerMapper.selectByScheduleId(scheduleId);
-        for (Timer timer : timerList){
-            int delete = timerMapper.deleteByPrimaryKey(timer.getId());
-            if (delete == 0){
-                return false;
-            }
+        Timer timer = timerMapper.selectByScheduleId(scheduleId);
+        int delete = timerMapper.deleteByPrimaryKey(timer.getId());
+        if (delete != 0) {
+            logger.info("日程" + scheduleId + "删除定时器" + timer);
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

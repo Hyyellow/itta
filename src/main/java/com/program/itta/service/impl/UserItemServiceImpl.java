@@ -77,7 +77,6 @@ public class UserItemServiceImpl implements UserItemServive {
         List<UserItem> userItemList = userItemMapper.selectByItemId(itemId);
         for (UserItem userItem : userItemList) {
             if (userItem.getUserId().equals(userId)) {
-                logger.info("用户：" + userItem.getUserId() + "删除项目：" + userItem.getItemId());
                 // 负责人删除
                 if (userItem.getWhetherLeader()) {
                     delete = deleteUserItemList(userItemList);
@@ -88,6 +87,7 @@ public class UserItemServiceImpl implements UserItemServive {
             }
         }
         if (delete != 0) {
+            logger.info("用户：" + userId + "删除项目：" + itemId);
             return true;
         }
         return false;
@@ -142,7 +142,7 @@ public class UserItemServiceImpl implements UserItemServive {
     // 添加用户项目成员
     private Boolean addMember(Integer userId, Integer itemId) {
         Boolean judgeMember = judgeMember(userId, itemId);
-        if (judgeMember){
+        if (judgeMember) {
             return judgeMember;
         }
         UserItem userItem = UserItem.builder()
@@ -161,7 +161,7 @@ public class UserItemServiceImpl implements UserItemServive {
     private Boolean judgeMember(Integer userId, Integer itemId) {
         List<UserItem> userItemList = userItemMapper.selectByUserId(userId);
         for (UserItem userItem : userItemList) {
-            if (userItem.getItemId().equals(itemId)){
+            if (userItem.getItemId().equals(itemId)) {
                 return true;
             }
         }

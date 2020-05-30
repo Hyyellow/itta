@@ -10,6 +10,8 @@ import com.program.itta.mapper.ScheduleTagMapper;
 import com.program.itta.mapper.TagMapper;
 import com.program.itta.service.ScheduleService;
 import com.program.itta.service.ScheduleTagService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
  **/
 @Service
 public class ScheduleTagServiceImpl implements ScheduleTagService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleTagServiceImpl.class);
 
     @Autowired
     private ScheduleTagMapper scheduleTagMapper;
@@ -44,6 +48,7 @@ public class ScheduleTagServiceImpl implements ScheduleTagService {
         }
         int insert = scheduleTagMapper.insert(scheduleTag);
         if (insert != 0) {
+            logger.info("日程" + scheduleId + "增加标签" + tag);
             return true;
         }
         return false;
@@ -62,16 +67,29 @@ public class ScheduleTagServiceImpl implements ScheduleTagService {
     }
 
     @Override
-    public Boolean deleteScheduleTag(Schedule schedule) {
+    public Boolean deleteAllScheduleTag(Schedule schedule) {
         List<ScheduleTag> scheduleTagList = scheduleTagMapper.selectByScheduleId(schedule.getId());
         for (ScheduleTag scheduleTag : scheduleTagList) {
             int delete = scheduleTagMapper.deleteByPrimaryKey(scheduleTag.getId());
-            if (delete == 0){
+            if (delete == 0) {
                 return false;
             }
         }
+        logger.info("删除日程" + schedule.getId() + "的所有标签");
         return true;
     }
+
+    @Override
+    public Boolean deleteScheduleTag(ScheduleTag scheduleTag) {
+        ScheduleTag tag = scheduleTagMapper.selectByScheduleTag(scheduleTag);
+        int delete = scheduleTagMapper.deleteByPrimaryKey(tag.getId());
+        if (delete != 0) {
+            logger.info("删除日程" + tag.getScheduleId() + "的标签" + tag);
+            return true;
+        }
+        return false;
+    }
+
 
     private Boolean judgeScheduleTag(ScheduleTag scheduleTag) {
         ScheduleTag selectByScheduleTag = scheduleTagMapper.selectByScheduleTag(scheduleTag);

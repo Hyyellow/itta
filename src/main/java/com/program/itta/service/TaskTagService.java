@@ -1,5 +1,6 @@
 package com.program.itta.service;
 
+import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Tag;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.TaskTag;
@@ -13,6 +14,12 @@ public interface TaskTagService {
     // 查找该任务的所有标签
     List<Integer> selectByTaskId(Integer taskId);
 
-    // 删除该任务标签
-    Boolean deleteTaskTag(Task task);
+    // 删除该任务的所有标签
+    Boolean deleteAllTaskTag(Task task);
+
+    // 删除该任务的标签
+    Boolean deleteTaskTag(TaskTag taskTag);
+
+    // 删除该用户下的所有任务标签
+    Boolean deleteMemberTaskTag(List<TaskDTO> taskList);
 }

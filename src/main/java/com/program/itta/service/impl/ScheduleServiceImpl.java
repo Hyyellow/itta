@@ -8,6 +8,8 @@ import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.mapper.ScheduleMapper;
 import com.program.itta.service.ScheduleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ import java.util.List;
  **/
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleServiceImpl.class);
+
     @Autowired
     private ScheduleMapper scheduleMapper;
     @Resource
@@ -39,14 +44,22 @@ public class ScheduleServiceImpl implements ScheduleService {
             judgeScheduleTime(schedule);
         }
         int insert = scheduleMapper.insert(schedule);
-        return insert != 0;
+        if (insert != 0) {
+            logger.info("用户" + userId + "增加日程" + schedule.getName());
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Boolean deleteSchedule(Schedule schedule) {
         judgeScheduleNotExists(schedule);
         int delete = scheduleMapper.deleteByPrimaryKey(schedule.getId());
-        return delete != 0;
+        if (delete != 0) {
+            logger.info("用户" + schedule.getUserId() + "删除日程" + schedule.getName());
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -59,7 +72,11 @@ public class ScheduleServiceImpl implements ScheduleService {
             judgeScheduleTime(schedule);
         }
         int update = scheduleMapper.updateByPrimaryKey(schedule);
-        return update != 0;
+        if (update != 0) {
+            logger.info("用户" + schedule.getUserId() + "编辑日程" + schedule);
+            return true;
+        }
+        return false;
     }
 
     @Override

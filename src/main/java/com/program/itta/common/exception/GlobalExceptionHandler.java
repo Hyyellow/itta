@@ -6,6 +6,7 @@ import com.program.itta.common.exception.permissions.NotItemLeaderException;
 import com.program.itta.common.exception.permissions.NotTaskFoundException;
 import com.program.itta.common.exception.schedule.*;
 import com.program.itta.common.exception.tag.TagAddFailException;
+import com.program.itta.common.exception.tag.TagDelFailException;
 import com.program.itta.common.exception.task.*;
 import com.program.itta.common.exception.timer.TimerAddFailException;
 import com.program.itta.common.exception.timer.TimerDelFailException;
@@ -137,6 +138,7 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Task_Not_Exists_Exception);
     }
+
     @ExceptionHandler(value = TaskFindUserListException.class)
     public HttpResult taskFindUserListExceptionHandler(TaskFindUserListException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
@@ -173,6 +175,7 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Schedule_Update_Fail_Exception);
     }
+
     @ExceptionHandler(value = ScheduleTimeException.class)
     public HttpResult scheduleTimeExceptionHandler(ScheduleTimeException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
@@ -184,6 +187,12 @@ public class GlobalExceptionHandler {
     public HttpResult tagAddFailExceptionHandler(TagAddFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Tag_Add_Fail_Exception);
+    }
+
+    @ExceptionHandler(value = TagDelFailException.class)
+    public HttpResult tagDelFailExceptionHandler(TagDelFailException e) {
+        logger.error("发生业务异常！原因是：{}", e.getMsg());
+        return HttpResult.failure(Tag_Del_Fail_Exception);
     }
 
     // 消息模块
@@ -205,7 +214,8 @@ public class GlobalExceptionHandler {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Timer_Update_Fail_Exception);
     }
-  @ExceptionHandler(value = TimerDelFailException.class)
+
+    @ExceptionHandler(value = TimerDelFailException.class)
     public HttpResult timerDelFailExceptionHandler(TimerDelFailException e) {
         logger.error("发生业务异常！原因是：{}", e.getMsg());
         return HttpResult.failure(Timer_Del_Fail_Exception);

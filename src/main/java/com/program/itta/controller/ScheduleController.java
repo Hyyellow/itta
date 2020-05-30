@@ -13,6 +13,7 @@ import com.program.itta.domain.dto.TimerDTO;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Timer;
 import com.program.itta.service.ScheduleService;
+import com.program.itta.service.ScheduleTagService;
 import com.program.itta.service.TimerService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class ScheduleController {
 
     @Autowired
     private TimerService timerService;
+
+    @Autowired
+    private ScheduleTagService scheduleTagService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -113,7 +117,7 @@ public class ScheduleController {
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/setScheduleStatus")
     public HttpResult setScheduleStatus(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
-                                     @RequestBody @Valid ScheduleDTO scheduleDTO) {
+                                        @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean updateSchedule = scheduleService.setScheduleStatus(schedule);
         if (!updateSchedule) {
@@ -129,7 +133,8 @@ public class ScheduleController {
                                      @RequestBody @Valid ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean deleteSchedule = scheduleService.deleteSchedule(schedule);
-        if (!deleteSchedule) {
+        Boolean deleteScheduleTag = scheduleTagService.deleteAllScheduleTag(schedule);
+        if (!(deleteSchedule && deleteScheduleTag)) {
             throw new ScheduleDelFailException("日程删除失败");
         }
         return HttpResult.success();

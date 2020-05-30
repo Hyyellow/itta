@@ -4,12 +4,10 @@ import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.*;
 import com.program.itta.common.result.HttpResult;
 import com.program.itta.domain.dto.ItemDTO;
+import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.dto.UserDTO;
 import com.program.itta.domain.entity.Item;
-import com.program.itta.service.ItemService;
-import com.program.itta.service.TaskService;
-import com.program.itta.service.UserItemServive;
-import com.program.itta.service.UserService;
+import com.program.itta.service.*;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +47,12 @@ public class ItemController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private UserTaskService userTaskService;
+
+    @Autowired
+    private TaskTagService taskTagService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -105,10 +109,28 @@ public class ItemController {
     public HttpResult deleteItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
                                  @RequestBody @Valid ItemDTO itemDTO) {
         Item item = itemDTO.convertToItem();
-        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
         Boolean deleteItem = itemService.deleteItem(item);
+        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
         Boolean deleteByItemId = taskService.deleteByItemId(item.getId());
         if (!(deleteItem && deleteUserItem && deleteByItemId)) {
+            throw new ItemDelFailException("项目删除失败");
+        }
+        jwtConfig.removeThread();
+        return HttpResult.success();
+    }
+
+    @ApiOperation(value = "退出项目", notes = "(项目成员退出该项目)")
+    @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 20003, message = "项目删除失败")})
+    @DeleteMapping("/exitItem")
+    public HttpResult exitItem(@ApiParam(name = "项目DTO类", value = "传入Json格式", required = true)
+                               @RequestBody @Valid ItemDTO itemDTO) {
+        Item item = itemDTO.convertToItem();
+        Boolean deleteUserItem = userItemServive.deleteUserItem(item.getId());
+        List<TaskDTO> taskDTOList = taskService.selectByItemId(item.getId());
+        Boolean deleteMemberUserTask = userTaskService.deleteMemberUserTask(taskDTOList);
+        Boolean deleteMemberTaskTag = taskTagService.deleteMemberTaskTag(taskDTOList);
+        Boolean deleteByItemId = taskService.deleteByItemId(item.getId());
+        if (!(deleteUserItem && deleteByItemId && deleteMemberTaskTag && deleteMemberUserTask)) {
             throw new ItemDelFailException("项目删除失败");
         }
         jwtConfig.removeThread();
