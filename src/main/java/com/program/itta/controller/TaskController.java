@@ -2,6 +2,7 @@ package com.program.itta.controller;
 
 import java.util.List;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemFindUserListException;
 import com.program.itta.common.exception.task.TaskAddFailException;
@@ -33,14 +34,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/task")
 public class TaskController {
-    /**
-     * TODO
-     * 1.任务的添加 完成
-     * 2.任务的删除 完成
-     * 3.任务的更新 完成
-     * 4.查看该用户的所有任务 完成
-     * 5.查看该项目下的所有任务 完成
-     */
+
     @Autowired
     private TaskService taskService;
 
@@ -59,6 +53,7 @@ public class TaskController {
     @Resource
     private JwtConfig jwtConfig;
 
+    @RequestLog(module = "任务模块",operationDesc = "添加任务")
     @ApiOperation(value = "添加任务", notes = "(添加此任务，团队任务，个人任务皆为此接口)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30001, message = "任务添加失败")})
     @PostMapping("/addTask")
@@ -74,6 +69,7 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "删除任务")
     @ApiOperation(value = "删除任务", notes = "(删除该任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30004, message = "任务删除失败")})
     @DeleteMapping("/deleteTask")
@@ -90,6 +86,7 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "编辑任务")
     @ApiOperation(value = "编辑任务", notes = "(编辑该任务内容)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30003, message = "任务更新失败")})
     @PutMapping("/updateTask")
@@ -106,6 +103,7 @@ public class TaskController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找项目任务")
     @ApiOperation(value = "查找项目任务", notes = "(查看该项目的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该项目尚无添加任务")})
     @GetMapping("/selectTaskByItemId")
@@ -119,6 +117,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找我的任务")
     @ApiOperation(value = "查找我的任务", notes = "(查看我的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无任务")})
     @GetMapping("/selectMyTask")
@@ -131,6 +130,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找我创建的任务")
     @ApiOperation(value = "查找我创建的任务", notes = "(查看我创建的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户尚无创建任务")})
     @GetMapping("/selectMyCreateTask")
@@ -143,6 +143,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找该任务的子任务")
     @ApiOperation(value = "查找该任务的子任务", notes = "(查找该任务的所有子任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该任务尚无子任务")})
     @GetMapping("/selectSubTask")
@@ -157,6 +158,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找该任务的所有参与者")
     @ApiOperation(value = "查找该任务的所有参与者", notes = "(查找该任务的所有参与者)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 30006, message = "任务用户成员查找失败")})
     @GetMapping("/selectTaskMember")
@@ -172,6 +174,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找该参与者的关于父任务的所有相关子任务")
     @ApiOperation(value = "查找该参与者的关于父任务的所有相关子任务", notes = "(查找该参与者的关于父任务的所有相关子任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无关于该任务的子任务")})
     @GetMapping("/selectMemberTask")
@@ -188,6 +191,7 @@ public class TaskController {
         }
     }
 
+    @RequestLog(module = "任务模块",operationDesc = "查找该项目成员的所有任务")
     @ApiOperation(value = "查找该项目成员的所有任务", notes = "(查找该项目成员的所有任务)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该成员尚无任务")})
     @GetMapping("/selectItemMemberTask")

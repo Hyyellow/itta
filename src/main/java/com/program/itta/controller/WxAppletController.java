@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.jwt.JwtFilter;
 import com.program.itta.service.WxAppletService;
@@ -29,13 +30,7 @@ public class WxAppletController {
     @Resource
     private WxAppletService wxAppletService;
 
-    @Resource
-    private JwtConfig jwtConfig;
-
-    /**
-     * 微信小程序端用户登陆api
-     * 返回给小程序端 自定义登陆态 token
-     */
+    @RequestLog(module = "登录模块",operationDesc = "用户登录")
     @ApiOperation(value = "用户登录", notes = "(用于用户登录时，获取token)")
     @PostMapping("/api/wx/user/login")
     public ResponseEntity wxAppletLoginApi(@ApiParam(name = "用户请求", value = "用户code", required = true)

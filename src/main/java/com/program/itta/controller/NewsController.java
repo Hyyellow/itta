@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemDelFailException;
 import com.program.itta.common.exception.news.NewsDelFailException;
@@ -28,11 +29,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/news")
 public class NewsController {
-    /*
-     * ~~1. 消息的添加~~
-     * 1. 消息的删除
-     * 2. 消息的查看
-     * */
 
     @Autowired
     private NewsService newsService;
@@ -40,6 +36,7 @@ public class NewsController {
     @Resource
     private JwtConfig jwtConfig;
 
+    @RequestLog(module = "消息模块",operationDesc = "删除消息")
     @ApiOperation(value = "删除消息", notes = "(删除该条消息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 60001, message = "消息删除失败")})
     @DeleteMapping("/deleteNews")
@@ -52,6 +49,7 @@ public class NewsController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "消息模块",operationDesc = "查找消息")
     @ApiOperation(value = "查找消息", notes = "(获取该用户的所有消息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无消息存在")})
     @GetMapping("/selectNews")

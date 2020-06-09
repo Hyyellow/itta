@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.common.exception.user.UserUpdateFailException;
@@ -44,6 +45,7 @@ public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
+    @RequestLog(module = "用户模块",operationDesc = "编辑用户信息")
     @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10003, message = "用户更新失败")})
     @PutMapping("/updateUser")
@@ -57,6 +59,7 @@ public class UserController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "用户模块",operationDesc = "查找用户信息")
     @ApiOperation(value = "查找用户信息", notes = "(查看该用户的详细信息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10002, message = "用户不存在")})
     @GetMapping("/seletUser")
@@ -68,6 +71,7 @@ public class UserController {
         return HttpResult.success(userDTO);
     }
 
+    @RequestLog(module = "用户模块",operationDesc = "上传用户头像")
     @ApiOperation(value = "上传用户头像", notes = "(上传该用户的头像)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
     @PostMapping("/upload")

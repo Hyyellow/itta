@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
@@ -33,6 +34,7 @@ import java.util.List;
 @RequestMapping("/schedule")
 @RestController
 public class ScheduleController {
+
     @Autowired
     private ScheduleService scheduleService;
 
@@ -45,6 +47,7 @@ public class ScheduleController {
     @Resource
     private JwtConfig jwtConfig;
 
+    @RequestLog(module = "日程模块",operationDesc = "查找日程")
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectSchedule")
@@ -58,6 +61,7 @@ public class ScheduleController {
         }
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "查找未完成日程")
     @ApiOperation(value = "查找未完成日程", notes = "(查看该用户的今日未完成日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectNotFinishSchedule")
@@ -71,6 +75,7 @@ public class ScheduleController {
         }
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "查找完成日程")
     @ApiOperation(value = "查找完成日程", notes = "(查看该用户的今日已完成日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无完成日程")})
     @GetMapping("/selectFinishSchedule")
@@ -84,6 +89,7 @@ public class ScheduleController {
         }
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "添加日程")
     @ApiOperation(value = "添加日程", notes = "(添加该用户的日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40003, message = "日程添加失败")})
     @PostMapping("/addSchedule")
@@ -99,6 +105,7 @@ public class ScheduleController {
     }
 
 
+    @RequestLog(module = "日程模块",operationDesc = "编辑日程")
     @ApiOperation(value = "编辑日程", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/updateSchedule")
@@ -113,6 +120,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "改变日程是否完成状态")
     @ApiOperation(value = "改变日程是否完成状态", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/setScheduleStatus")
@@ -126,6 +134,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "删除日程")
     @ApiOperation(value = "删除日程", notes = "(删除此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40004, message = "日程删除失败")})
     @DeleteMapping("/deleteSchedule")
@@ -140,6 +149,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "添加重复")
     @ApiOperation(value = "添加重复", notes = "(添加该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
     @PostMapping("/addTimer")
@@ -153,6 +163,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "添加工作日重复")
     @ApiOperation(value = "添加工作日重复", notes = "(添加该日程的工作日重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
     @PostMapping("/addWorkDayTimer")
@@ -164,6 +175,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "编辑重复")
     @ApiOperation(value = "编辑重复", notes = "(编辑该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "定时器更新失败")})
     @PutMapping("/updateTimer")
@@ -177,6 +189,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "日程模块",operationDesc = "删除重复")
     @ApiOperation(value = "删除重复", notes = "(删除该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70003, message = "定时器删除失败")})
     @DeleteMapping("/deleteTimer")

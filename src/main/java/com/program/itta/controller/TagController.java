@@ -1,5 +1,6 @@
 package com.program.itta.controller;
 
+import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.tag.TagDelFailException;
 import com.program.itta.common.result.HttpResult;
@@ -30,13 +31,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tag")
 public class TagController {
-    /*TODO
-      1.标签的添加
-      3.标签的查找
-      5.标签与用户中间表相关
-        (1).添加
-        (2).删除
-     */
+
     @Autowired
     private TagService tagService;
 
@@ -49,6 +44,7 @@ public class TagController {
     @Autowired
     private ScheduleTagService scheduleTagService;
 
+    @RequestLog(module = "标签模块",operationDesc = "添加任务标签")
     @ApiOperation(value = "添加任务标签", notes = "(添加此标签，当任务中添加标签时使用)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addTaskTag")
@@ -67,6 +63,7 @@ public class TagController {
         }
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "删除任务标签")
     @ApiOperation(value = "删除任务标签", notes = "(删除此任务标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50002, message = "标签删除失败")})
     @PostMapping("/deleteTaskTag")
@@ -82,6 +79,7 @@ public class TagController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "查找任务标签")
     @ApiOperation(value = "查找任务标签", notes = "(查看该任务的所有标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该任务尚无标签")})
     @GetMapping("/selectTaskTag")
@@ -96,6 +94,7 @@ public class TagController {
         }
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "添加日程标签")
     @ApiOperation(value = "添加日程标签", notes = "(添加此标签，当日程中添加标签时使用)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addScheduleTag")
@@ -114,6 +113,7 @@ public class TagController {
         }
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "删除日程标签")
     @ApiOperation(value = "删除日程标签", notes = "(删除此日程标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50002, message = "标签删除失败")})
     @PostMapping("/deleteScheduleTag")
@@ -129,6 +129,7 @@ public class TagController {
         return HttpResult.success();
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "查找日程标签")
     @ApiOperation(value = "查找日程标签", notes = "(查看该日程的所有标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该日程尚无标签")})
     @GetMapping("/selectScheduleTag")
@@ -143,6 +144,7 @@ public class TagController {
         }
     }
 
+    @RequestLog(module = "标签模块",operationDesc = "查找用户常用标签")
     @ApiOperation(value = "查找用户常用标签", notes = "(查看该用户常用的前3个标签)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该任务尚无标签")})
     @GetMapping("/selectUserTag")
