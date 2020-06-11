@@ -1,6 +1,8 @@
 package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
+import com.program.itta.common.valid.Delete;
+import com.program.itta.common.valid.Update;
 import com.program.itta.domain.entity.News;
 import com.program.itta.domain.entity.Tag;
 import io.swagger.annotations.ApiModel;
@@ -10,20 +12,24 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Builder
 @ApiModel(value = "NewsDTO", description = "消息DTO类")
-public class NewsDTO  implements Serializable {
+public class NewsDTO implements Serializable {
     @ApiModelProperty(value = "消息id", example = "1")
+    @NotNull(groups = {Update.class, Delete.class}, message = "消息id不可为空")
     private Integer id;
 
-    @ApiModelProperty(value = "发送方id", example = "1")
+    @ApiModelProperty(value = "发送方id", example = "1", required = true)
+    @NotNull(message = "发送方id不可为空")
     private Integer senderId;
 
-    @ApiModelProperty(value = "被发送方id", example = "1")
+    @ApiModelProperty(value = "被发送方id", example = "1", required = true)
+    @NotNull(message = "被发送方id不可为空")
     private Integer recipientId;
 
     @ApiModelProperty(value = "用户标志", example = "1")

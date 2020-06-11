@@ -1,6 +1,8 @@
 package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
+import com.program.itta.common.valid.Delete;
+import com.program.itta.common.valid.Update;
 import com.program.itta.domain.entity.Tag;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,6 +12,7 @@ import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -21,11 +24,13 @@ import java.io.Serializable;
 @Data
 @Builder
 @ApiModel(value = "TagDTO", description = "标签DTO类")
-public class TagDTO  implements Serializable {
+public class TagDTO implements Serializable {
     @ApiModelProperty(value = "标签id", example = "1")
+    @NotNull(groups = {Update.class, Delete.class}, message = "标签id不可为空")
     private Integer id;
 
-    @ApiModelProperty(value = "标签内容", example = "后台")
+    @ApiModelProperty(value = "标签内容", example = "后台", required = true)
+    @NotNull(message = "标签内容不可为空")
     private String content;
 
     public Tag convertToTag() {

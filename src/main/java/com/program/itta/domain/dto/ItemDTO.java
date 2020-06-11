@@ -26,13 +26,15 @@ import java.io.Serializable;
 @ApiModel(value = "ItemDTO", description = "项目DTO类")
 public class ItemDTO implements Serializable {
     @ApiModelProperty(value = "项目id", example = "1")
-    @NotNull(groups = {Update.class,Delete.class})
+    @NotNull(groups = {Update.class, Delete.class}, message = "项目id不可为空")
     private Integer id;
 
-    @ApiModelProperty(value = "项目名称", example = "学习小程序")
+    @ApiModelProperty(value = "项目名称", example = "学习小程序", required = true)
+    @NotNull(message = "项目名称不可为空")
     private String name;
 
-    @ApiModelProperty(value = "私密性", example = "1", notes = "0为私密——不可查看，1为公开——可查找到")
+    @ApiModelProperty(value = "私密性", example = "1", notes = "0为私密——不可查看，1为公开——可查找到", required = true)
+    @NotNull(message = "项目私密性不可为空")
     private Integer actionScope;
 
     @ApiModelProperty(value = "创建人id", example = "1")
