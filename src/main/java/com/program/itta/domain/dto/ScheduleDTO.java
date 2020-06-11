@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -43,12 +44,15 @@ public class ScheduleDTO  implements Serializable {
     private Boolean whetherFinish;
 
     @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date startTime;
 
     @ApiModelProperty(value = "结束时间", example = "2020-04-25 17:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date endTime;
 
     @ApiModelProperty(value = "完成时间", example = "2020-04-25 16:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date completionTime;
 
     public Schedule convertToSchedule() {

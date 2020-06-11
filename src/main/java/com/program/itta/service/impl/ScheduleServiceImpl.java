@@ -195,7 +195,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         boolean judgeScheduleTime = false;
         Calendar startCalendar = assignmentCalendar(schedule.getStartTime());
         Calendar endCalendar = assignmentCalendar(schedule.getEndTime());
-        if (startCalendar.before(endCalendar)) {
+        if (!startCalendar.before(endCalendar)) {
             judgeScheduleTime = true;
         }
         if (judgeScheduleTime) {

@@ -1,6 +1,8 @@
 package com.program.itta.domain.dto;
 
 import com.program.itta.common.convert.BaseDTOConvert;
+import com.program.itta.common.valid.Update;
+import com.program.itta.common.valid.Delete;
 import com.program.itta.domain.entity.Item;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,6 +11,8 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
 
+
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -22,6 +26,7 @@ import java.io.Serializable;
 @ApiModel(value = "ItemDTO", description = "项目DTO类")
 public class ItemDTO implements Serializable {
     @ApiModelProperty(value = "项目id", example = "1")
+    @NotNull(groups = {Update.class,Delete.class})
     private Integer id;
 
     @ApiModelProperty(value = "项目名称", example = "学习小程序")

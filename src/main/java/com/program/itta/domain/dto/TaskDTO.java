@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -45,12 +46,15 @@ public class TaskDTO  implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "开始时间", example = "2020-04-25 15:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date startTime;
 
     @ApiModelProperty(value = "结束时间", example = "2020-04-25 17:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date endTime;
 
     @ApiModelProperty(value = "完成时间", example = "2020-04-25 16:28")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private Date completionTime;
 
     @ApiModelProperty(value = "紧急程度", example = "1",notes = "3：非常紧急；2：紧急；1：一般")
