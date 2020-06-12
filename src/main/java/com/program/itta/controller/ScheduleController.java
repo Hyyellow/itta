@@ -9,6 +9,8 @@ import com.program.itta.common.exception.timer.TimerAddFailException;
 import com.program.itta.common.exception.timer.TimerDelFailException;
 import com.program.itta.common.exception.timer.TimerUpdateFailException;
 import com.program.itta.common.result.HttpResult;
+import com.program.itta.common.valid.Delete;
+import com.program.itta.common.valid.Update;
 import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.dto.TimerDTO;
 import com.program.itta.domain.entity.Schedule;
@@ -18,6 +20,7 @@ import com.program.itta.service.ScheduleTagService;
 import com.program.itta.service.TimerService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,7 +50,7 @@ public class ScheduleController {
     @Resource
     private JwtConfig jwtConfig;
 
-    @RequestLog(module = "日程模块",operationDesc = "查找日程")
+    @RequestLog(module = "日程模块", operationDesc = "查找日程")
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectSchedule")
@@ -61,7 +64,7 @@ public class ScheduleController {
         }
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "查找未完成日程")
+    @RequestLog(module = "日程模块", operationDesc = "查找未完成日程")
     @ApiOperation(value = "查找未完成日程", notes = "(查看该用户的今日未完成日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectNotFinishSchedule")
@@ -75,7 +78,7 @@ public class ScheduleController {
         }
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "查找完成日程")
+    @RequestLog(module = "日程模块", operationDesc = "查找完成日程")
     @ApiOperation(value = "查找完成日程", notes = "(查看该用户的今日已完成日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无完成日程")})
     @GetMapping("/selectFinishSchedule")
@@ -89,12 +92,13 @@ public class ScheduleController {
         }
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "添加日程")
+    @RequestLog(module = "日程模块", operationDesc = "添加日程")
     @ApiOperation(value = "添加日程", notes = "(添加该用户的日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40003, message = "日程添加失败")})
     @PostMapping("/addSchedule")
     public HttpResult addSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
-                                  @RequestBody @Valid ScheduleDTO scheduleDTO) {
+                                  @RequestBody
+                                  @Validated ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean addSchedule = scheduleService.addSchedule(schedule);
         jwtConfig.removeThread();
@@ -105,12 +109,13 @@ public class ScheduleController {
     }
 
 
-    @RequestLog(module = "日程模块",operationDesc = "编辑日程")
+    @RequestLog(module = "日程模块", operationDesc = "编辑日程")
     @ApiOperation(value = "编辑日程", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/updateSchedule")
     public HttpResult updateSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
-                                     @RequestBody @Valid ScheduleDTO scheduleDTO) {
+                                     @RequestBody
+                                     @Validated(Update.class) ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean updateSchedule = scheduleService.updateSchedule(schedule);
         jwtConfig.removeThread();
@@ -120,12 +125,13 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "改变日程是否完成状态")
+    @RequestLog(module = "日程模块", operationDesc = "改变日程是否完成状态")
     @ApiOperation(value = "改变日程是否完成状态", notes = "(编辑此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40005, message = "日程更新失败")})
     @PutMapping("/setScheduleStatus")
     public HttpResult setScheduleStatus(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
-                                        @RequestBody @Valid ScheduleDTO scheduleDTO) {
+                                        @RequestBody
+                                        @Validated(Update.class) ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean updateSchedule = scheduleService.setScheduleStatus(schedule);
         if (!updateSchedule) {
@@ -134,12 +140,13 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "删除日程")
+    @RequestLog(module = "日程模块", operationDesc = "删除日程")
     @ApiOperation(value = "删除日程", notes = "(删除此日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 40004, message = "日程删除失败")})
     @DeleteMapping("/deleteSchedule")
     public HttpResult deleteSchedule(@ApiParam(name = "日程DTO类", value = "传入Json格式", required = true)
-                                     @RequestBody @Valid ScheduleDTO scheduleDTO) {
+                                     @RequestBody
+                                     @Validated(Delete.class) ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
         Boolean deleteSchedule = scheduleService.deleteSchedule(schedule);
         Boolean deleteScheduleTag = scheduleTagService.deleteAllScheduleTag(schedule);
@@ -149,12 +156,13 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "添加重复")
+    @RequestLog(module = "日程模块", operationDesc = "添加重复")
     @ApiOperation(value = "添加重复", notes = "(添加该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
     @PostMapping("/addTimer")
     public HttpResult addTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
-                               @RequestBody @Valid TimerDTO timerDTO) {
+                               @RequestBody
+                               @Validated TimerDTO timerDTO) {
         Timer timer = timerDTO.convertToTimer();
         Boolean addTimer = timerService.addTimer(timer);
         if (!addTimer) {
@@ -163,7 +171,7 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "添加工作日重复")
+    @RequestLog(module = "日程模块", operationDesc = "添加工作日重复")
     @ApiOperation(value = "添加工作日重复", notes = "(添加该日程的工作日重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70001, message = "定时器添加失败")})
     @PostMapping("/addWorkDayTimer")
@@ -175,12 +183,13 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "编辑重复")
+    @RequestLog(module = "日程模块", operationDesc = "编辑重复")
     @ApiOperation(value = "编辑重复", notes = "(编辑该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70002, message = "定时器更新失败")})
     @PutMapping("/updateTimer")
     public HttpResult updateTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
-                                  @RequestBody @Valid TimerDTO timerDTO) {
+                                  @RequestBody
+                                  @Validated(Update.class) TimerDTO timerDTO) {
         Timer timer = timerDTO.convertToTimer();
         Boolean updateTimer = timerService.updateTimer(timer);
         if (!updateTimer) {
@@ -189,12 +198,13 @@ public class ScheduleController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "日程模块",operationDesc = "删除重复")
+    @RequestLog(module = "日程模块", operationDesc = "删除重复")
     @ApiOperation(value = "删除重复", notes = "(删除该日程的重复消息提示)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 70003, message = "定时器删除失败")})
     @DeleteMapping("/deleteTimer")
     public HttpResult deleteTimer(@ApiParam(name = "定时器DTO类", value = "传入Json格式", required = true)
-                                  @RequestBody @Valid TimerDTO timerDTO) {
+                                  @RequestBody
+                                  @Validated(Delete.class) TimerDTO timerDTO) {
         Timer timer = timerDTO.convertToTimer();
         Boolean deleteTimer = timerService.deleteTimer(timer.getScheduleId());
         if (!deleteTimer) {

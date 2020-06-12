@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,12 +46,13 @@ public class UserController {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @RequestLog(module = "用户模块",operationDesc = "编辑用户信息")
+    @RequestLog(module = "用户模块", operationDesc = "编辑用户信息")
     @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10003, message = "用户更新失败")})
     @PutMapping("/updateUser")
     public HttpResult updateUser(@ApiParam(name = "用户DTO类", value = "传入Json格式", required = true)
-                                 @RequestBody @Valid UserDTO userDTO) {
+                                 @RequestBody
+                                 @Validated UserDTO userDTO) {
         User user = userDTO.convertToUser();
         Boolean updateUser = userService.updateUser(user);
         if (!updateUser) {
@@ -59,7 +61,7 @@ public class UserController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "用户模块",operationDesc = "查找用户信息")
+    @RequestLog(module = "用户模块", operationDesc = "查找用户信息")
     @ApiOperation(value = "查找用户信息", notes = "(查看该用户的详细信息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 10002, message = "用户不存在")})
     @GetMapping("/seletUser")
@@ -71,7 +73,7 @@ public class UserController {
         return HttpResult.success(userDTO);
     }
 
-    @RequestLog(module = "用户模块",operationDesc = "上传用户头像")
+    @RequestLog(module = "用户模块", operationDesc = "上传用户头像")
     @ApiOperation(value = "上传用户头像", notes = "(上传该用户的头像)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功")})
     @PostMapping("/upload")

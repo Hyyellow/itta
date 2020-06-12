@@ -5,6 +5,8 @@ import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemDelFailException;
 import com.program.itta.common.exception.news.NewsDelFailException;
 import com.program.itta.common.result.HttpResult;
+import com.program.itta.common.valid.Delete;
+import com.program.itta.common.valid.Update;
 import com.program.itta.domain.dto.ItemDTO;
 import com.program.itta.domain.dto.NewsDTO;
 import com.program.itta.domain.entity.Item;
@@ -13,6 +15,7 @@ import com.program.itta.domain.entity.Task;
 import com.program.itta.service.NewsService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -36,11 +39,12 @@ public class NewsController {
     @Resource
     private JwtConfig jwtConfig;
 
-    @RequestLog(module = "消息模块",operationDesc = "删除消息")
+    @RequestLog(module = "消息模块", operationDesc = "删除消息")
     @ApiOperation(value = "删除消息", notes = "(删除该条消息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 60001, message = "消息删除失败")})
     @DeleteMapping("/deleteNews")
-    public HttpResult deleteItem(@RequestBody @Valid NewsDTO newsDTO) {
+    public HttpResult deleteItem(@RequestBody
+                                 @Validated(Delete.class) NewsDTO newsDTO) {
         News news = newsDTO.convertToNews();
         Boolean deleteNews = newsService.deleteNews(news);
         if (!deleteNews) {
@@ -49,7 +53,7 @@ public class NewsController {
         return HttpResult.success();
     }
 
-    @RequestLog(module = "消息模块",operationDesc = "查找消息")
+    @RequestLog(module = "消息模块", operationDesc = "查找消息")
     @ApiOperation(value = "查找消息", notes = "(获取该用户的所有消息)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无消息存在")})
     @GetMapping("/selectNews")
