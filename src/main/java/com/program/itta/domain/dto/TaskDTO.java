@@ -68,6 +68,9 @@ public class TaskDTO implements Serializable {
     @NotNull(message = "紧急程度不可为空")
     private Integer priority;
 
+    @ApiModelProperty(value = "标签内容", example = "vtmer")
+    private String tagContent;
+
     @Tolerate
     public TaskDTO() {
     }

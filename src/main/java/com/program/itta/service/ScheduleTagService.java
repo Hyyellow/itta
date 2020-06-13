@@ -10,6 +10,9 @@ public interface ScheduleTagService {
     // 添加日程标签中间关系
     Boolean addScheduleTag(Integer scheduleId, String content);
 
+    // 添加日程标签中间关系
+    Boolean addScheduleTag(Schedule schedule, String content);
+
     // 查找该日程的所有标签
     List<Integer> selectByScheduleId(Integer scheduleId);
 

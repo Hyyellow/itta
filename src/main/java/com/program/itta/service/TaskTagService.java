@@ -11,6 +11,9 @@ public interface TaskTagService {
     // 添加任务标签中间关系
     Boolean addTaskTag(Integer taskId, String content);
 
+    // 添加任务标签中间关系
+    Boolean addTaskTag(Task task, String content);
+
     // 查找该任务的所有标签
     List<Integer> selectByTaskId(Integer taskId);
 

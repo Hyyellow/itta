@@ -62,6 +62,9 @@ public class ScheduleDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date completionTime;
 
+    @ApiModelProperty(value = "标签内容", example = "vtmer")
+    private String tagContent;
+
     public Schedule convertToSchedule() {
         ScheduleDTOConvert scheduleDTOConvert = new ScheduleDTOConvert();
         Schedule convert = scheduleDTOConvert.doForward(this);

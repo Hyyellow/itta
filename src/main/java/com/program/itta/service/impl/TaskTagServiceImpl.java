@@ -1,10 +1,12 @@
 package com.program.itta.service.impl;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.entity.Tag;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.domain.entity.TaskTag;
 import com.program.itta.mapper.TagMapper;
+import com.program.itta.mapper.TaskMapper;
 import com.program.itta.mapper.TaskTagMapper;
 import com.program.itta.service.TaskTagService;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +29,18 @@ public class TaskTagServiceImpl implements TaskTagService {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskTagServiceImpl.class);
 
+
+    @Autowired
+    private TaskMapper taskMapper;
+
     @Autowired
     private TaskTagMapper taskTagMapper;
 
     @Autowired
     private TagMapper tagMapper;
+
+    @Resource
+    private JwtConfig jwtConfig;
 
     @Override
     public Boolean addTaskTag(Integer taskId, String content) {
@@ -39,16 +49,22 @@ public class TaskTagServiceImpl implements TaskTagService {
                 .taskId(taskId)
                 .tagId(tag.getId())
                 .build();
-        Boolean judgeTaskTag = judgeTaskTag(taskTag);
-        if (judgeTaskTag) {
-            return true;
-        }
-        int insert = taskTagMapper.insert(taskTag);
-        if (insert != 0) {
-            logger.info("增加任务标签" + tag);
-            return true;
-        }
-        return false;
+        logger.info("增加任务标签" + tag);
+        return addJudge(taskTag);
+    }
+
+    @Override
+    public Boolean addTaskTag(Task task, String content) {
+        Tag tag = tagMapper.selectByContent(content);
+        Integer userId = jwtConfig.getUserId();
+        List<Task> taskList = taskMapper.selectByUserId(userId);
+        Task task1 = selectTaskByList(taskList,task);
+        TaskTag taskTag = TaskTag.builder()
+                .taskId(task1.getId())
+                .tagId(tag.getId())
+                .build();
+        logger.info("增加任务标签" + tag);
+        return addJudge(taskTag);
     }
 
     @Override
@@ -106,5 +122,25 @@ public class TaskTagServiceImpl implements TaskTagService {
     private Boolean judgeTaskTag(TaskTag taskTag) {
         TaskTag selectByTaskTag = taskTagMapper.selectByTaskTag(taskTag);
         return selectByTaskTag != null;
+    }
+
+    private Task selectTaskByList(List<Task> taskList,Task task){
+        for (Task task1 : taskList){
+            if (task1.getName().equals(task.getName())){
+                if (task1.getItemId().equals(task.getItemId())){
+                    return task1;
+                }
+            }
+        }
+        return null;
+    }
+
+    private Boolean addJudge(TaskTag taskTag){
+        Boolean judgeTaskTag = judgeTaskTag(taskTag);
+        if (judgeTaskTag) {
+            return true;
+        }
+        int insert = taskTagMapper.insert(taskTag);
+        return insert != 0;
     }
 }

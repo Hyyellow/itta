@@ -5,6 +5,7 @@ import java.util.List;
 import com.program.itta.common.annotation.RequestLog;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.item.ItemFindUserListException;
+import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.task.TaskAddFailException;
 import com.program.itta.common.exception.task.TaskDelFailException;
 import com.program.itta.common.exception.task.TaskFindUserListException;
@@ -14,6 +15,7 @@ import com.program.itta.common.valid.Delete;
 import com.program.itta.common.valid.Update;
 import com.program.itta.domain.dto.TaskDTO;
 import com.program.itta.domain.dto.UserDTO;
+import com.program.itta.domain.entity.Tag;
 import com.program.itta.domain.entity.Task;
 import com.program.itta.service.*;
 import io.swagger.annotations.*;
@@ -53,6 +55,12 @@ public class TaskController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private UserTagService userTagService;
+
     @Resource
     private JwtConfig jwtConfig;
 
@@ -64,8 +72,18 @@ public class TaskController {
                               @RequestBody
                               @Validated TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
+        String content = taskDTO.getTagContent();
+        Tag tag = Tag.builder().content(content).build();
         Boolean addTask = taskService.addTask(task);
         Boolean addUserTask = userTaskService.addUserTask(task);
+        if (content != null) {
+            Boolean addTag = tagService.addTag(tag);
+            Boolean addUserTag = userTagService.addUserTag(content);
+            Boolean addTaskTag = taskTagService.addTaskTag(task, content);
+            if (!(addTag && addTaskTag && addUserTag)) {
+                throw new TagAddFailException("添加任务标签失败");
+            }
+        }
         if (!(addTask && addUserTask)) {
             throw new TaskAddFailException("任务添加失败");
         }

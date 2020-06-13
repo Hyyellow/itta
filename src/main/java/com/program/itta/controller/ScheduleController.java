@@ -5,6 +5,7 @@ import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.schedule.ScheduleAddFailException;
 import com.program.itta.common.exception.schedule.ScheduleDelFailException;
 import com.program.itta.common.exception.schedule.ScheduleUpdateFailException;
+import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.timer.TimerAddFailException;
 import com.program.itta.common.exception.timer.TimerDelFailException;
 import com.program.itta.common.exception.timer.TimerUpdateFailException;
@@ -14,10 +15,9 @@ import com.program.itta.common.valid.Update;
 import com.program.itta.domain.dto.ScheduleDTO;
 import com.program.itta.domain.dto.TimerDTO;
 import com.program.itta.domain.entity.Schedule;
+import com.program.itta.domain.entity.Tag;
 import com.program.itta.domain.entity.Timer;
-import com.program.itta.service.ScheduleService;
-import com.program.itta.service.ScheduleTagService;
-import com.program.itta.service.TimerService;
+import com.program.itta.service.*;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -46,6 +46,12 @@ public class ScheduleController {
 
     @Autowired
     private ScheduleTagService scheduleTagService;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private UserTagService userTagService;
 
     @Resource
     private JwtConfig jwtConfig;
@@ -100,7 +106,17 @@ public class ScheduleController {
                                   @RequestBody
                                   @Validated ScheduleDTO scheduleDTO) {
         Schedule schedule = scheduleDTO.convertToSchedule();
+        String content = scheduleDTO.getTagContent();
+        Tag tag = Tag.builder().content(content).build();
         Boolean addSchedule = scheduleService.addSchedule(schedule);
+        if (content != null) {
+            Boolean addTag = tagService.addTag(tag);
+            Boolean addUserTag = userTagService.addUserTag(content);
+            Boolean addScheduleTag = scheduleTagService.addScheduleTag(schedule, content);
+            if (!(addTag && addScheduleTag && addUserTag)) {
+                throw new TagAddFailException("添加日程标签失败");
+            }
+        }
         jwtConfig.removeThread();
         if (!addSchedule) {
             throw new ScheduleAddFailException("日程添加失败");

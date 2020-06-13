@@ -45,7 +45,7 @@ public class TagController {
     private ScheduleTagService scheduleTagService;
 
     @RequestLog(module = "标签模块",operationDesc = "添加任务标签")
-    @ApiOperation(value = "添加任务标签", notes = "(添加此标签，当任务中添加标签时使用)")
+    @ApiOperation(value = "添加任务标签", notes = "(添加此标签，当任务已经创建后添加标签时使用)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addTaskTag")
     public HttpResult addTaskTag(@ApiParam(name = "任务id", value = "传入Json格式", required = true)
@@ -95,7 +95,7 @@ public class TagController {
     }
 
     @RequestLog(module = "标签模块",operationDesc = "添加日程标签")
-    @ApiOperation(value = "添加日程标签", notes = "(添加此标签，当日程中添加标签时使用)")
+    @ApiOperation(value = "添加日程标签", notes = "(添加此标签，当日程已经创建后添加标签时使用)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 50001, message = "标签添加失败")})
     @PostMapping("/addScheduleTag")
     public HttpResult addScheduleTag(@ApiParam(name = "日程id", value = "传入Json格式", required = true)
