@@ -43,7 +43,7 @@ public class ScheduleDTO implements Serializable {
     @NotNull(message = "地点不可为空")
     private String place;
 
-    @ApiModelProperty(value = "紧急程度", example = "1", notes = "3：非常紧急；2：紧急；1：一般", required = true)
+    @ApiModelProperty(value = "紧急程度，其中3：非常紧急；2：紧急；1：一般", example = "1", required = true)
     @NotNull(message = "紧急程度不可为空")
     private Integer priority;
 

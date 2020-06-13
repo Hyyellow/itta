@@ -27,19 +27,19 @@ public class TimerDTO implements Serializable {
     @NotNull(message = "日程id不可为空")
     private Integer scheduleId;
 
-    @ApiModelProperty(value = "年", example = "1", notes = "0为不设置", required = true)
+    @ApiModelProperty(value = "年，其中0为不设置", example = "1", required = true)
     @NotNull(message = "年不可为空")
     private String year;
 
-    @ApiModelProperty(value = "月", example = "1", notes = "0为不设置", required = true)
+    @ApiModelProperty(value = "月，其中0为不设置", example = "1", required = true)
     @NotNull(message = "月不可为空")
     private String month;
 
-    @ApiModelProperty(value = "星期", example = "1", notes = "0为不设置", required = true)
+    @ApiModelProperty(value = "星期，其中0为不设置", example = "1", required = true)
     @NotNull(message = "星期不可为空")
     private String week;
 
-    @ApiModelProperty(value = "日", example = "1", notes = "0为不设置", required = true)
+    @ApiModelProperty(value = "日，其中0为不设置", example = "1", required = true)
     @NotNull(message = "日不可为空")
     private String day;
 

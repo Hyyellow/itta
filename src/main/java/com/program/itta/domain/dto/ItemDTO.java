@@ -33,7 +33,7 @@ public class ItemDTO implements Serializable {
     @NotNull(message = "项目名称不可为空")
     private String name;
 
-    @ApiModelProperty(value = "私密性", example = "1", notes = "0为私密——不可查看，1为公开——可查找到", required = true)
+    @ApiModelProperty(value = "私密性，其中0为私密——不可查看，1为公开——可查找到", example = "1", required = true)
     @NotNull(message = "项目私密性不可为空")
     private Integer actionScope;
 

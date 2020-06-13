@@ -48,7 +48,7 @@ public class TaskDTO implements Serializable {
     @ApiModelProperty(value = "任务标志id", example = "1")
     private String markId;
 
-    @ApiModelProperty(value = "任务状态", example = "1", notes = "0：未开始，1：进行中，2：完成", required = true)
+    @ApiModelProperty(value = "任务状态，其中0：未开始，1：进行中，2：完成", required = true)
     @NotNull(message = "任务状态不可为空")
     private Integer status;
 
@@ -64,7 +64,7 @@ public class TaskDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date completionTime;
 
-    @ApiModelProperty(value = "紧急程度", example = "1", notes = "3：非常紧急；2：紧急；1：一般", required = true)
+    @ApiModelProperty(value = "紧急程度，其中3：非常紧急；2：紧急；1：一般", example = "1", required = true)
     @NotNull(message = "紧急程度不可为空")
     private Integer priority;
 
