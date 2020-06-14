@@ -60,8 +60,9 @@ public class ScheduleController {
     @ApiOperation(value = "查找日程", notes = "(查看该用户的所有日程安排)")
     @ApiResponses({@ApiResponse(code = 200, message = "请求成功"), @ApiResponse(code = 200, message = "该用户无添加日程")})
     @GetMapping("/selectSchedule")
-    public HttpResult selectSchedule() {
-        List<ScheduleDTO> scheduleList = scheduleService.selectByUserId();
+    public HttpResult selectSchedule(@ApiParam(name = "月标志", value = "传入Json格式，无需按月时传0", required = true)
+                                     @RequestParam(value = "month")Integer month) {
+        List<ScheduleDTO> scheduleList = scheduleService.selectByUserId(month);
         jwtConfig.removeThread();
         if (scheduleList != null && !scheduleList.isEmpty()) {
             return HttpResult.success(scheduleList);

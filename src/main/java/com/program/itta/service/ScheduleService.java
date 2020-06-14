@@ -22,7 +22,7 @@ public interface ScheduleService {
     Schedule selectByPrimaryKey(Integer id);
 
     // 查找用户下的所有日程
-    List<ScheduleDTO> selectByUserId();
+    List<ScheduleDTO> selectByUserId(Integer month);
 
     // 查找用户今日未完成日程
     List<ScheduleDTO> selectNotFinishSchedule();

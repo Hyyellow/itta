@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.dto.NewsDTO;
 import com.program.itta.domain.dto.ScheduleDTO;
-import com.program.itta.domain.entity.News;
-import com.program.itta.domain.entity.Schedule;
-import com.program.itta.domain.entity.Task;
-import com.program.itta.domain.entity.Timer;
+import com.program.itta.domain.entity.*;
 import com.program.itta.mapper.NewsMapper;
+import com.program.itta.mapper.ScheduleMapper;
+import com.program.itta.mapper.UserMapper;
 import com.program.itta.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,12 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsMapper newsMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private ScheduleMapper scheduleMapper;
+
     @Resource
     private JwtConfig jwtConfig;
 
@@ -52,7 +57,18 @@ public class NewsServiceImpl implements NewsService {
         Integer userId = jwtConfig.getUserId();
         List<News> newsList = newsMapper.selectByUserId(userId);
         if (newsList != null && !newsList.isEmpty()) {
-            return convertToNewsDTOList(newsList);
+            List<NewsDTO> newsDTOList = convertToNewsDTOList(newsList);
+            for (NewsDTO news : newsDTOList){
+                User recipient = userMapper.selectByPrimaryKey(news.getRecipientId());
+                if (news.getWhetherUser()){
+                    User sender = userMapper.selectByPrimaryKey(news.getSenderId());
+                    news.setSenderName(sender.getName());
+                }else {
+                    Schedule sender = scheduleMapper.selectByPrimaryKey(news.getSenderId());
+                    news.setSenderName(sender.getName());
+                }
+                news.setRecipientName(recipient.getName());
+            }
         }
         return null;
     }

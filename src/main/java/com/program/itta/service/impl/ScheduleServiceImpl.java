@@ -94,13 +94,20 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleDTO> selectByUserId() {
+    public List<ScheduleDTO> selectByUserId(Integer month) {
         Integer userId = jwtConfig.getUserId();
         List<Schedule> scheduleList = scheduleMapper.selectByUserId(userId);
-        if (scheduleList != null && !scheduleList.isEmpty()) {
-            return convertToScheduleDTOList(scheduleList);
+        List<Schedule> schedules = new ArrayList<>();
+        if (month != 0) {
+            for (Schedule schedule : scheduleList) {
+                Calendar calendar = assignmentCalendar(schedule.getStartTime());
+                if (month == calendar.get(Calendar.MONTH) + 1) {
+                    schedules.add(schedule);
+                }
+            }
+            return convertToScheduleDTOList(schedules);
         }
-        return null;
+        return convertToScheduleDTOList(scheduleList);
     }
 
     @Override
@@ -177,7 +184,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private void judgeScheduleNameExists(Schedule schedule) {
         boolean judgeScheduleName = false;
-        List<ScheduleDTO> scheduleList = selectByUserId();
+        List<ScheduleDTO> scheduleList = selectByUserId(0);
         if (scheduleList == null) {
             return;
         }

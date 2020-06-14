@@ -28,7 +28,7 @@ public class NewsDTO implements Serializable {
     @NotNull(message = "发送方id不可为空")
     private Integer senderId;
 
-    @ApiModelProperty(value = "被发送方id", example = "1", required = true)
+    @ApiModelProperty(value = "接收方id", example = "1", required = true)
     @NotNull(message = "被发送方id不可为空")
     private Integer recipientId;
 
@@ -37,6 +37,12 @@ public class NewsDTO implements Serializable {
 
     @ApiModelProperty(value = "消息内容", example = "todo")
     private String content;
+
+    @ApiModelProperty(value = "发送方名称", example = "黄玉玉")
+    private String senderName;
+
+    @ApiModelProperty(value = "接收方名称", example = "黄鱼鱼")
+    private String recipientName;
 
     public News convertToNews() {
         NewsBaseDTOConvert newsBaseDTOConvert = new NewsBaseDTOConvert();

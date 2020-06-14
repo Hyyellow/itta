@@ -134,7 +134,7 @@ public class TaskController {
     public HttpResult selectTaskByItemId(@ApiParam(name = "项目id", value = "传入Json格式", required = true)
                                          @RequestParam(value = "itemId") Integer itemId) {
         List<TaskDTO> taskList = taskService.selectByItemId(itemId);
-        if (taskList.size() != 0) {
+        if (taskList != null && taskList.size() > 0) {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该项目尚无添加任务");
@@ -148,7 +148,7 @@ public class TaskController {
     public HttpResult selectAllTask() {
         List<TaskDTO> taskList = taskService.selectAllMyTask();
         jwtConfig.removeThread();
-        if (taskList.size() != 0) {
+        if (taskList != null && taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该用户尚无任务");
@@ -162,7 +162,7 @@ public class TaskController {
     public HttpResult selectMyCreateTask() {
         List<TaskDTO> taskList = taskService.selectByUserId();
         jwtConfig.removeThread();
-        if (taskList.size() != 0) {
+        if (taskList != null && taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该用户尚无创建任务");
@@ -178,7 +178,7 @@ public class TaskController {
                                     @Validated TaskDTO taskDTO) {
         Task task = taskDTO.convertToTask();
         List<TaskDTO> taskList = taskService.selectBySuperId(task);
-        if (taskList.size() != 0) {
+        if (taskList != null && taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该任务尚无子任务");
@@ -228,7 +228,7 @@ public class TaskController {
                                            @ApiParam(name = "用户id", value = "传入Json格式", required = true)
                                            @RequestParam(value = "userId") Integer userId) {
         List<TaskDTO> taskList = taskService.selectByItemMember(itemId, userId);
-        if (taskList.size() != 0) {
+        if (taskList != null && taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
             return HttpResult.success("该成员尚无任务");
