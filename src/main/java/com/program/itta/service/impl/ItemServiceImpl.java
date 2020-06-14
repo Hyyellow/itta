@@ -86,7 +86,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Boolean updateItem(Item item) {
         judgeItemNotExists(item);
-        judgeItemNameExists(item);
+        Item item1 = itemMapper.selectByPrimaryKey(item.getId());
+        if (!item.getName().equals(item1.getName())){
+            judgeItemNameExists(item);
+        }
         item.setUpdateTime(new Date());
         int update = itemMapper.updateByPrimaryKey(item);
         if (update != 0) {

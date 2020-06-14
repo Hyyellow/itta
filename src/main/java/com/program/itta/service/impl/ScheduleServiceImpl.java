@@ -65,7 +65,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public Boolean updateSchedule(Schedule schedule) {
         judgeScheduleNotExists(schedule);
-        if (schedule.getName() != null) {
+        Schedule schedule1 = scheduleMapper.selectByPrimaryKey(schedule.getId());
+        if (!schedule.getName().equals(schedule1.getName())) {
             judgeScheduleNameExists(schedule);
         }
         if (schedule.getStartTime() != null) {
