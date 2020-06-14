@@ -1,6 +1,7 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.annotation.RequestLog;
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.user.UserDelFailException;
 import com.program.itta.common.exception.user.UserNotExistsException;
 import com.program.itta.common.exception.user.UserUpdateFailException;
@@ -43,8 +44,8 @@ public class UserController {
     @Resource
     private COSClientUtil cosClientUtil;
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    @Resource
+    private JwtConfig jwtConfig;
 
     @RequestLog(module = "用户模块", operationDesc = "编辑用户信息")
     @ApiOperation(value = "编辑用户信息", notes = "(编辑该用户的详细信息)")
@@ -67,6 +68,7 @@ public class UserController {
     @GetMapping("/seletUser")
     public HttpResult selectUser() {
         UserDTO userDTO = userService.selectUser();
+        jwtConfig.removeThread();
         if (userDTO == null) {
             throw new UserNotExistsException("该用户不存在");
         }
@@ -82,6 +84,7 @@ public class UserController {
         String url = cosClientUtil.upload(file, "userHead/");
         if (url != null) {
             Boolean updateUserHead = userService.updateUserHead(url);
+            jwtConfig.removeThread();
             if (!updateUserHead) {
                 throw new UserUpdateFailException("用户头像更新失败");
             }

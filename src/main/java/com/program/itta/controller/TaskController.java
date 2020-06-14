@@ -147,6 +147,7 @@ public class TaskController {
     @GetMapping("/selectMyTask")
     public HttpResult selectAllTask() {
         List<TaskDTO> taskList = taskService.selectAllMyTask();
+        jwtConfig.removeThread();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {
@@ -160,6 +161,7 @@ public class TaskController {
     @GetMapping("/selectMyCreateTask")
     public HttpResult selectMyCreateTask() {
         List<TaskDTO> taskList = taskService.selectByUserId();
+        jwtConfig.removeThread();
         if (taskList.size() != 0) {
             return HttpResult.success(taskList);
         } else {

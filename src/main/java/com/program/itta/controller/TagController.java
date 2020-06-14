@@ -61,6 +61,7 @@ public class TagController {
         Boolean addTag = tagService.addTag(tag);
         Boolean addUserTag = userTagService.addUserTag(content);
         Boolean addTaskTag = taskTagService.addTaskTag(taskId, content);
+        jwtConfig.removeThread();
         if (addTag && addTaskTag && addUserTag) {
             return HttpResult.success();
         } else {
@@ -111,6 +112,7 @@ public class TagController {
         Boolean addTag = tagService.addTag(tag);
         Boolean addUserTag = userTagService.addUserTag(content);
         Boolean addScheduleTag = scheduleTagService.addScheduleTag(scheduleId, content);
+        jwtConfig.removeThread();
         if (addTag && addScheduleTag && addUserTag) {
             return HttpResult.success();
         } else {

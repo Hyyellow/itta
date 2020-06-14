@@ -1,5 +1,6 @@
 package com.program.itta.job;
 
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.domain.entity.Schedule;
 import com.program.itta.domain.entity.Timer;
 import com.program.itta.service.NewsService;
@@ -33,8 +34,8 @@ public class ScheduleJob extends QuartzJobBean {
     @Autowired
     private ScheduleService scheduleService;
 
-    @Autowired
-    private NewsService newsService;
+    @Resource
+    private JwtConfig jwtConfig;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -63,6 +64,7 @@ public class ScheduleJob extends QuartzJobBean {
             if (insertFlag) {
                 Schedule newSchedule = getNewSchedule(schedule, startCalendar, endCalendar, nowCalendar);
                 scheduleService.addSchedule(newSchedule);
+                jwtConfig.removeThread();
             }
         }
     }
