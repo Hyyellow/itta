@@ -76,7 +76,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Boolean updateTask(Task task) {
         judgeTaskExists(task);
-        judgeTaskName(task);
+        Task task1 = taskMapper.selectByPrimaryKey(task.getId());
+        if (!task1.getName().equals(task.getName())) {
+            judgeTaskName(task);
+        }
         task.setUpdateTime(new Date());
         int update = taskMapper.updateByPrimaryKey(task);
         if (update != 0) {

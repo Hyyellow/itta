@@ -69,7 +69,11 @@ public class UserTagServiceImpl implements UserTagService {
         List<UserTag> userTags = new ArrayList<>();
         List<UserTag> userTagList = userTagMapper.selectByUserId(userId);
         Collections.sort(userTagList);
-        userTags.addAll(userTagList.subList(0, 3));
+        if (userTagList.size() >= 3) {
+            userTags.addAll(userTagList.subList(0, 3));
+        }else {
+            userTags.addAll(userTagList);
+        }
         List<Integer> tagIds = userTags.stream()
                 .map(UserTag -> UserTag.getTagId())
                 .collect(Collectors.toList());

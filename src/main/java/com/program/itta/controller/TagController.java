@@ -1,6 +1,7 @@
 package com.program.itta.controller;
 
 import com.program.itta.common.annotation.RequestLog;
+import com.program.itta.common.config.JwtConfig;
 import com.program.itta.common.exception.tag.TagAddFailException;
 import com.program.itta.common.exception.tag.TagDelFailException;
 import com.program.itta.common.result.HttpResult;
@@ -18,6 +19,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class TagController {
 
     @Autowired
     private ScheduleTagService scheduleTagService;
+
+    @Resource
+    private JwtConfig jwtConfig;
 
     @RequestLog(module = "标签模块",operationDesc = "添加任务标签")
     @ApiOperation(value = "添加任务标签", notes = "(添加此标签，当任务已经创建后添加标签时使用)")
@@ -151,6 +156,7 @@ public class TagController {
     public HttpResult selectUserTag() {
         List<Integer> tagIdList = userTagService.selectThreeTag();
         List<TagDTO> tagDTOList = tagService.selectTagList(tagIdList);
+        jwtConfig.removeThread();
         if (tagDTOList != null && !tagDTOList.isEmpty()) {
             return HttpResult.success(tagDTOList);
         } else {
